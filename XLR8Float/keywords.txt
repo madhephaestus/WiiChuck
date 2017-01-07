@@ -1,0 +1,21 @@
+#######################################
+# Syntax Coloring Map For XLR8Float
+####################################### 
+# Class
+#######################################
+
+XLR8Float	KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+xlr8FloatAdd	KEYWORD2
+xlr8FloatSub	KEYWORD2
+xlr8FloatMult	KEYWORD2
+xlr8FloatDiv	KEYWORD2
+
+#######################################
+# Constants
+#######################################
+ 

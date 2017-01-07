@@ -1,0 +1,50 @@
+#######################################
+# Syntax Coloring Map For RTCx
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+RTCx	KEYWORD1
+time_t	KEYWORD1
+tm	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+isLeapYear		KEYWORD2
+daysInMonth		KEYWORD2
+dayOfYear		KEYWORD2
+mktime			KEYWORD2
+gmtime_r		KEYWORD2
+stopClock		KEYWORD2
+startClock		KEYWORD2
+readClock		KEYWORD2
+setClock		KEYWORD2
+getAddress		KEYWORD2
+setAddress		KEYWORD2
+setSQW			KEYWORD2
+enableBatteryBackup	KEYWORD2
+clearVBAT		KEYWORD2
+getCalibration		KEYWORD2
+setCalibration		KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+DS1307			LITERAL1
+MCP7941x		LITERAL1
+DS1307Address		LITERAL1
+MCP7941xAddress		LITERAL1
+MCP7941xEepromAddress	LITERAL1
+TIME			LITERAL1
+ALARM0			LITERAL1
+ALARM1			LITERAL1
+TIME_POWER_RESTORED	LITERAL1
+TIME_POWER_FAILED	LITERAL1
+freq1Hz			LITERAL1
+freq4096Hz		LITERAL1
+freq32768Hz		LITERAL1
+freqCalibration		LITERAL1

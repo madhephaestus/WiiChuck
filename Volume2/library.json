@@ -1,0 +1,22 @@
+{
+  "name": "Volume2",
+  "description": "Gives tone() functionality with multiple waveforms and 8-bit volume control - with no extra parts!",
+  "keywords": "volume,control,tone,volume2,sine,sawtooth,triangle,square,pwm,noise,custom",
+  "authors":
+  {
+    "name": "Connor Nishijima",
+    "email": "connornishijima@gmail.com"
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/connornishijima/arduino-volume2.git"
+  },
+  "version": "1.0.0",
+  "examples": "examples/*.ino",
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "atmelavr"
+  ]
+}

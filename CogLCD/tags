@@ -1,0 +1,67 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CSB	CogLCD.h	/^	uint8_t CSB;$/;"	m	class:CogLCD
+CogLCD	CogLCD.cpp	/^CogLCD::CogLCD(uint8_t SI, uint8_t SCL, uint8_t RS, uint8_t CSB, uint8_t RST)$/;"	f	class:CogLCD
+CogLCD	CogLCD.h	/^class CogLCD : public Print {$/;"	c
+LCD_1LINE	CogLCD.h	/^#define LCD_1LINE /;"	d
+LCD_2LINE	CogLCD.h	/^#define LCD_2LINE /;"	d
+LCD_4BITMODE	CogLCD.h	/^#define LCD_4BITMODE /;"	d
+LCD_5x10DOTS	CogLCD.h	/^#define LCD_5x10DOTS /;"	d
+LCD_5x8DOTS	CogLCD.h	/^#define LCD_5x8DOTS /;"	d
+LCD_8BITMODE	CogLCD.h	/^#define LCD_8BITMODE /;"	d
+LCD_BLINKOFF	CogLCD.h	/^#define LCD_BLINKOFF /;"	d
+LCD_BLINKON	CogLCD.h	/^#define LCD_BLINKON /;"	d
+LCD_CLEARDISPLAY	CogLCD.h	/^#define LCD_CLEARDISPLAY /;"	d
+LCD_COMMAND	CogLCD.cpp	/^#define LCD_COMMAND /;"	d	file:
+LCD_CURSORMOVE	CogLCD.h	/^#define LCD_CURSORMOVE /;"	d
+LCD_CURSOROFF	CogLCD.h	/^#define LCD_CURSOROFF /;"	d
+LCD_CURSORON	CogLCD.h	/^#define LCD_CURSORON /;"	d
+LCD_CURSORSHIFT	CogLCD.h	/^#define LCD_CURSORSHIFT /;"	d
+LCD_DATA	CogLCD.cpp	/^#define LCD_DATA /;"	d	file:
+LCD_DISPLAYCONTROL	CogLCD.h	/^#define LCD_DISPLAYCONTROL /;"	d
+LCD_DISPLAYMOVE	CogLCD.h	/^#define LCD_DISPLAYMOVE /;"	d
+LCD_DISPLAYOFF	CogLCD.h	/^#define LCD_DISPLAYOFF /;"	d
+LCD_DISPLAYON	CogLCD.h	/^#define LCD_DISPLAYON /;"	d
+LCD_ENTRYLEFT	CogLCD.h	/^#define LCD_ENTRYLEFT /;"	d
+LCD_ENTRYMODESET	CogLCD.h	/^#define LCD_ENTRYMODESET /;"	d
+LCD_ENTRYRIGHT	CogLCD.h	/^#define LCD_ENTRYRIGHT /;"	d
+LCD_ENTRYSHIFTDECREMENT	CogLCD.h	/^#define LCD_ENTRYSHIFTDECREMENT /;"	d
+LCD_ENTRYSHIFTINCREMENT	CogLCD.h	/^#define LCD_ENTRYSHIFTINCREMENT /;"	d
+LCD_FUNCTIONSET	CogLCD.h	/^#define LCD_FUNCTIONSET /;"	d
+LCD_MOVELEFT	CogLCD.h	/^#define LCD_MOVELEFT /;"	d
+LCD_MOVERIGHT	CogLCD.h	/^#define LCD_MOVERIGHT /;"	d
+LCD_RETURNHOME	CogLCD.h	/^#define LCD_RETURNHOME /;"	d
+LCD_SETCGRAMADDR	CogLCD.h	/^#define LCD_SETCGRAMADDR /;"	d
+LCD_SETDDRAMADDR	CogLCD.h	/^#define LCD_SETDDRAMADDR /;"	d
+RS	CogLCD.h	/^	uint8_t RS;$/;"	m	class:CogLCD
+RST	CogLCD.h	/^	uint8_t RST;$/;"	m	class:CogLCD
+SCL	CogLCD.h	/^	uint8_t SCL;$/;"	m	class:CogLCD
+SI	CogLCD.h	/^	uint8_t SI;$/;"	m	class:CogLCD
+_currline	CogLCD.h	/^	uint8_t _numlines,_currline;$/;"	m	class:CogLCD
+_displaycontrol	CogLCD.h	/^	uint8_t _displaycontrol;$/;"	m	class:CogLCD
+_displayfunction	CogLCD.h	/^	uint8_t _displayfunction;$/;"	m	class:CogLCD
+_displaymode	CogLCD.h	/^	uint8_t _displaymode;$/;"	m	class:CogLCD
+_numlines	CogLCD.h	/^	uint8_t _numlines,_currline;$/;"	m	class:CogLCD
+autoscroll	CogLCD.cpp	/^void CogLCD::autoscroll(void) {$/;"	f	class:CogLCD
+begin	CogLCD.cpp	/^void CogLCD::begin(uint8_t cols, uint8_t lines, uint8_t dotsize)$/;"	f	class:CogLCD
+blink	CogLCD.cpp	/^void CogLCD::blink() {$/;"	f	class:CogLCD
+clear	CogLCD.cpp	/^void CogLCD::clear()$/;"	f	class:CogLCD
+createChar	CogLCD.cpp	/^void CogLCD::createChar(uint8_t location, uint8_t charmap[]) {$/;"	f	class:CogLCD
+cursor	CogLCD.cpp	/^void CogLCD::cursor() {$/;"	f	class:CogLCD
+display	CogLCD.cpp	/^void CogLCD::display() {$/;"	f	class:CogLCD
+home	CogLCD.cpp	/^void CogLCD::home()$/;"	f	class:CogLCD
+leftToRight	CogLCD.cpp	/^void CogLCD::leftToRight(void) {$/;"	f	class:CogLCD
+noAutoscroll	CogLCD.cpp	/^void CogLCD::noAutoscroll(void) {$/;"	f	class:CogLCD
+noBlink	CogLCD.cpp	/^void CogLCD::noBlink() {$/;"	f	class:CogLCD
+noCursor	CogLCD.cpp	/^void CogLCD::noCursor() {$/;"	f	class:CogLCD
+noDisplay	CogLCD.cpp	/^void CogLCD::noDisplay() {$/;"	f	class:CogLCD
+rightToLeft	CogLCD.cpp	/^void CogLCD::rightToLeft(void) {$/;"	f	class:CogLCD
+scrollDisplayLeft	CogLCD.cpp	/^void CogLCD::scrollDisplayLeft(void) {$/;"	f	class:CogLCD
+scrollDisplayRight	CogLCD.cpp	/^void CogLCD::scrollDisplayRight(void) {$/;"	f	class:CogLCD
+send	CogLCD.cpp	/^void CogLCD::send(uint8_t mode, uint8_t data)$/;"	f	class:CogLCD
+setCursor	CogLCD.cpp	/^void CogLCD::setCursor(uint8_t col, uint8_t row)$/;"	f	class:CogLCD
+write	CogLCD.cpp	/^inline size_t CogLCD::write(uint8_t value) {$/;"	f	class:CogLCD

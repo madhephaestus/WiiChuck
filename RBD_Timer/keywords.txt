@@ -1,0 +1,17 @@
+Timer	KEYWORD1
+setTimeout	KEYWORD2
+setHertz	KEYWORD2
+restart	KEYWORD2
+stop	KEYWORD2
+isActive	KEYWORD2
+isExpired	KEYWORD2
+isStopped	KEYWORD2
+onRestart	KEYWORD2
+onActive	KEYWORD2
+onExpired	KEYWORD2
+getTimeout	KEYWORD2
+getHertz	KEYWORD2
+getValue	KEYWORD2
+getInverseValue	KEYWORD2
+getPercentValue	KEYWORD2
+getInversePercentValue	KEYWORD2

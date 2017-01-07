@@ -1,0 +1,17 @@
+relay8	KEYWORD1
+
+on	KEYWORD2
+off	KEYWORD2
+allOn	KEYWORD2
+allOff	KEYWORD2
+
+cycle	KEYWORD2
+cycleUp	KEYWORD2
+cycleDown	KEYWORD2
+
+chaseUpOn	KEYWORD2
+chaseUpOff	KEYWORD2
+chaseDownOn	KEYWORD2
+chaseDownOff	KEYWORD2
+
+numberOfRelays	KEYWORD2

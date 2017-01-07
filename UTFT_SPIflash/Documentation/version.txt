@@ -1,0 +1,3 @@
+Version:
+	1.0	11 Jan 2014  -  initial release
+	1.1	25 May 2014  -	fixed a bug in loadBitmap()

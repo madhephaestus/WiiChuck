@@ -1,0 +1,34 @@
+#######################################
+# Syntax Coloring Map For SMH_7SD
+#######################################
+
+
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+SMH_7SD	KEYWORD1
+
+
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+setTimeOn	KEYWORD2
+setTimeOff	KEYWORD2
+printRaw	KEYWORD2
+printChar	KEYWORD2
+print	KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+SMH_7SD_COMMON_ANODE	 LITERAL1
+SMH_7SD_COMMON_ANODE	LITERAL1

@@ -1,0 +1,27 @@
+#######################################
+# Syntax Coloring Map For AudioFrequencyMeter
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AudioFrequencyMeter	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin									KEYWORD2
+end										KEYWORD2
+getFrequency					KEYWORD2
+setClippingPin				KEYWORD2
+checkClipping					KEYWORD2
+setAmplitudeThreshold	KEYWORD2
+setTimerTolerance			KEYWORD2
+setSlopeTolerance			KEYWORD2
+setBandwidth					KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

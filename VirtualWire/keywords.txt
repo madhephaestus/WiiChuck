@@ -1,0 +1,20 @@
+VirtualWire	KEYWORD1
+
+VW_MAX_MESSAGE_LEN	LITERAL1
+VW_MAX_PAYLOAD	LITERAL1
+
+vw_set_tx_pin	KEYWORD1
+vw_set_rx_pin	KEYWORD1
+vw_set_ptt_pin	KEYWORD1
+vw_set_ptt_inverted	KEYWORD1
+vw_setup	KEYWORD1
+vw_rx_start	KEYWORD1
+vw_rx_stop	KEYWORD1
+vx_tx_active	KEYWORD1
+vw_wait_tx	KEYWORD1
+vw_wait_rx	KEYWORD1
+vw_wait_rx_max	KEYWORD1
+vw_send	KEYWORD1
+vw_have_message	KEYWORD1
+vw_get_message	KEYWORD1
+

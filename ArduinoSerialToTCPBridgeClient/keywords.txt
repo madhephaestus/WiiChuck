@@ -1,0 +1,19 @@
+#######################################
+# Syntax Coloring Map For Arduration
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+ArduinoSerialToTCPBridgeClient	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+ArduinoSerialToTCPBridgeClient	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

@@ -1,0 +1,51 @@
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+Ingenia_SerialServoDrive	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+read	KEYWORD2
+write	KEYWORD2
+enableBinary	KEYWORD2
+disableBinary	KEYWORD2
+enableMotor	KEYWORD2
+disableMotor	KEYWORD2
+setModeOfOperation	KEYWORD2
+setTargetVelocity	KEYWORD2
+setTargetTorque	KEYWORD2
+getActualPosition	KEYWORD2
+getActualVelocity	KEYWORD2
+getActualTorque	KEYWORD2
+
+getStatusword	KEYWORD2
+statuswordIsReadyToSwitchOn	KEYWORD2
+statuswordIsSwitchedOn	KEYWORD2
+statuswordIsOperationEnabled	KEYWORD2
+statuswordIsFault	KEYWORD2
+statuswordIsVoltageEnabled	KEYWORD2
+statuswordIsQuickStop	KEYWORD2
+statuswordIsSwitchOnDisabled	KEYWORD2
+statuswordIsWarning	KEYWORD2
+statuswordIsRemote	KEYWORD2
+statuswordIsTargetReached	KEYWORD2
+statuswordIsInternalLimitActive	KEYWORD2
+statuswordIsInitialAngleDeterminationProcessFinished	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DRIVE_MODE_PROFILE_POSITION	LITERAL1
+DRIVE_MODE_PROFILE_VELOCITY	LITERAL1
+DRIVE_MODE_PROFILE_TORQUE	LITERAL1
+DRIVE_MODE_HOMING	LITERAL1
+DRIVE_MODE_INTERPOLATED_POSITION	LITERAL1
+DRIVE_MODE_CYCLIC_SYNC_POSITION	LITERAL1
+DRIVE_MODE_CYCLIC_SYNC_VELOCITY	LITERAL1
+DRIVE_MODE_CYCLIC_SYNC_TORQUE	LITERAL1
+DRIVE_MODE_OPEN_LOOP_SCALAR	LITERAL1
+DRIVE_MODE_OPEN_LOOP_VECTOR	LITERAL1

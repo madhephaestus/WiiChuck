@@ -1,0 +1,19 @@
+{
+		"name": "MCP3221",
+		"version": "1.0.0",
+		"frameworks": "AVR",
+		"license": "MIT",
+		"keywords": "MCP3221, ADC, I2C, 12-BIT",
+		"description": "MCP3221 Driver (12-bit ADC with hardware I2C Interface)",
+		"downloadUrl": "https://github.com/nadavmatalon/MCP3221/archive/master.zip",
+		"authors":
+		{
+		        "name": "Nadav Matalon",
+		        "maintainer": true
+		},
+		"repository":
+		{
+		    "type": "git",
+		    "url": "https://github.com/NadavMatalon/MCP3221"
+		}
+}

@@ -1,0 +1,12 @@
+{
+  "name": "PulsePosition",
+  "keywords": "pulse, signal",
+  "description": "Multiple High-Res Input & Output PPM Encoded Signal Streams",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/PaulStoffregen/PulsePosition.git"
+  },
+  "frameworks": "arduino",
+  "platforms": "teensy"
+}

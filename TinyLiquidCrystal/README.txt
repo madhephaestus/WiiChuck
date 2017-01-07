@@ -1,0 +1,3 @@
+This is an Arduino library for the Adafruit Trinket and Gemma mini microcontrollers to interface with liquid crystal (LCD) displays.  The difference between this library and the Adafruit main LiquidCrystal library is use of the TinyWireM library for I2C.
+
+To download. click the DOWNLOADS button, rename the uncompressed folder TinyLiquidCrystal. Check that the TinyLiquidCrystal folder contains TinyLiquidCrystal.cpp, TinyLiquidCrystal.h, TinyAdafruit_MCP23008.cpp, TinyAdafruit_MCP23008.h, and an examples folder. Place the TinyLiquidCrystal library folder in your <arduinosketchfolder>/libraries/ folder. You may need to create the libraries subfolder if its your first library. Restart the Arduino development software (IDE).

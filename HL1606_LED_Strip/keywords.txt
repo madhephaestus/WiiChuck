@@ -1,0 +1,17 @@
+HL1606strip KEYWORD1
+rgbPush KEYWORD2
+pushCmd KEYWORD2
+blankPush KEYWORD2
+latch KEYWORD2
+faderSpeedSet KEYWORD2
+faderSpeedGet KEYWORD2
+faderCrank KEYWORD2
+sPulse KEYWORD2
+rgbPush2X KEYWORD2
+sleep KEYWORD2
+wakeup KEYWORD2
+setLEDcolor KEYWORD2
+writeStrip KEYWORD2
+numLEDs KEYWORD2
+getLEDcolor KEYWORD2
+writeStrip KEYWORD2

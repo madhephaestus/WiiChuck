@@ -1,0 +1,41 @@
+= Audio Frequency Meter Library for Arduino =
+
+Allows the Arduino Zero and MKR1000 to sample a generic input audio signal and get the fundamental pitch.
+
+
+== License ==
+
+Copyright (c) Arduino LLC. All right reserved.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
+== Methods ==
+* begin(uint32_t ulPin, uint32_t sampleRate) : initialize the ADC so sample ulPin at the chosen sample rate. This process works in interrupt using TC5 to start the sampling process. ADC resolution is set to 8 bit
+
+* end() : stops the sampling process disabling both the ADC and TC5 and resetting TC5
+
+* setClippingPin(int pin) : put pin in output to be used as a clipping indicator
+
+* checkClipping : checks if there is a clipping event (converted value equals to the top or the bottom of the ADC dynamic) and drives HIGH the clippingPin
+
+* setAmplitudeThreshold(uint8_t threshold) sets the threshold for which a detected frequency is considered right or wrong. Default is 30
+
+* setTimerTolerance(int tolerance)  : sets the tolerance for which a sampled signal is considered valid. Default is 10
+
+* setSlopeTolerance(int tolerance) : sets the tolerance for which the slope is valid for the trigger process. Default is 3
+
+* setBandwidth(float minFrequency, float maxFrequency) : set the range of frequencies for which the detected frequency is valid. Default values for now are 60Hz - 1500Hz. This must be improved 
+
+* getFrequency : return the value of the detected frequency if it is above the threshold defined by setAmplitudeThreshold else -1

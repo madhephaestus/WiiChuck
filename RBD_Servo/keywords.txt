@@ -1,0 +1,5 @@
+Servo	KEYWORD1
+setPulseInterval	KEYWORD2
+setDegreesOfRotation	KEYWORD2
+moveToDegrees	KEYWORD2
+update	KEYWORD2

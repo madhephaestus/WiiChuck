@@ -1,0 +1,38 @@
+#######################################
+# Syntax Coloring Map Servo
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+DigitalSensor	KEYWORD1
+Sensor KEYWORD1
+BufferedSensor	KEYWORD1
+TemperatureSensor	KEYWORD1
+PotSensor	KEYWORD1
+PhotoSensor	KEYWORD1
+PiezoSensor	KEYWORD1
+SampleBuffer	KEYWORD1
+UltrasonicRangeSensor	KEYWORD1
+RangedSensor KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+getState	KEYWORD2
+getReading	KEYWORD2
+getCelsius	KEYWORD2
+addSample	KEYWORD2
+getAverage	KEYWORD2
+clear	KEYWORD2
+getPercent	KEYWORD2
+getDegrees	KEYWORD2
+getRadians	KEYWORD2
+setMin	KEYWORD2
+setMax	KEYWORD2
+getMeters	KEYWORD2
+getMicroSeconds	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

@@ -1,0 +1,36 @@
+###################################
+# Syntax Coloring Map for Volume2
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+tone  KEYWORD2
+noTone  KEYWORD2
+setCustomWave KEYWORD2
+getCustomSample KEYWORD2
+delay KEYWORD2
+millis  KEYWORD2
+vol KEYWORD2
+Volume  KEYWORD2
+
+###################################
+# Constants (LITERAL1)
+###################################
+
+PWM_12	LITERAL1
+PWM_25	LITERAL1
+SQUARE	LITERAL1
+SAWTOOTH	LITERAL1
+SAWTOOTH_HIGH	LITERAL1
+TRIANGLE	LITERAL1
+TRIANGLE_HIGH	LITERAL1
+SINE	LITERAL1
+SINE_HIGH	LITERAL1
+NOISE	LITERAL1
+CUSTOM	LITERAL1

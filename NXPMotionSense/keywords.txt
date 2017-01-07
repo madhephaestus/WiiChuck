@@ -1,0 +1,6 @@
+NXPMotionSense	KEYWORD1
+NXPSensorFusion	KEYWORD1
+readMotionSensor	KEYWORD2
+getPitch	KEYWORD2
+getRoll	KEYWORD2
+getYaw	KEYWORD2

@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring Map Servo
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+Timer	KEYWORD1
+DeltaTimer	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+setDelay	KEYWORD2
+getDelay	KEYWORD2
+update	KEYWORD2
+reset	KEYWORD2
+clear	KEYWORD2
+addDelay	KEYWORD2
+isTriggered	KEYWORD2
+getTimeRemaining	KEYWORD2
+updateDt	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

@@ -1,0 +1,5 @@
+AD5241	KEYWORD1
+
+begin	KEYWORD2
+analogWrite	KEYWORD2
+digitalWrite	KEYWORD2

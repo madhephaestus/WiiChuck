@@ -1,0 +1,116 @@
+#######################################
+# Syntax Colouring Map For PS2KeyMap
+#######################################
+
+#######################################
+# Datatypes/class (KEYWORD1)
+#######################################
+PS2KeyMap	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+selectMap	    KEYWORD2
+getMap          KEYWORD2
+remapKey	    KEYWORD2
+remapKeyByte	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+PS2_NO_BREAK_SPACE              LITERAL1
+PS2_INVERTED_EXCLAMATION        LITERAL1
+PS2_CENT_SIGN			        LITERAL1
+PS2_POUND_SIGN			        LITERAL1
+PS2_CURRENCY_SIGN		        LITERAL1
+PS2_YEN_SIGN			        LITERAL1
+PS2_BROKEN_BAR                  LITERAL1
+PS2_SECTION_SIGN		        LITERAL1
+PS2_DIAERESIS			        LITERAL1
+PS2_COPYRIGHT_SIGN		        LITERAL1
+PS2_FEMININE_ORDINAL	        LITERAL1
+PS2_LEFT_DOUBLE_ANGLE_QUOTE	    LITERAL1
+PS2_NOT_SIGN			        LITERAL1
+PS2_HYPHEN			            LITERAL1
+PS2_REGISTERED_SIGN		        LITERAL1
+PS2_MACRON			            LITERAL1
+PS2_DEGREE_SIGN			        LITERAL1
+PS2_PLUS_MINUS_SIGN		        LITERAL1
+PS2_SUPERSCRIPT_TWO		        LITERAL1
+PS2_SUPERSCRIPT_THREE	        LITERAL1
+PS2_ACUTE_ACCENT		        LITERAL1
+PS2_MICRO_SIGN			        LITERAL1
+PS2_PILCROW_SIGN		        LITERAL1
+PS2_MIDDLE_DOT			        LITERAL1
+PS2_CEDILLA			            LITERAL1
+PS2_SUPERSCRIPT_ONE		        LITERAL1
+PS2_MASCULINE_ORDINAL	        LITERAL1
+PS2_RIGHT_DOUBLE_ANGLE_QUOTE	LITERAL1
+PS2_FRACTION_ONE_QUARTER	    LITERAL1
+PS2_FRACTION_ONE_HALF	        LITERAL1
+PS2_FRACTION_THREE_QUARTERS	    LITERAL1
+PS2_INVERTED_QUESTION MARK	    LITERAL1
+PS2_A_GRAVE			            LITERAL1
+PS2_A_ACUTE			            LITERAL1
+PS2_A_CIRCUMFLEX		        LITERAL1
+PS2_A_TILDE			            LITERAL1
+PS2_A_DIAERESIS			        LITERAL1
+PS2_A_RING_ABOVE		        LITERAL1
+PS2_AE				            LITERAL1
+PS2_C_CEDILLA			        LITERAL1
+PS2_E_GRAVE			            LITERAL1
+PS2_E_ACUTE			            LITERAL1
+PS2_E_CIRCUMFLEX		        LITERAL1
+PS2_E_DIAERESIS			        LITERAL1
+PS2_I_GRAVE			            LITERAL1
+PS2_I_ACUTE			            LITERAL1
+PS2_I_CIRCUMFLEX		        LITERAL1
+PS2_I_DIAERESIS			        LITERAL1
+PS2_ETH				            LITERAL1
+PS2_N_TILDE			            LITERAL1
+PS2_O_GRAVE			            LITERAL1
+PS2_O_ACUTE			            LITERAL1
+PS2_O_CIRCUMFLEX		        LITERAL1
+PS2_O_TILDE			            LITERAL1
+PS2_O_DIAERESIS			        LITERAL1
+PS2_MULTIPLICATION		        LITERAL1
+PS2_O_STROKE			        LITERAL1
+PS2_U_GRAVE			            LITERAL1
+PS2_U_ACUTE			            LITERAL1
+PS2_U_CIRCUMFLEX		        LITERAL1
+PS2_U_DIAERESIS			        LITERAL1
+PS2_Y_ACUTE			            LITERAL1
+PS2_THORN			            LITERAL1
+PS2_SHARP_S			            LITERAL1
+PS2_a_GRAVE			            LITERAL1
+PS2_a_ACUTE			            LITERAL1
+PS2_a_CIRCUMFLEX		        LITERAL1
+PS2_a_TILDE			            LITERAL1
+PS2_a_DIAERESIS			        LITERAL1
+PS2_a_RING_ABOVE		        LITERAL1
+PS2_ae				            LITERAL1
+PS2_c_CEDILLA			        LITERAL1
+PS2_e_GRAVE			            LITERAL1
+PS2_e_ACUTE			            LITERAL1
+PS2_e_CIRCUMFLEX		        LITERAL1
+PS2_e_DIAERESIS			        LITERAL1
+PS2_i_GRAVE			            LITERAL1
+PS2_i_ACUTE			            LITERAL1
+PS2_i_CIRCUMFLEX		        LITERAL1
+PS2_i_DIAERESIS			        LITERAL1
+PS2_eth				            LITERAL1
+PS2_n_TILDE			            LITERAL1
+PS2_o_GRAVE			            LITERAL1
+PS2_o_ACUTE			            LITERAL1
+PS2_o_CIRCUMFLEX		        LITERAL1
+PS2_o_TILDE			            LITERAL1
+PS2_o_DIAERESIS			        LITERAL1
+PS2_DIVISION			        LITERAL1
+PS2_o_STROKE			        LITERAL1
+PS2_u_GRAVE			            LITERAL1
+PS2_u_ACUTE			            LITERAL1
+PS2_u_CIRCUMFLEX		        LITERAL1
+PS2_u_DIAERESIS			        LITERAL1
+PS2_y_ACUTE			            LITERAL1
+PS2_thorn			            LITERAL1
+PS2_y_DIAERESIS			        LITERAL1

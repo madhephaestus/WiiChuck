@@ -1,0 +1,70 @@
+#######################################
+# Syntax Coloring Map For MCP3221
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MCP3221	KEYWORD1
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+ping	KEYWORD2
+getVref	KEYWORD2
+getRes1	KEYWORD2
+getRes2	KEYWORD2
+getAlpha	KEYWORD2
+getNumSamples	KEYWORD2
+getVinput	KEYWORD2
+getSmoothing 	KEYWORD2
+getData	KEYWORD2
+getVoltage	KEYWORD2
+getComResult	KEYWORD2
+setVref	KEYWORD2
+setRes1	KEYWORD2
+setRes2	KEYWORD2
+setAlpha	KEYWORD2
+setNumSamples	KEYWORD2
+setVinput	KEYWORD2
+setSmoothing	KEYWORD2
+reset	KEYWORD2
+MCP3221ComStr	KEYWORD2
+MCP3221InfoStr	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+DATA_BYTES	LITERAL1
+MIN_CON_TIME	LITERAL1
+COM_SUCCESS	LITERAL1
+MIN_VREF	LITERAL1
+MAX_VREF	LITERAL1
+DEFAULT_VREF	LITERAL1
+DEFAULT_RES1	LITERAL1
+DEFAULT_RES2	LITERAL1
+MIN_ALPHA	LITERAL1
+MAX_ALPHA	LITERAL1
+DEFAULT_ALPHA	LITERAL1
+MIN_NUM_SAMPLES	LITERAL1
+MAX_NUM_SAMPLES	LITERAL1
+DEFAULT_NUM_SAMPLES	LITERAL1
+VOLTAGE_INPUT_5V	LITERAL1
+VOLTAGE_INPUT_12V	LITERAL1
+NO_SMOOTHING	LITERAL1
+ROLLING_AVG	LITERAL1
+EMAVG	LITERAL1
+
+#######################################
+# Built-In Variables (LITERAL2)
+#######################################
+
+voltage_input_t	LITERAL2
+smoothing_t	LITERAL2

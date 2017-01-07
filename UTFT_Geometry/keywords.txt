@@ -1,0 +1,6 @@
+UTFT_Geometry	KEYWORD1
+
+drawTriangle	KEYWORD2
+fillTriangle	KEYWORD2
+drawArc	KEYWORD2
+drawPie	KEYWORD2

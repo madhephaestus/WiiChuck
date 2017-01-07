@@ -1,0 +1,31 @@
+#######################################
+# Syntax Coloring Map For Wire
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+begin						KEYWORD2
+connect						KEYWORD2
+loop						KEYWORD2
+on_connected				KEYWORD2
+on_disconnected				KEYWORD2
+on_smartconfig_done			KEYWORD2
+on_smartconfig_waiting		KEYWORD2
+on_smartconfig_processing	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+WiFiConnector 				KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+

@@ -1,0 +1,9 @@
+name=XLR8Info
+version=0.9
+author=MattWeber <linkedin.com/in/mattweberdesign>
+maintainer=Alorium Technology <info@aloriumtech.com>
+sentence=Arduino library for identifying features of XLR8 product
+paragraph=Determines version number of XLR8 design and which XBs are included.
+category=Uncategorized
+url=https://github.com/AloriumTechnology/XLR8Info
+architectures=avr
