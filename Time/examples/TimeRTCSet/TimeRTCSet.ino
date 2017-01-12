@@ -14,7 +14,7 @@
 
 void setup()  {
   Serial.begin(9600);
-  while (!Serial) ; // Needed for Leonardo only
+//  while (!Serial) ; // Needed for Leonardo only
   setSyncProvider(RTC.get);   // the function to get the time from the RTC
   if (timeStatus() != timeSet) 
      Serial.println("Unable to sync with the RTC");
