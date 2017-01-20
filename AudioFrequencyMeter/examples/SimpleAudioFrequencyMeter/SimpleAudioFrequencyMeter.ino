@@ -21,7 +21,7 @@ void setup() {
   Serial.println("started");
 
   meter.setBandwidth(70.00, 1500);    // Ignore frequency out of this range
-  meter.begin(A0, 960000);             // Intialize A0 at sample rate of 45kHz
+  meter.begin(A0, 45000);             // Intialize A0 at sample rate of 45kHz
 }
 
 void loop() {

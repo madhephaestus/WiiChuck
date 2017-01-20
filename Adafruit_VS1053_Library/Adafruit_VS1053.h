@@ -21,10 +21,41 @@
  #include <pins_arduino.h>
 #endif
 
+#if !defined(ARDUINO_STM32_FEATHER)
 #include "pins_arduino.h"
 #include "wiring_private.h"
+#endif
+
 #include <SPI.h> 
 #include <SD.h>
+
+// define here the size of a register!
+#if defined(ARDUINO_STM32_FEATHER)
+  typedef volatile uint32 RwReg;
+  typedef uint32_t PortMask;
+#elif defined (__AVR__)
+  typedef volatile uint8_t RwReg;
+  typedef uint8_t PortMask;
+#elif defined (__arm__)
+  #if defined(TEENSYDUINO)
+  typedef volatile uint8_t RwReg;
+  typedef uint8_t PortMask;
+  #else
+  typedef volatile uint32_t RwReg;
+  typedef uint32_t PortMask;
+  #endif
+#elif defined (ESP8266) || defined (ESP32)
+  typedef volatile uint32_t RwReg;
+  typedef uint32_t PortMask;
+#elif defined (__ARDUINO_ARC__)
+  typedef volatile uint32_t RwReg;
+  typedef uint32_t PortMask;
+#else
+  typedef volatile uint8_t RwReg;
+  typedef uint8_t PortMask;
+#endif
+
+typedef volatile RwReg PortReg;
 
 #define VS1053_FILEPLAYER_TIMER0_INT 255 // allows useInterrupt to accept pins 0 to 254
 #define VS1053_FILEPLAYER_PIN_INT 5
@@ -84,6 +115,7 @@ class Adafruit_VS1053 {
   void sciWrite(uint8_t addr, uint16_t data);
   void sineTest(uint8_t n, uint16_t ms);
   void spiwrite(uint8_t d);
+  void spiwrite(uint8_t *c, uint16_t num); 
   uint8_t spiread(void);
 
   uint16_t decodeTime(void);
@@ -109,11 +141,19 @@ class Adafruit_VS1053 {
 
   uint8_t mp3buffer[VS1053_DATABUFFERLEN];
 
+#ifdef ARDUINO_ARCH_SAMD
+protected:
+  uint32_t  _dreq;
+private:
+  int32_t _mosi, _miso, _clk, _reset, _cs, _dcs;
+  boolean useHardwareSPI;
+#else
  protected:
   uint8_t  _dreq;
  private:
   int8_t _mosi, _miso, _clk, _reset, _cs, _dcs;
   boolean useHardwareSPI;
+#endif
 };
 
 

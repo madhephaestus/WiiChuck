@@ -15,7 +15,15 @@
 #include <Adafruit_VS1053.h>
 #include <SD.h>
 
+#if defined(ARDUINO_STM32_FEATHER)
+   #define digitalPinToInterrupt(x) x
+#endif
+
 static Adafruit_VS1053_FilePlayer *myself;
+
+#ifndef _BV
+  #define _BV(x) (1<<(x))
+#endif
 
 #if defined(__AVR__)
 SIGNAL(TIMER0_COMPA_vect) {
@@ -23,58 +31,17 @@ SIGNAL(TIMER0_COMPA_vect) {
 }
 #endif
 
+volatile boolean feedBufferSem = false;
+
 static void feeder(void) {
+  if (feedBufferSem) return;
+
   myself->feedBuffer();
 }
 
 #define VS1053_CONTROL_SPI_SETTING  SPISettings(250000,  MSBFIRST, SPI_MODE0)
 #define VS1053_DATA_SPI_SETTING     SPISettings(8000000, MSBFIRST, SPI_MODE0)
 
-
-static const uint8_t dreqinttable[] = {
-#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || defined (__AVR_ATmega328__) || defined(__AVR_ATmega8__) 
-  2, 0,
-  3, 1,
-#elif defined(__AVR_ATmega1281__) || defined(__AVR_ATmega2561__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega1280__) 
-  2, 0,
-  3, 1,
-  21, 2, 
-  20, 3,
-  19, 4,
-  18, 5,
-#elif  defined(__AVR_ATmega32U4__) && defined(CORE_TEENSY)
-  5, 0,
-  6, 1,
-  7, 2,
-  8, 3,
-#elif  defined(__AVR_AT90USB1286__) && defined(CORE_TEENSY)
-  0, 0,
-  1, 1,
-  2, 2,
-  3, 3,
-  36, 4,
-  37, 5,
-  18, 6,
-  19, 7,
-#elif  defined(__arm__) && defined(CORE_TEENSY)
-  0, 0, 1, 1, 2, 2, 3, 3, 4, 4,
-  5, 5, 6, 6, 7, 7, 8, 8, 9, 9,
-  10, 10, 11, 11, 12, 12, 13, 13, 14, 14,
-  15, 15, 16, 16, 17, 17, 18, 18, 19, 19,
-  20, 20, 21, 21, 22, 22, 23, 23, 24, 24,
-  25, 25, 26, 26, 27, 27, 28, 28, 29, 29,
-  30, 30, 31, 31, 32, 32, 33, 33,
-#elif  defined(__AVR_ATmega32U4__) 
-  3, 0,
-  2, 1,
-  0, 2,
-  1, 3,
-  7, 4,
-#elif defined(__AVR_ATmega256RFR2__)
-  4, 0,
-  5, 1,
-#endif
-};
 
 boolean Adafruit_VS1053_FilePlayer::useInterrupt(uint8_t type) {
   myself = this;  // oy vey
@@ -87,21 +54,39 @@ boolean Adafruit_VS1053_FilePlayer::useInterrupt(uint8_t type) {
 #elif defined(__arm__) && defined(CORE_TEENSY)
     IntervalTimer *t = new IntervalTimer();
     return (t && t->begin(feeder, 1024)) ? true : false;
+#elif defined(ARDUINO_STM32_FEATHER)
+    HardwareTimer timer(3);
+    // Pause the timer while we're configuring it
+    timer.pause();
+
+    // Set up period
+    timer.setPeriod(25000); // in microseconds
+
+    // Set up an interrupt on channel 1
+    timer.setChannel1Mode(TIMER_OUTPUT_COMPARE);
+    timer.setCompare(TIMER_CH1, 1);  // Interrupt 1 count after each update
+    timer.attachCompare1Interrupt(feeder); 
+
+    // Refresh the timer's count, prescale, and overflow
+    timer.refresh();
+
+    // Start the timer counting
+    timer.resume();
+    
 #else
     return false;
 #endif
   }
   if (type == VS1053_FILEPLAYER_PIN_INT) {
-    for (uint8_t i=0; i<sizeof(dreqinttable); i+=2) {
-      //Serial.println(dreqinttable[i]);
-      if (_dreq == dreqinttable[i]) {
-        #ifdef SPI_HAS_TRANSACTION
-        SPI.usingInterrupt(dreqinttable[i+1]);
-        #endif
-	attachInterrupt(dreqinttable[i+1], feeder, CHANGE);
-	return true;
-      }
-    }
+    int8_t irq = digitalPinToInterrupt(_dreq);
+    //Serial.print("Using IRQ "); Serial.println(irq);
+    if (irq == -1) 
+      return false;
+#if defined(SPI_HAS_TRANSACTION) && !defined(ESP8266) && !defined(ESP32) && !defined(ARDUINO_STM32_FEATHER)
+    SPI.usingInterrupt(irq);
+#endif
+    attachInterrupt(irq, feeder, CHANGE);
+    return true;
   }
   return false;
 }
@@ -158,7 +143,10 @@ boolean Adafruit_VS1053_FilePlayer::playFullFile(const char *trackname) {
 
   while (playingMusic) {
     // twiddle thumbs
+    noInterrupts();
     feedBuffer();
+    interrupts();
+    delay(100);           // give IRQs a chance
   }
   // music file finished!
   return true;
@@ -203,75 +191,57 @@ boolean Adafruit_VS1053_FilePlayer::startPlayingFile(const char *trackname) {
     return false;
   }
 
+  // don't let the IRQ get triggered by accident here
+  noInterrupts();
+
   // As explained in datasheet, set twice 0 in REG_DECODETIME to set time back to 0
   sciWrite(VS1053_REG_DECODETIME, 0x00);
   sciWrite(VS1053_REG_DECODETIME, 0x00);
-
 
   playingMusic = true;
 
   // wait till its ready for data
   while (! readyForData() );
 
-
   // fill it up!
-  while (playingMusic && readyForData())
+  while (playingMusic && readyForData()) {
     feedBuffer();
-
-//  Serial.println("Ready");
+  }
+  
+  // ok going forward, we can use the IRQ
+  interrupts();
 
   return true;
 }
 
 void Adafruit_VS1053_FilePlayer::feedBuffer(void) {
-  static uint8_t running = 0;
-  uint8_t sregsave;
+  // dont run twice in case interrupts collided
+  if (feedBufferSem) return;
 
-  // Do not allow 2 copies of this code to run concurrently.
-  // If an interrupt causes feedBuffer() to run while another
-  // copy of feedBuffer() is already running in the main
-  // program, havoc can occur.  "running" detects this state
-  // and safely returns.
-  sregsave = SREG;
-  cli();
-  if (running) {
-    SREG = sregsave;
-    return;  // return safely, before touching hardware!  :-)
-  } else {
-    running = 1;
-    SREG = sregsave;
-  }
+  feedBufferSem = true;
 
-  if (! playingMusic) {
-    running = 0;
+  if ((! playingMusic) // paused or stopped
+      || (! currentTrack) 
+      || (! readyForData())) {
+    feedBufferSem = false;
     return; // paused or stopped
-  }
-  if (! currentTrack) {
-    running = 0;
-    return;
-  }
-  if (! readyForData()) {
-    running = 0;
-    return;
   }
 
   // Feed the hungry buffer! :)
   while (readyForData()) {
-    //UDR0 = '.';
-
     // Read some audio data from the SD card file
     int bytesread = currentTrack.read(mp3buffer, VS1053_DATABUFFERLEN);
-
+    
     if (bytesread == 0) {
       // must be at the end of the file, wrap it up!
       playingMusic = false;
       currentTrack.close();
-      running = 0;
-      return;
+      break;
     }
+
     playData(mp3buffer, bytesread);
   }
-  running = 0;
+  feedBufferSem = false;
   return;
 }
 
@@ -279,8 +249,8 @@ void Adafruit_VS1053_FilePlayer::feedBuffer(void) {
 /***************************************************************/
 
 /* VS1053 'low level' interface */
-static volatile uint8_t *clkportreg, *misoportreg, *mosiportreg;
-static uint8_t clkpin, misopin, mosipin;
+static volatile PortReg *clkportreg, *misoportreg, *mosiportreg;
+static PortMask clkpin, misopin, mosipin;
 
 Adafruit_VS1053::Adafruit_VS1053(int8_t mosi, int8_t miso, int8_t clk, 
 			   int8_t rst, int8_t cs, int8_t dcs, int8_t dreq) {
@@ -413,9 +383,9 @@ void Adafruit_VS1053::playData(uint8_t *buffer, uint8_t buffsiz) {
   if (useHardwareSPI) SPI.beginTransaction(VS1053_DATA_SPI_SETTING);
   #endif
   digitalWrite(_dcs, LOW);
-  for (uint8_t i=0; i<buffsiz; i++) {
-    spiwrite(buffer[i]);
-  }
+  
+  spiwrite(buffer, buffsiz);
+
   digitalWrite(_dcs, HIGH);
   #ifdef SPI_HAS_TRANSACTION
   if (useHardwareSPI) SPI.endTransaction();
@@ -428,15 +398,15 @@ void Adafruit_VS1053::setVolume(uint8_t left, uint8_t right) {
   v <<= 8;
   v |= right;
 
-  cli();
+  noInterrupts(); //cli();
   sciWrite(VS1053_REG_VOLUME, v);
-  sei();
+  interrupts();  //sei();
 }
 
 uint16_t Adafruit_VS1053::decodeTime() {
-  cli();
+  noInterrupts(); //cli();
   uint16_t t = sciRead(VS1053_REG_DECODETIME);
-  sei();
+  interrupts(); //sei();
   return t;
 }
 
@@ -672,23 +642,44 @@ uint8_t Adafruit_VS1053::spiread(void)
 
 void Adafruit_VS1053::spiwrite(uint8_t c)
 {
+
+  uint8_t x __attribute__ ((aligned (32))) = c;
+  spiwrite(&x, 1);
+}
+
+
+void Adafruit_VS1053::spiwrite(uint8_t *c, uint16_t num)
+{
   // MSB first, clock low when inactive (CPOL 0), data valid on leading edge (CPHA 0)
   // Make sure clock starts low
 
   if (useHardwareSPI) {
-    SPI.transfer(c);
+    
+    //#if defined(ESP32)  // optimized
+    //  SPI.writeBytes(c, num);
+    //  return;
+    //#endif
+
+    while (num--) {
+      SPI.transfer(c[0]);
+      c++;
+    }
 
   } else {
-    for (int8_t i=7; i>=0; i--) {
-      *clkportreg &= ~clkpin;
-      if (c & (1<<i)) {
-	*mosiportreg |= mosipin;
-      } else {
-	*mosiportreg &= ~mosipin;
+    while (num--) {
+      for (int8_t i=7; i>=0; i--) {
+	*clkportreg &= ~clkpin;
+	if (c[0] & (1<<i)) {
+	  *mosiportreg |= mosipin;
+	} else {
+	  *mosiportreg &= ~mosipin;
+	}
+	*clkportreg |= clkpin;
       }
-      *clkportreg |= clkpin;
+      *clkportreg &= ~clkpin;   // Make sure clock ends low
+
+      c++;
     }
-    *clkportreg &= ~clkpin;   // Make sure clock ends low
   }
 }
 
