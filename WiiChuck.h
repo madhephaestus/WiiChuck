@@ -31,6 +31,9 @@
 #elif defined(__arm__)
 	#include "Arduino.h"
 	#include "hardware/arm/HW_ARM_defines.h"
+#else
+	#include "Arduino.h"
+	#include "hardware/generic/HW_Generic_defines.h"
 #endif
 
 #define I2C_ADDR		0x52

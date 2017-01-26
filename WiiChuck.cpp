@@ -28,6 +28,8 @@
   #include "hardware/pic32/HW_PIC32.h"
 #elif defined(__arm__)
 	#include "hardware/arm/HW_ARM.h"
+#else
+	#include  "hardware/generic/HW_Generic.h"
 #endif
 
 /* Public */
