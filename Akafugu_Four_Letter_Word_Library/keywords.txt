@@ -1,5 +1,0 @@
-FourLetterWord	KEYWORD1
-begin	KEYWORD2
-setCensored	KEYWORD2
-hasEeprom	KEYWORD2
-getWord	KEYWORD2

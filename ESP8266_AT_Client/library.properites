@@ -1,9 +1,0 @@
-name=ESP8266 AT Client
-version=1.0.0
-author=Wicked Device
-maintainer=Wicked Device <support@wickeddevice.com>
-sentence=An Arduino Client interface for AT command based ESP8266 WIFi
-paragraph=
-category=Device Control
-url=http://github.com/WickedDevice/ESP8266_AT_Client/blob/master/README.md
-architectures=avr

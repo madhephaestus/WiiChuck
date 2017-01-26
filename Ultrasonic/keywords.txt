@@ -1,3 +1,0 @@
-Ultrasonic	KEYWORD1
-Timing	KEYWORD2
-Ranging	KEYWORD2

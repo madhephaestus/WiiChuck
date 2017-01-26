@@ -1,4 +1,0 @@
-UTFT_SPIflash	KEYWORD1
-
-loadBitmap	KEYWORD2
-loadMonoBitmap	KEYWORD2
