@@ -128,7 +128,7 @@ void	WiiChuck::_sendStart(byte addr)
 	digitalWrite(_scl_pin, HIGH);
 	digitalWrite(_sda_pin, LOW);
 	digitalWrite(_scl_pin, LOW);
-	_shiftOut(_sda_pin, _scl_pin, MSBFIRST, addr);
+	_shiftOut(_sda_pin, _scl_pin, addr);
 }
 
 void	WiiChuck::_sendStop()
@@ -197,7 +197,7 @@ void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin,  uint8_t val) {
     uint8_t i;
 
     for(i = 0; i < 8; i++) {
-        digitalWrite(dataPin, (val & (1 << (7 - i)))?1:0
+        digitalWrite(dataPin, (val & (1 << (7 - i)))==0?0:1
         		);
         digitalWrite(clockPin, HIGH);
         if(_clockSpacing>0)
