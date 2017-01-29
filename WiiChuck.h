@@ -67,7 +67,7 @@ class WiiChuck
 		uint8_t	_joy_x_center, _joy_y_center;
 		boolean	_use_hw;
 		uint32_t _callCount;
-
+		uint32_t _clockSpacing;
 		void	_sendStart(byte addr);
 		void	_sendStop();
 		void	_sendAck();
@@ -77,7 +77,7 @@ class WiiChuck
 		void	_writeByte(uint8_t value);
 		void	_burstRead();
 		void 	_writeRegister(uint8_t reg, uint8_t value);
-		void _shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
+		void _shiftOut(uint8_t dataPin, uint8_t clockPin,  uint8_t val);
 
 #if defined(__arm__)
 		Twi		*twi;

@@ -40,6 +40,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin)
 	_scl_pin = sclk_pin;
 	_callCount=0;
 	callCountBeforeReset=1000;
+	_clockSpacing=50;
 }
 
 void WiiChuck::readData()
@@ -188,21 +189,22 @@ uint8_t WiiChuck::_readByte()
 void WiiChuck::_writeByte(uint8_t value)
 {
 	pinMode(_sda_pin, OUTPUT);
-	_shiftOut(_sda_pin, _scl_pin, MSBFIRST, value);
+	_shiftOut(_sda_pin, _scl_pin,  value);
 }
 
 
-void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val) {
+void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin,  uint8_t val) {
     uint8_t i;
 
     for(i = 0; i < 8; i++) {
-        if(bitOrder == LSBFIRST)
-            digitalWrite(dataPin, !!(val & (1 << i)));
-        else
-            digitalWrite(dataPin, !!(val & (1 << (7 - i))));
-
+        digitalWrite(dataPin, (val & (1 << (7 - i)))?1:0
+        		);
         digitalWrite(clockPin, HIGH);
+        if(_clockSpacing>0)
+        	delayMicroseconds(_clockSpacing);
         digitalWrite(clockPin, LOW);
+        if(_clockSpacing>0)
+            delayMicroseconds(_clockSpacing);
     }
 }
 
