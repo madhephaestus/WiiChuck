@@ -40,12 +40,16 @@
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
 #define I2C_ADDR_W		(I2C_ADDR << 1)
 
+#define THIRDPARTYWII 0
+#define OFFICIALWII 1
+
 class WiiChuck
 {
 	public:
 		WiiChuck(uint8_t data_pin, uint8_t sclk_pin);
 		void	begin();
 		void	readData();
+		void 	initBytes();
 
 		int		getJoyX();
 		int		getJoyY();
@@ -59,7 +63,8 @@ class WiiChuck
 		boolean	checkButtonC();
 		boolean	checkButtonZ();
 		uint32_t callCountBeforeReset;
-
+		int type;
+		unsigned long  ackTimeout;
 	private:
 		uint8_t _scl_pin;
 		uint8_t _sda_pin;
@@ -68,6 +73,7 @@ class WiiChuck
 		boolean	_use_hw;
 		uint32_t _callCount;
 		uint32_t _clockSpacing;
+		uint32_t _timeoutCount;
 		void	_sendStart(byte addr);
 		void	_sendStop();
 		void	_sendAck();
@@ -78,6 +84,7 @@ class WiiChuck
 		void	_burstRead();
 		void 	_writeRegister(uint8_t reg, uint8_t value);
 		void _shiftOut(uint8_t dataPin, uint8_t clockPin,  uint8_t val);
+
 
 #if defined(__arm__)
 		Twi		*twi;

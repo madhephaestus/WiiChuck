@@ -40,19 +40,16 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin)
 	_scl_pin = sclk_pin;
 	_callCount=0;
 	callCountBeforeReset=1000;
-	_clockSpacing=50;
+	_clockSpacing=1;
+	ackTimeout=100;
+	_timeoutCount=0;
+	type=THIRDPARTYWII;
 }
 
 void WiiChuck::readData()
 {
+	initBytes();
 	_burstRead();
-	if(callCountBeforeReset>0){
-		_callCount++;
-		if(_callCount>callCountBeforeReset){
-			begin();
-			_callCount=0;
-		}
-	}
 
 }
 
@@ -164,7 +161,19 @@ void	WiiChuck::_waitForAck()
 {
 	pinMode(_sda_pin, INPUT);
 	digitalWrite(_scl_pin, HIGH);
-	while (digitalRead(_sda_pin)==HIGH) {}
+	unsigned long time = millis();
+	while (
+			digitalRead(_sda_pin)==HIGH&&
+			(time+ackTimeout)< millis()
+	) {}
+	if((time+ackTimeout)< millis()){
+		_timeoutCount++;
+		if(_timeoutCount >10){
+			_timeoutCount=0;
+			Serial.println("Timeout reset");
+			begin();
+		}
+	}
 	digitalWrite(_scl_pin, LOW);
 }
 
@@ -180,8 +189,11 @@ uint8_t WiiChuck::_readByte()
 		digitalWrite(_scl_pin, HIGH);
 		currentBit = digitalRead(_sda_pin);
 		value |= (currentBit << 7-i);
-		delayMicroseconds(1);
+		if(_clockSpacing>0)
+		        delayMicroseconds(_clockSpacing);
 		digitalWrite(_scl_pin, LOW);
+		if(_clockSpacing>0)
+		        	delayMicroseconds(_clockSpacing);
 	}
 	return value;
 }
@@ -190,6 +202,21 @@ void WiiChuck::_writeByte(uint8_t value)
 {
 	pinMode(_sda_pin, OUTPUT);
 	_shiftOut(_sda_pin, _scl_pin,  value);
+}
+void 	WiiChuck::initBytes(){
+	switch(type){
+	case THIRDPARTYWII:
+		// improved startup procedure from http://playground.arduino.cc/Main/WiiChuckClass
+		_writeRegister(0xF0, 0x55);
+		_writeRegister(0xFB, 0x00);
+		break;
+	case OFFICIALWII:
+		_writeRegister(0x40, 0x00);
+		break;
+	default:
+		Serial.println("Error, specify a controller type");
+	}
+
 }
 
 

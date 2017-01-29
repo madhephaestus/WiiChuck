@@ -4,9 +4,7 @@ void WiiChuck::begin()
 
 	_use_hw = false;
 	pinMode(_scl_pin, OUTPUT);
-	// improved startup procedure from http://playground.arduino.cc/Main/WiiChuckClass
-	_writeRegister(0xF0, 0x55);
-	_writeRegister(0xFB, 0x00);
+	initBytes();
 	//Serial.println("Init sent, reading");
 
 	delay(100);
@@ -53,8 +51,9 @@ void WiiChuck::_writeRegister(uint8_t reg, uint8_t value)
 		//Serial.println("First byte");
 		_writeByte(reg);
 		_waitForAck();
-		Serial.println("Seconde byte");
+		//Serial.println("Seconde byte");
 		_writeByte(value);
+		//Serial.println("waiting");
 		_waitForAck();
 		//Serial.println("stopping");
 		_sendStop();

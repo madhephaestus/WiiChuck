@@ -22,7 +22,7 @@ void WiiChuck::begin()
 		_use_hw = false;
 		pinMode(_scl_pin, OUTPUT);
 	}
-	_writeRegister(0x40, 0x00);
+	initBytes();
 	delay(100);
 	_burstRead();
 	delay(100);

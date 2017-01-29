@@ -50,8 +50,11 @@ char st[100];
 
 void setup()
 {
-  Serial.begin(9600);
+	
+  Serial.begin(115200);
   Serial.println("Starting WiiChuck Demo");
+  //myChuck.type=OFFICIALWII;
+  myChuck.type=THIRDPARTYWII;
   myChuck.begin();
 }
 
@@ -61,13 +64,11 @@ void loop()
   myChuck.readData();
 
   sprintf(st, 
-		  "JoyX: %4d%% | JoyY: %4d%% | Roll: %4d%c | Pitch: %4d%c | Buttons: ", 
+		  "JoyX: %4d%% | JoyY: %4d%% | Roll: %4d | Pitch: %4d | Buttons: ", 
 		  myChuck.getJoyX(),
 		  myChuck.getJoyY(),
 		  myChuck.getRollAngle(), 
-		  (char)176,
-		  myChuck.getPitchAngle(), 
-		  (char)176);
+		  myChuck.getPitchAngle());
 
   Serial.print(st);
 
