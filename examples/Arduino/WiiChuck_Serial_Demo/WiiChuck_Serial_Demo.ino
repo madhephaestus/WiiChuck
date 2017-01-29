@@ -40,21 +40,34 @@
 
 #include <WiiChuck.h>
 
-WiiChuck myChuck(SDA, SCL);
+#if defined(ARDUINO_ARCH_ESP8266)
+#define SDA D2
+#define SCL D1
+#endif
+WiiChuck myChuck( SDA,SCL);
 
 char st[100];
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
+  Serial.println("Starting WiiChuck Demo");
   myChuck.begin();
 }
 
 void loop()
 {
+	
   myChuck.readData();
 
-  sprintf(st, "JoyX: %4d%% | JoyY: %4d%% | Roll: %4d%c | Pitch: %4d%c | Buttons: ", myChuck.getJoyX(), myChuck.getJoyY(), myChuck.getRollAngle(), (char)176, myChuck.getPitchAngle(), (char)176);
+  sprintf(st, 
+		  "JoyX: %4d%% | JoyY: %4d%% | Roll: %4d%c | Pitch: %4d%c | Buttons: ", 
+		  myChuck.getJoyX(),
+		  myChuck.getJoyY(),
+		  myChuck.getRollAngle(), 
+		  (char)176,
+		  myChuck.getPitchAngle(), 
+		  (char)176);
 
   Serial.print(st);
 

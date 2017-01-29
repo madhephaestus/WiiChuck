@@ -58,6 +58,7 @@ class WiiChuck
 
 		boolean	checkButtonC();
 		boolean	checkButtonZ();
+		uint32_t callCountBeforeReset;
 
 	private:
 		uint8_t _scl_pin;
@@ -65,6 +66,7 @@ class WiiChuck
 		uint8_t _dataarray[6];
 		uint8_t	_joy_x_center, _joy_y_center;
 		boolean	_use_hw;
+		uint32_t _callCount;
 
 		void	_sendStart(byte addr);
 		void	_sendStop();
@@ -75,6 +77,8 @@ class WiiChuck
 		void	_writeByte(uint8_t value);
 		void	_burstRead();
 		void 	_writeRegister(uint8_t reg, uint8_t value);
+		void _shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
+
 #if defined(__arm__)
 		Twi		*twi;
 #endif

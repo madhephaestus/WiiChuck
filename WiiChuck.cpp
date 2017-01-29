@@ -38,11 +38,21 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin)
 {
 	_sda_pin = data_pin;
 	_scl_pin = sclk_pin;
+	_callCount=0;
+	callCountBeforeReset=1000;
 }
 
 void WiiChuck::readData()
 {
 	_burstRead();
+	if(callCountBeforeReset>0){
+		_callCount++;
+		if(_callCount>callCountBeforeReset){
+			begin();
+			_callCount=0;
+		}
+	}
+
 }
 
 int WiiChuck::getJoyX()
@@ -117,7 +127,7 @@ void	WiiChuck::_sendStart(byte addr)
 	digitalWrite(_scl_pin, HIGH);
 	digitalWrite(_sda_pin, LOW);
 	digitalWrite(_scl_pin, LOW);
-	shiftOut(_sda_pin, _scl_pin, MSBFIRST, addr);
+	_shiftOut(_sda_pin, _scl_pin, MSBFIRST, addr);
 }
 
 void	WiiChuck::_sendStop()
@@ -178,6 +188,21 @@ uint8_t WiiChuck::_readByte()
 void WiiChuck::_writeByte(uint8_t value)
 {
 	pinMode(_sda_pin, OUTPUT);
-	shiftOut(_sda_pin, _scl_pin, MSBFIRST, value);
+	_shiftOut(_sda_pin, _scl_pin, MSBFIRST, value);
+}
+
+
+void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val) {
+    uint8_t i;
+
+    for(i = 0; i < 8; i++) {
+        if(bitOrder == LSBFIRST)
+            digitalWrite(dataPin, !!(val & (1 << i)));
+        else
+            digitalWrite(dataPin, !!(val & (1 << (7 - i))));
+
+        digitalWrite(clockPin, HIGH);
+        digitalWrite(clockPin, LOW);
+    }
 }
 
