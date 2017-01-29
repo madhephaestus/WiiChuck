@@ -106,14 +106,37 @@ int WiiChuck::getAccelZ()
 	return ((_dataarray[4] << 2) + ((_dataarray[5] & 0xC0) >> 6)) - 512;;
 }
 
+
+
 boolean WiiChuck::checkButtonC()
 {
-	return ((_dataarray[5] & 0x02)?false:true);
+	int buttons =_dataarray[5] & 0x03;
+	switch(buttons){
+	case 0:
+		return false;
+	case 1:
+		return true;
+	case 2:
+		return true;
+	case 3:
+		return false;
+	}
 }
 
 boolean WiiChuck::checkButtonZ()
 {
-	return ((_dataarray[5] & 0x01)?false:true);
+
+	int buttons =_dataarray[5] & 0x03;
+	switch(buttons){
+	case 0:
+		return true;
+	case 1:
+		return false;
+	case 2:
+		return true;
+	case 3:
+		return false;
+	}
 }
 
 /* Private */
