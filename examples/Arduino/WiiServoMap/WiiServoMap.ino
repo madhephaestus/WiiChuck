@@ -9,16 +9,21 @@ WiiChuck myChuck(SDA, SCL);
 void setup() {
 
 	Serial.begin(115200);
-	Serial.println("Starting WiiChuck Demo");
+	Serial.println("\n\nStarting WiiChuck Demo");
 	//myChuck.type=OFFICIALWII;
 	myChuck.type = THIRDPARTYWII;
-	myChuck. addControlMap(3, 17,50,
-				160,-100,0,100,
-				JOY_X);
-	myChuck.addButtonMap(4, 17,
+	//myChuck.type = WIICLASSIC;
+	
+	
+	myChuck. addControlMap(D3, 17,50,
+					160,-63,0,100,
+					JOY_X);
+	myChuck. addControlMap(D4, 160,50,
+						17,-50,0,100,
+						JOY_Y);
+	myChuck.addButtonMap(D6, 17,
 					160,
 					ZBUTTON);
-	//myChuck.type = WIICLASSIC;
 	myChuck.begin();
 	
 	
@@ -26,5 +31,5 @@ void setup() {
 void loop() {
 
 	myChuck.readData();
-	delay(20);
+	delay(40);
 }

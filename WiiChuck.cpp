@@ -44,6 +44,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
+	numMaps=0;
 }
 
 void WiiChuck::readData() {
@@ -51,9 +52,14 @@ void WiiChuck::readData() {
 	_burstRead();
 	if (maps != NULL) {
 		ServoWiiControllerMap * tmp = maps;
-		while (tmp != NULL) {
+		int i=0;
+		while (tmp != NULL && i++<=numMaps) {
 			// perform the mapping
-			performMap(tmp);
+			int value = performMap(tmp);
+//			Serial.print(" value ");
+//			Serial.print(value);
+
+			tmp->myservo.write(value);
 			if (tmp->next == NULL) {
 				// The end of the list
 				tmp = NULL; //breal the loop
@@ -61,6 +67,7 @@ void WiiChuck::readData() {
 				tmp = tmp->next;
 			}
 		}
+		Serial.println();
 	}
 }
 
@@ -246,9 +253,13 @@ void WiiChuck::addControlMap(int servoPin, int servoMin, int servoCenter,
 	newMap->servoMax = servoMax;
 	newMap->servoCenter = servoCenter;
 	newMap->myservo.attach(servoPin);
+	newMap->myservo.write(servoCenter);
 	newMap->name = mapName;
 	newMap->button = button;
 	newMap->next = NULL;
+//	Serial.print("Adding servo  = ");
+//	Serial.print(servoPin);
+//	Serial.println();
 	if (maps == NULL) {
 		maps = newMap;
 	} else {
@@ -256,16 +267,134 @@ void WiiChuck::addControlMap(int servoPin, int servoMin, int servoCenter,
 		while (tmp != NULL) {
 			if (tmp->next == NULL) {
 				tmp->next = newMap;
+
 				tmp = NULL; //break the loop
 			} else {
 				tmp = tmp->next;
 			}
 		}
 	}
+	numMaps++;
 
 }
-void WiiChuck::performMap(ServoWiiControllerMap * tmp) {
-	Serial.println("Map ");
+
+int WiiChuck::performMap(ServoWiiControllerMap * tmp) {
+	if (tmp->name !=NOFUNCTION) {
+		//Serial.println("Function");
+		int value = 0;
+		switch (tmp->name) {
+		case JOY_X:
+			value = getJoyX();
+			break;
+		case JOY_Y:
+			value = getJoyY();
+			break;
+		case ROLL:
+			value = getRollAngle();
+			break;
+		case PITCH:
+			value = getPitchAngle();
+			break;
+		case ACCELX:
+			value = getAccelX();
+			break;
+		case ACCELY:
+			value = getAccelY();
+			break;
+		case ACCELZ:
+			value = getAccelZ();
+			break;
+		case RSPRESSURE:
+			value = rightShouldPressure();
+			break;
+		case LSPRESSURE:
+			value = leftShouldPressure();
+			break;
+		case LEFTSTICKX:
+			value = leftStickX();
+			break;
+		case LEFTSTICKY:
+			value = leftStickY();
+			break;
+		case RIGHTSTICKX:
+			value = rightStickX();
+			break;
+		case RIGHTSTICKY:
+			value = rightStickY();
+			break;
+//		default:
+//			Serial.println("No function");
+		}
+		int serv=0,axis=0;
+		if(value>tmp->axisCenter){
+			axis = tmp->axisMax;
+			serv=tmp->servoMax;
+		}else{
+			axis = tmp->axisMin;
+			serv=tmp->servoMin;
+		}
+		float axisRange =(float)(value-tmp->axisCenter);
+		float valueRange =(float)(axis -tmp->axisCenter);
+		float servoRange =serv -tmp->servoCenter;
+		int servoIncremt = servoRange*axisRange/valueRange;
+		return tmp->servoCenter+servoIncremt;
+	}
+	if (tmp->button != NOBUTTON) {
+		//Serial.println("Button");
+		boolean value = false;
+		switch (tmp->button) {
+		case CBUTTON:
+			value = checkButtonC();
+			break;
+		case ZBUTTON:
+			value = checkButtonZ();
+			break;
+		case LZ:
+			value = lzPressed();
+			break;
+		case RZ:
+			value = rzPressed();
+			break;
+		case LD:
+			value = leftDPressed();
+			break;
+		case RD:
+			value = rightDPressed();
+			break;
+		case UD:
+			value = upDPressed();
+			break;
+		case DD:
+			value = downDPressed();
+			break;
+		case SL:
+			value = selectPressed();
+			break;
+		case H:
+			value = homePressed();
+			break;
+		case START:
+			value = startPressed();
+			break;
+		case X:
+			value = xPressed();
+			break;
+		case Y:
+			value = yPressed();
+			break;
+
+		case A:
+			value = aPressed();
+			break;
+
+		case B:
+			value = bPressed();
+			break;
+
+
+		}
+		return value?tmp->servoMax:tmp->servoMin;
+	}
 }
 boolean WiiChuck::_PressedRowBit(byte row, byte bit) {
 	byte mask = (1 << bit);
@@ -317,7 +446,7 @@ void WiiChuck::_waitForAck() {
 		_timeoutCount++;
 		if (_timeoutCount > 10) {
 			_timeoutCount = 0;
-			Serial.println("Timeout reset");
+			//Serial.println("Timeout reset");
 			begin();
 		}
 	}
@@ -358,8 +487,8 @@ void WiiChuck::initBytes() {
 	case WIICLASSIC:
 		_writeRegister(0x40, 0x00);
 		break;
-	default:
-		Serial.println("Error, specify a controller type");
+//	default:
+//		Serial.println("Error, specify a controller type");
 	}
 
 }

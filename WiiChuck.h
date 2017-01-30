@@ -116,7 +116,7 @@ private:
 	void addControlMap(int servoPin, int servoMin,int servoCenter,
 				int servoMax,int axisMin,int axisCenter,int axisMax,
 				FunctionMapName mapName,ButtonMapName button);
-	void performMap(ServoWiiControllerMap * tmp);
+	int performMap(ServoWiiControllerMap * tmp);
 	uint8_t _scl_pin;
 	uint8_t _sda_pin;
 	uint8_t _dataarray[6];
@@ -125,6 +125,7 @@ private:
 	uint32_t _callCount;
 	uint32_t _clockSpacing;
 	uint32_t _timeoutCount;
+	int numMaps;
 	void _sendStart(byte addr);
 	void _sendStop();
 	void _sendAck();
