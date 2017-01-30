@@ -13,7 +13,10 @@ void setup() {
 	//myChuck.type=OFFICIALWII;
 	myChuck.type = THIRDPARTYWII;
 	//myChuck.type = WIICLASSIC;
-
+	// optional functions 
+	//JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
+	//classic controller
+	//RSPRESSURE,LSPRESSURE,LEFTSTICKX,LEFTSTICKY,RIGHTSTICKX,RIGHTSTICKY
 	myChuck.addControlMap(D3, // Servo IO pin
 			17, // Servo low value
 			50, // servo middle
@@ -22,12 +25,22 @@ void setup() {
 			0, // controller middle
 			100, //controller upper bound
 			JOY_X); // Enum for the data source
-	myChuck.addControlMap(D4, 160, // mapping cna be reversed by swapping upper and lower
+	myChuck.addControlMap(D4, // Servo IO pin
+			160, // mapping cna be reversed by swapping upper and lower
 			50, // swapping upper and lower pivots around center
 			17, // upper value need not be larger than the lower
 			-50, //lower bound cna be non symetric with upper bound
-			0, 100, JOY_Y);
-	myChuck.addButtonMap(D6, 17, 160, ZBUTTON);
+			0, // controller middle
+			100, // upper controller bound
+			JOY_Y);// different enum for another function
+	// button mapping
+	//CBUTTON,ZBUTTON 
+	//classic controller
+	//LZ,RZ,LD,RD,UD,DD,SL,H,START,X,Y,A,B
+	myChuck.addButtonMap(D6, // Servo IO pin
+			17,// released value
+			160, //pressed falue
+			ZBUTTON);// select a button funtion
 	myChuck.begin();
 
 }
