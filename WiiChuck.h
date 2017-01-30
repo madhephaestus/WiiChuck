@@ -21,7 +21,7 @@
  */
 #ifndef WiiChuck_h
 #define WiiChuck_h
-
+#include "Servo.h"
 #if defined(__AVR__)
 #include "Arduino.h"
 #include "hardware/avr/HW_AVR_defines.h"
@@ -43,6 +43,25 @@
 #define THIRDPARTYWII 0
 #define OFFICIALWII 1
 #define WIICLASSIC 2
+
+typedef enum _functionMapName {JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
+	RSPRESSURE,LSPRESSURE,LEFTSTICKX,LEFTSTICKY,RIGHTSTICKX,RIGHTSTICKY,NOFUNCTION} FunctionMapName;
+	typedef enum _buttonMapName {CBUTTON,ZBUTTON,LZ,RZ,LD,RD,UD,DD,SL,H,START,X,Y,A,B,NOBUTTON} ButtonMapName;
+
+typedef struct controllerMap {
+	FunctionMapName name;
+	ButtonMapName button;
+   int axisMin;
+   int axisMax;
+   int axisCenter;
+   int servoMin;
+   int servoMax;
+   int servoCenter;
+   Servo myservo;
+   struct controllerMap * next;
+} ServoWiiControllerMap;
+
+
 class WiiChuck {
 public:
 	WiiChuck(uint8_t data_pin, uint8_t sclk_pin);
@@ -85,7 +104,19 @@ public:
 	int leftStickY();
 	int rightStickX();
 	int rightStickY();
+	// Create a map between controller and a servo
+	void addControlMap(int servoPin, int servoMin,int servoCenter,
+			int servoMax,int axisMin,int axiscenter,int axisMax,
+			FunctionMapName mapName);
+	void addButtonMap(int servoPin, int servoMin,
+				int servoMax,
+				ButtonMapName mapName);
 private:
+	ServoWiiControllerMap * maps;
+	void addControlMap(int servoPin, int servoMin,int servoCenter,
+				int servoMax,int axisMin,int axisCenter,int axisMax,
+				FunctionMapName mapName,ButtonMapName button);
+	void performMap(ServoWiiControllerMap * tmp);
 	uint8_t _scl_pin;
 	uint8_t _sda_pin;
 	uint8_t _dataarray[6];
