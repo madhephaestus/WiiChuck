@@ -1,2 +1,2 @@
 # WiiChuck
-ALL my libraries for Arduino, but I use only some of they.
+A Wii controller library for talking to Nunchuck and Classic Controller over i2c
