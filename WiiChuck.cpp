@@ -122,6 +122,90 @@ boolean WiiChuck::checkButtonC()
 		return false;
 	}
 }
+boolean WiiChuck::leftShoulderPressed() {
+ return _PressedRowBit(0,5);
+}
+
+boolean WiiChuck::rightShoulderPressed() {
+ return _PressedRowBit(0,1);
+}
+
+boolean WiiChuck::lzPressed() {
+ return _PressedRowBit(1,7);
+}
+
+boolean WiiChuck::rzPressed() {
+ return _PressedRowBit(1,2);
+}
+
+boolean WiiChuck::leftDPressed() {
+ return _PressedRowBit(1,1);
+}
+
+boolean WiiChuck::rightDPressed() {
+ return _PressedRowBit(0,7);
+}
+
+boolean WiiChuck::upDPressed() {
+ return _PressedRowBit(1,0);
+}
+
+boolean WiiChuck::downDPressed() {
+ return _PressedRowBit(0,6);
+}
+
+boolean WiiChuck::selectPressed() {
+ return _PressedRowBit(0,4);
+}
+
+boolean WiiChuck::homePressed() {
+ return _PressedRowBit(0,3);
+}
+
+boolean WiiChuck::startPressed() {
+ return _PressedRowBit(0,2);
+}
+
+boolean WiiChuck::xPressed() {
+ return _PressedRowBit(1,3);
+}
+
+boolean WiiChuck::yPressed() {
+ return _PressedRowBit(1,5);
+}
+
+boolean WiiChuck::aPressed() {
+ return _PressedRowBit(1,4);
+}
+
+boolean WiiChuck::bPressed() {
+ return _PressedRowBit(1,6);
+}
+
+int WiiChuck::rightShouldPressure() {
+ return _dataarray[3] & 0x1f; //rightmost 5 bits
+}
+
+int WiiChuck::leftShouldPressure() {
+ return ((_dataarray[2] & 0x60) >> 2) + ((_dataarray[3] & 0xe0) >> 5); //rightmost 5 bits
+}
+
+int WiiChuck::leftStickX() {
+ return  ( (_dataarray[0] & 0x3f) >> 1); //Modified
+}
+
+int WiiChuck::leftStickY() {
+ return  ((_dataarray[1] & 0x3f)) >> 1; //Modified
+}
+
+int WiiChuck::rightStickX() {
+ return (((_dataarray[0] & 0xc0) >> 3) + ((_dataarray[1] & 0xc0) >> 5) +  ((_dataarray[2] & 0x80) >> 7));
+
+}
+
+int WiiChuck::rightStickY() {
+ return (_dataarray[2] & 0x1f);
+}
 
 boolean WiiChuck::checkButtonZ()
 {
@@ -140,6 +224,11 @@ boolean WiiChuck::checkButtonZ()
 }
 
 /* Private */
+
+boolean  WiiChuck::_PressedRowBit(byte row, byte bit) {
+	byte mask = (1 << bit);
+	return !(_dataarray[row+4] & mask )) ;
+}
 
 void	WiiChuck::_sendStart(byte addr)
 {
