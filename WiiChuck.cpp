@@ -227,7 +227,7 @@ boolean WiiChuck::checkButtonZ()
 
 boolean  WiiChuck::_PressedRowBit(byte row, byte bit) {
 	byte mask = (1 << bit);
-	return !(_dataarray[row+4] & mask )) ;
+	return !(_dataarray[row+4] & mask ) ;
 }
 
 void	WiiChuck::_sendStart(byte addr)
@@ -323,6 +323,7 @@ void 	WiiChuck::initBytes(){
 		_writeRegister(0xFB, 0x00);
 		break;
 	case OFFICIALWII:
+	case WIICLASSIC:
 		_writeRegister(0x40, 0x00);
 		break;
 	default:

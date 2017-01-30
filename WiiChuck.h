@@ -42,7 +42,7 @@
 
 #define THIRDPARTYWII 0
 #define OFFICIALWII 1
-
+#define WIICLASSIC 2
 class WiiChuck {
 public:
 	WiiChuck(uint8_t data_pin, uint8_t sclk_pin);
@@ -104,7 +104,7 @@ private:
 	void _burstRead();
 	void _writeRegister(uint8_t reg, uint8_t value);
 	void _shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val);
-	boolean WiiChuck::_PressedRowBit(byte row, byte bit);
+	boolean _PressedRowBit(uint8_t row, uint8_t bit);
 
 #if defined(__arm__)
 	Twi *twi;
