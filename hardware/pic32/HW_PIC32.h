@@ -29,6 +29,10 @@ void WiiChuck::begin()
 	_burstRead();
 	_joy_x_center = _dataarray[0];
 	_joy_y_center = _dataarray[1];
+	_joy_x_max=_joy_x_center;
+	_joy_x_min=_joy_x_center;
+	_joy_y_max=_joy_y_center;
+	_joy_y_min=_joy_y_center;
 }
 
 void WiiChuck::_burstRead()

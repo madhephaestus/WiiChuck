@@ -56,8 +56,8 @@ void WiiChuck::readData() {
 		while (tmp != NULL && i++<=numMaps) {
 			// perform the mapping
 			int value = performMap(tmp);
-//			Serial.print(" value ");
-//			Serial.print(value);
+			Serial.print(" value ");
+			Serial.print(value);
 
 			tmp->myservo.write(value);
 			if (tmp->next == NULL) {
@@ -72,6 +72,46 @@ void WiiChuck::readData() {
 }
 
 int WiiChuck::getJoyX() {
+	int JoyPos = _dataarray[0];
+	int center = _joy_x_center;
+	int min = _joy_x_min;
+	int max = _joy_x_max;
+
+	int value =0;
+	// Set up the min and max values on this channel
+	if(JoyPos>max){
+		_joy_x_max=JoyPos;
+		max=JoyPos;
+	}
+	if(JoyPos<min){
+		_joy_x_min=JoyPos;
+		min=JoyPos;
+	}
+	bool m=false;
+	// select the bounding value to map to
+	if (JoyPos < center) {
+		value=min;
+
+	} else if (JoyPos > center) {
+		value=max;
+		m=true;
+	} else
+		return 0;
+	// calculate a mapping value
+	float valueDiff = value -center;
+	float joyDiff =  JoyPos -center;
+//	Serial.print("Raw x center ");
+//	Serial.print (center);
+//
+//	Serial.print(" Raw x val ");
+//	Serial.print (JoyPos);
+//	Serial.print("  ");
+//	Serial.print(" Raw bound ");
+//	Serial.print (value);
+//	Serial.print("  ");
+	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
+
+/*
 	if (_dataarray[0] < _joy_x_center) {
 		return -((_joy_x_center - _dataarray[0]) / (_joy_x_center / 100.0f));
 	} else if (_dataarray[0] > _joy_x_center) {
@@ -79,16 +119,48 @@ int WiiChuck::getJoyX() {
 				/ ((255 - _joy_x_center) / 100.0f));
 	} else
 		return 0;
+*/
 }
 
 int WiiChuck::getJoyY() {
-	if (_dataarray[1] < _joy_y_center) {
-		return -((_joy_y_center - _dataarray[1]) / (_joy_y_center / 100.0f));
-	} else if (_dataarray[1] > _joy_y_center) {
-		return ((_dataarray[1] - _joy_y_center)
-				/ ((255 - _joy_y_center) / 100.0f));
+	int JoyPos = _dataarray[1];
+	int center = _joy_y_center;
+	int min = _joy_y_min;
+	int max = _joy_y_max;
+
+	int value =0;
+	// Set up the min and max values on this channel
+	if(JoyPos>max){
+		_joy_y_max=JoyPos;
+		max=JoyPos;
+	}
+	if(JoyPos<min){
+		_joy_y_min=JoyPos;
+		min=JoyPos;
+	}
+	bool m=false;
+	// select the bounding value to map to
+	if (JoyPos < center) {
+		value=min;
+
+	} else if (JoyPos > center) {
+		value=max;
+		m=true;
 	} else
 		return 0;
+	// calculate a mapping value
+	float valueDiff = value -center;
+	float joyDiff =  JoyPos -center;
+//	Serial.print("Raw  center ");
+//	Serial.print (center);
+//
+//	Serial.print(" Raw  val ");
+//	Serial.print (JoyPos);
+//	Serial.print("  ");
+//	Serial.print(" Raw bound ");
+//	Serial.print (value);
+//	Serial.print("  ");
+	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
 }
 
 int WiiChuck::getRollAngle() {
@@ -336,7 +408,17 @@ int WiiChuck::performMap(ServoWiiControllerMap * tmp) {
 		float axisRange =(float)(value-tmp->axisCenter);
 		float valueRange =(float)(axis -tmp->axisCenter);
 		float servoRange =serv -tmp->servoCenter;
-		int servoIncremt = servoRange*axisRange/valueRange;
+		int servoIncremt =(int) (servoRange*axisRange/valueRange);
+//		Serial.print(" incoming ");
+//		Serial.print(value);
+//		Serial.print(" axisRange ");
+//		Serial.print(axisRange);
+//		Serial.print(" valueRange ");
+//		Serial.print(valueRange);
+//		Serial.print(" servoRange ");
+//		Serial.print(servoRange);
+//		Serial.print(" servoIncremt ");
+//		Serial.print(servoIncremt);
 		return tmp->servoCenter+servoIncremt;
 	}
 	if (tmp->button != NOBUTTON) {
@@ -485,12 +567,12 @@ void WiiChuck::initBytes() {
 		break;
 	case OFFICIALWII:
 	case WIICLASSIC:
-		_writeRegister(0x40, 0x00);
+
 		break;
 //	default:
 //		Serial.println("Error, specify a controller type");
 	}
-
+	_writeRegister(0x40, 0x00);
 }
 
 void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val) {

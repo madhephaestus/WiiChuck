@@ -120,7 +120,9 @@ private:
 	uint8_t _scl_pin;
 	uint8_t _sda_pin;
 	uint8_t _dataarray[6];
-	uint8_t _joy_x_center, _joy_y_center;
+	int32_t _joy_x_center, _joy_y_center;
+	int32_t _joy_x_max, _joy_y_max;
+	int32_t _joy_x_min, _joy_y_min;
 	boolean _use_hw;
 	uint32_t _callCount;
 	uint32_t _clockSpacing;
