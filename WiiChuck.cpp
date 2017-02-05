@@ -40,7 +40,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_callCount = 0;
 	callCountBeforeReset = 1000;
 	_clockSpacing = 1;
-	ackTimeout = 100;
+	ackTimeout = 10;
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
@@ -527,7 +527,7 @@ void WiiChuck::_clockHigh(){
 }
 void WiiChuck::_clockLow(){
 	pinMode(_scl_pin, OUTPUT);
-	_clockLow();
+	digitalWrite(_scl_pin, LOW);
 }
 
 void WiiChuck::_clockStallCheck(){
