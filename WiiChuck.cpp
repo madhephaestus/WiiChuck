@@ -39,8 +39,8 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_scl_pin = sclk_pin;
 	_callCount = 0;
 	callCountBeforeReset = 1000;
-	_clockSpacing = 5;
-	ackTimeout = 100;
+	_clockSpacing = 1;
+	ackTimeout = 1000;
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
@@ -488,9 +488,9 @@ boolean WiiChuck::_PressedRowBit(byte row, byte bit) {
 void WiiChuck::_sendStart(byte addr) {
 	pinMode(_sda_pin, OUTPUT);
 	digitalWrite(_sda_pin, HIGH);
-	digitalWrite(_scl_pin, HIGH);
+	_clockHigh();
 	digitalWrite(_sda_pin, LOW);
-	digitalWrite(_scl_pin, LOW);
+	_clockLow();
 	_shiftOut(_sda_pin, _scl_pin, addr);
 
 }
@@ -498,28 +498,38 @@ void WiiChuck::_sendStart(byte addr) {
 void WiiChuck::_sendStop() {
 	pinMode(_sda_pin, OUTPUT);
 	digitalWrite(_sda_pin, LOW);
-	digitalWrite(_scl_pin, HIGH);
+	_clockHigh();
 	digitalWrite(_sda_pin, HIGH);
 	pinMode(_sda_pin, INPUT);
 }
 
 void WiiChuck::_sendNack() {
 	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_scl_pin, LOW);
+	_clockLow();
 	digitalWrite(_sda_pin, HIGH);
-	digitalWrite(_scl_pin, HIGH);
-	digitalWrite(_scl_pin, LOW);
+	_clockHigh();
+	_clockLow();
 	pinMode(_sda_pin, INPUT);
 }
 
 void WiiChuck::_sendAck() {
 	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_scl_pin, LOW);
+	_clockLow();
 	digitalWrite(_sda_pin, LOW);
-	digitalWrite(_scl_pin, HIGH);
-	digitalWrite(_scl_pin, LOW);
+	_clockHigh();
+	_clockLow();
 	pinMode(_sda_pin, INPUT);
 }
+
+
+void WiiChuck::_clockHigh(){
+	_clockStallCheck();
+}
+void WiiChuck::_clockLow(){
+	pinMode(_scl_pin, OUTPUT);
+	_clockLow();
+}
+
 void WiiChuck::_clockStallCheck(){
 	pinMode(_scl_pin, INPUT);
 	unsigned long time = millis();
@@ -533,11 +543,10 @@ void WiiChuck::_clockStallCheck(){
 			begin();
 		}
 	}
-	pinMode(_scl_pin, OUTPUT);
 }
 void WiiChuck::_waitForAck() {
 	pinMode(_sda_pin, INPUT);
-	digitalWrite(_scl_pin, HIGH);
+	_clockHigh();
 	unsigned long time = millis();
 	while (digitalRead(_sda_pin) == HIGH && (time + ackTimeout) < millis()) {
 	}
@@ -549,8 +558,8 @@ void WiiChuck::_waitForAck() {
 			begin();
 		}
 	}
-	digitalWrite(_scl_pin, LOW);
-	delayMicroseconds(75);
+	_clockLow();
+	//delayMicroseconds(75);
 }
 
 uint8_t WiiChuck::_readByte() {
@@ -558,13 +567,13 @@ uint8_t WiiChuck::_readByte() {
 
 	uint8_t value = 0;
 	uint8_t currentBit = 0;
-	pinMode(_scl_pin, OUTPUT);
+	_clockLow();
 	for (int i = 0; i < 8; ++i) {
-		digitalWrite(_scl_pin, HIGH);
+		_clockHigh();
 		currentBit = digitalRead(_sda_pin);
 		value |= (currentBit << 7 - i);
 		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
-		digitalWrite(_scl_pin, LOW);
+		_clockLow();
 		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 	}
 	return value;
@@ -596,10 +605,10 @@ void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val) {
 	_clockStallCheck();
 	for (i = 0; i < 8; i++) {
 		digitalWrite(dataPin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
-		digitalWrite(clockPin, HIGH);
+		_clockHigh();
 		if (_clockSpacing > 0)
 			delayMicroseconds(_clockSpacing);
-		digitalWrite(clockPin, LOW);
+		_clockLow();
 		if (_clockSpacing > 0)
 			delayMicroseconds(_clockSpacing);
 	}

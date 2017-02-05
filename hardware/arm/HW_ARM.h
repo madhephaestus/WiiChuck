@@ -45,7 +45,7 @@ void WiiChuck::begin()
 	}
 	else
 	{
-		pinMode(_scl_pin, OUTPUT);
+		_clockLow();
 	}
 	initBytes();
 	delay(100);

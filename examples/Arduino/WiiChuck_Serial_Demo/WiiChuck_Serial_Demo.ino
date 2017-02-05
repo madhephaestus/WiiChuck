@@ -53,8 +53,8 @@ void setup() {
 	Serial.begin(115200);
 	Serial.println("Starting WiiChuck Demo");
 	//myChuck.type=OFFICIALWII;
-	//myChuck.type = THIRDPARTYWII;
-	myChuck.type = WIICLASSIC;
+	myChuck.type = THIRDPARTYWII;
+	//myChuck.type = WIICLASSIC;
 	myChuck.begin();
 }
 

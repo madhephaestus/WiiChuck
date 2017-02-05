@@ -134,6 +134,8 @@ private:
 	void _sendStop();
 	void _sendAck();
 	void _sendNack();
+	void _clockHigh();
+	void _clockLow();
 	void _waitForAck();
 	void _clockStallCheck();
 	uint8_t _readByte();

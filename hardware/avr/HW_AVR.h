@@ -18,8 +18,7 @@ void WiiChuck::begin()
 	else
 	{
 		_use_hw = false;
-		pinMode(_scl_pin, OUTPUT);
-	}
+		_clockLow();	}
 	initBytes();
 	delay(100);
 	_burstRead();

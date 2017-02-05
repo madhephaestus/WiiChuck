@@ -3,7 +3,7 @@ void WiiChuck::begin()
 
 
 	_use_hw = false;
-	pinMode(_scl_pin, OUTPUT);
+	_clockLow();
 	initBytes();
 	//Serial.println("Init sent, reading");
 
