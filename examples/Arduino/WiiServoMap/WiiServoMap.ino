@@ -12,6 +12,7 @@ void setup() {
 	Serial.println("\n\nStarting WiiChuck Demo");
 	//myChuck.type=OFFICIALWII;
 	myChuck.type = THIRDPARTYWII;
+	myChuck.printServos=true;
 	//myChuck.type = WIICLASSIC;
 	// optional functions 
 	//JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
@@ -21,15 +22,15 @@ void setup() {
 			20, // Servo low value
 			50, // servo middle
 			130, // servo upper bound
-			-63, // ontroller lower bound
+			-100, // ontroller lower bound
 			0, // controller middle
 			100, //controller upper bound
 			JOY_X); // Enum for the data source
 	myChuck.addControlMap(D4, // Servo IO pin
-			130, // mapping cna be reversed by swapping upper and lower
-			50, // swapping upper and lower pivots around center
+			170, // mapping cna be reversed by swapping upper and lower
+			92, // swapping upper and lower pivots around center
 			20, // upper value need not be larger than the lower
-			-50, //lower bound cna be non symetric with upper bound
+			-100, //lower bound cna be non symetric with upper bound
 			0, // controller middle
 			100, // upper controller bound
 			JOY_Y);// different enum for another function

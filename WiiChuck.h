@@ -104,6 +104,8 @@ public:
 	int leftStickY();
 	int rightStickX();
 	int rightStickY();
+	bool printServos;
+
 	// Create a map between controller and a servo
 	void addControlMap(int servoPin, int servoMin,int servoCenter,
 			int servoMax,int axisMin,int axiscenter,int axisMax,
@@ -133,6 +135,7 @@ private:
 	void _sendAck();
 	void _sendNack();
 	void _waitForAck();
+	void _clockStallCheck();
 	uint8_t _readByte();
 	void _writeByte(uint8_t value);
 	void _burstRead();

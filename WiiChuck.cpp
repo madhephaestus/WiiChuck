@@ -39,12 +39,13 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_scl_pin = sclk_pin;
 	_callCount = 0;
 	callCountBeforeReset = 1000;
-	_clockSpacing = 1;
+	_clockSpacing = 5;
 	ackTimeout = 100;
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
 	numMaps=0;
+	printServos=false;
 }
 
 void WiiChuck::readData() {
@@ -56,9 +57,10 @@ void WiiChuck::readData() {
 		while (tmp != NULL && i++<=numMaps) {
 			// perform the mapping
 			int value = performMap(tmp);
-			Serial.print(" value ");
-			Serial.print(value);
-
+			if(printServos){
+				Serial.print(" value ");
+				Serial.print(value);
+			}
 			tmp->myservo.write(value);
 			if (tmp->next == NULL) {
 				// The end of the list
@@ -490,6 +492,7 @@ void WiiChuck::_sendStart(byte addr) {
 	digitalWrite(_sda_pin, LOW);
 	digitalWrite(_scl_pin, LOW);
 	_shiftOut(_sda_pin, _scl_pin, addr);
+
 }
 
 void WiiChuck::_sendStop() {
@@ -517,7 +520,21 @@ void WiiChuck::_sendAck() {
 	digitalWrite(_scl_pin, LOW);
 	pinMode(_sda_pin, INPUT);
 }
-
+void WiiChuck::_clockStallCheck(){
+	pinMode(_scl_pin, INPUT);
+	unsigned long time = millis();
+	while (digitalRead(_scl_pin) != HIGH && (time + ackTimeout) < millis()) {
+	}
+	if ((time + ackTimeout) < millis()) {
+		_timeoutCount++;
+		if (_timeoutCount > 10) {
+			_timeoutCount = 0;
+			//Serial.println("Timeout reset");
+			begin();
+		}
+	}
+	pinMode(_scl_pin, OUTPUT);
+}
 void WiiChuck::_waitForAck() {
 	pinMode(_sda_pin, INPUT);
 	digitalWrite(_scl_pin, HIGH);
@@ -533,6 +550,7 @@ void WiiChuck::_waitForAck() {
 		}
 	}
 	digitalWrite(_scl_pin, LOW);
+	delayMicroseconds(75);
 }
 
 uint8_t WiiChuck::_readByte() {
@@ -540,16 +558,14 @@ uint8_t WiiChuck::_readByte() {
 
 	uint8_t value = 0;
 	uint8_t currentBit = 0;
-
+	pinMode(_scl_pin, OUTPUT);
 	for (int i = 0; i < 8; ++i) {
 		digitalWrite(_scl_pin, HIGH);
 		currentBit = digitalRead(_sda_pin);
 		value |= (currentBit << 7 - i);
-		if (_clockSpacing > 0)
-			delayMicroseconds(_clockSpacing);
+		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 		digitalWrite(_scl_pin, LOW);
-		if (_clockSpacing > 0)
-			delayMicroseconds(_clockSpacing);
+		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 	}
 	return value;
 }
@@ -568,11 +584,11 @@ void WiiChuck::initBytes() {
 	case OFFICIALWII:
 	case WIICLASSIC:
 
+		_writeRegister(0x40, 0x00);
 		break;
 //	default:
 //		Serial.println("Error, specify a controller type");
 	}
-	_writeRegister(0x40, 0x00);
 }
 
 void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val) {
