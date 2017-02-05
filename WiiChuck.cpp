@@ -40,7 +40,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_callCount = 0;
 	callCountBeforeReset = 1000;
 	_clockSpacing = 1;
-	ackTimeout = 1000;
+	ackTimeout = 100;
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
