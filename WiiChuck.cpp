@@ -529,7 +529,7 @@ void WiiChuck::_clockStallCheck(){
 		_timeoutCount++;
 		if (_timeoutCount > 10) {
 			_timeoutCount = 0;
-			//Serial.println("Timeout reset");
+			//Serial.println("Stall reset");
 			begin();
 		}
 	}
@@ -593,7 +593,7 @@ void WiiChuck::initBytes() {
 
 void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val) {
 	uint8_t i;
-
+	_clockStallCheck();
 	for (i = 0; i < 8; i++) {
 		digitalWrite(dataPin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
 		digitalWrite(clockPin, HIGH);
