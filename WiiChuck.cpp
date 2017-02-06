@@ -38,7 +38,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	maps = NULL;
 	numMaps=0;
 	printServos=false;
-	usePullUpClock=true;
+	usePullUpClock=false;
 }
 
 void WiiChuck::readData() {
