@@ -39,14 +39,14 @@
 //
 
 #include <WiiChuck.h>
-
+#include <Wire.h>
 #if defined(ARDUINO_ARCH_ESP8266)
 #define SDA D2
 #define SCL D1
 #endif
 
 
-WiiChuck myChuck(SDA, SCL);
+WiiChuck myChuck(3, 2);
 char st[500];
 
 void setup() {

@@ -34,8 +34,8 @@
 #endif
 
 #define I2C_ADDR		0x52
-//#define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
-//#define I2C_ADDR_W		(I2C_ADDR << 1)
+#define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
+#define I2C_ADDR_W		(I2C_ADDR << 1)
 
 #define THIRDPARTYWII 0
 #define OFFICIALWII 1

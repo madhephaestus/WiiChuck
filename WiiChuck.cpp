@@ -599,20 +599,7 @@ void WiiChuck::begin()
 	{
 		_use_hw = true;
 		  Wire.begin();
-
-		  // We use the "new" method of initialization
-		  // See http://forum.arduino.cc/index.php?topic=45924#msg333160
-		  // and http://wiibrew.org/wiki/Wiimote/Extension_Controllers#Identification
-
-		  Wire.beginTransmission(I2C_ADDR);
-		  Wire.write(0xF0);
-		  Wire.write(0x55);
-		  Wire.endTransmission();
-
-		  Wire.beginTransmission(I2C_ADDR);
-		  Wire.write(0xFB);
-		  Wire.write(0x00);
-		  Wire.endTransmission();
+		  Serial.println("Starting Wire");
 
 	}
 	initBytes();
@@ -650,14 +637,14 @@ void WiiChuck::_burstRead()
 
 	}else{
 	// send conversion command
-		_sendStart(I2C_ADDR);
+		_sendStart(I2C_ADDR_W);
 		_waitForAck();
 		_writeByte(0);
 		_waitForAck();
 		_sendStop();
 		// wait for data to be converted
 		  delay(1);
-		_sendStart(I2C_ADDR);
+		_sendStart(I2C_ADDR_R);
 		_waitForAck();
 
 		for (int i=0; i<6; i++)
@@ -677,13 +664,15 @@ void WiiChuck::_writeRegister(uint8_t reg, uint8_t value)
 {
 	if (_use_hw)
 	{
+		//Serial.println("Writing reg");
 		  Wire.beginTransmission(I2C_ADDR);
 		  Wire.write(reg);
 		  Wire.write(value);
 		  Wire.endTransmission();
+		  //Serial.println("Writing reg done");
 	}else{
 	//Serial.println("Sending start");
-		_sendStart(I2C_ADDR);
+		_sendStart(I2C_ADDR_W);
 		_waitForAck();
 		//Serial.println("First byte");
 		_writeByte(reg);
