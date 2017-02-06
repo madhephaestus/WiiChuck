@@ -493,17 +493,17 @@ void WiiChuck::_sendAck() {
 void WiiChuck::_dataHigh(){
 	//Serial.println("high");
 	if(usePullUpClock){
-		pinMode(_scl_PIN, INPUT);
+		pinMode(_sda_pin, INPUT);
 	}else{
 		pinMode(_sda_pin, OUTPUT);
-		digitalWrite(_scl_PIN, HIGH);
+		digitalWrite(_sda_pin, HIGH);
 	}
 
 }
 void WiiChuck::_dataLow(){
 	//Serial.println("low");
 	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_scl_PIN, LOW);
+	digitalWrite(_sda_pin, LOW);
 
 }
 void WiiChuck::_clockHigh(){
