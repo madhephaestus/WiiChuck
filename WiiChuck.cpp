@@ -38,6 +38,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	maps = NULL;
 	numMaps=0;
 	printServos=false;
+	usePullUpClock=true;
 }
 
 void WiiChuck::readData() {
@@ -496,8 +497,12 @@ void WiiChuck::_sendAck() {
 
 void WiiChuck::_clockHigh(){
 	//Serial.println("high");
-
-	_clockStallCheck();
+	if(usePullUpClock){
+		_clockStallCheck();
+	}else{
+		pinMode(_scl_PIN, OUTPUT);
+		digitalWrite(_scl_PIN, HIGH);
+	}
 //	pinMode(_scl_PIN, OUTPUT);
 //	digitalWrite(_scl_PIN, HIGH);
 	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
@@ -590,7 +595,7 @@ void WiiChuck::begin()
 
 
 	_use_hw = false;
-	if (	((_sda_pin == SDA) and (_scl_pin == SCL)))
+	if (	((_sda_pin == SDA) and (_scl_PIN == SCL)))
 	{
 		_use_hw = true;
 		  Wire.begin();
@@ -645,14 +650,14 @@ void WiiChuck::_burstRead()
 
 	}else{
 	// send conversion command
-		_sendStart(I2C_ADDR_W);
+		_sendStart(I2C_ADDR);
 		_waitForAck();
 		_writeByte(0);
 		_waitForAck();
 		_sendStop();
 		// wait for data to be converted
 		  delay(1);
-		_sendStart(I2C_ADDR_R);
+		_sendStart(I2C_ADDR);
 		_waitForAck();
 
 		for (int i=0; i<6; i++)
@@ -678,7 +683,7 @@ void WiiChuck::_writeRegister(uint8_t reg, uint8_t value)
 		  Wire.endTransmission();
 	}else{
 	//Serial.println("Sending start");
-		_sendStart(I2C_ADDR_W);
+		_sendStart(I2C_ADDR);
 		_waitForAck();
 		//Serial.println("First byte");
 		_writeByte(reg);

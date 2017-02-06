@@ -31,14 +31,11 @@
 #elif defined(__arm__)
 #include "Arduino.h"
 #include "hardware/arm/HW_ARM_defines.h"
-#else
-#include "Arduino.h"
-#include "hardware/generic/HW_Generic_defines.h"
 #endif
 
 #define I2C_ADDR		0x52
-#define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
-#define I2C_ADDR_W		(I2C_ADDR << 1)
+//#define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
+//#define I2C_ADDR_W		(I2C_ADDR << 1)
 
 #define THIRDPARTYWII 0
 #define OFFICIALWII 1
@@ -118,6 +115,7 @@ public:
 	void _clockLow();
 
 	uint8_t _dataarray[6];
+	boolean usePullUpClock;
 private:
 	ServoWiiControllerMap * maps;
 	void addControlMap(int servoPin, int servoMin,int servoCenter,
