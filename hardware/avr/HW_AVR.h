@@ -18,7 +18,8 @@ void WiiChuck::begin()
 	else
 	{
 		_use_hw = false;
-		_clockLow();	}
+		_clockLow();
+	}
 	initBytes();
 	delay(100);
 	_burstRead();

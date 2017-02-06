@@ -36,7 +36,7 @@
 
 WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_sda_pin = data_pin;
-	_scl_pin = sclk_pin;
+	_scl_PIN = sclk_pin;
 	_callCount = 0;
 	callCountBeforeReset = 1000;
 	_clockSpacing = 1;
@@ -491,7 +491,7 @@ void WiiChuck::_sendStart(byte addr) {
 	_clockHigh();
 	digitalWrite(_sda_pin, LOW);
 	_clockLow();
-	_shiftOut(_sda_pin, _scl_pin, addr);
+	_shiftOut( addr);
 
 }
 
@@ -523,23 +523,33 @@ void WiiChuck::_sendAck() {
 
 
 void WiiChuck::_clockHigh(){
-	_clockStallCheck();
+	//Serial.println("high");
+
+	//_clockStallCheck();
+	pinMode(_scl_PIN, OUTPUT);
+	digitalWrite(_scl_PIN, HIGH);
+	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
+
 }
 void WiiChuck::_clockLow(){
-	pinMode(_scl_pin, OUTPUT);
-	digitalWrite(_scl_pin, LOW);
+	//Serial.println("low");
+	pinMode(_scl_PIN, OUTPUT);
+	digitalWrite(_scl_PIN, LOW);
+	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
+
 }
 
 void WiiChuck::_clockStallCheck(){
-	pinMode(_scl_pin, INPUT);
+	pinMode(_scl_PIN, INPUT);
+
 	unsigned long time = millis();
-	while (digitalRead(_scl_pin) != HIGH && (time + ackTimeout) < millis()) {
+	while (digitalRead(_scl_PIN) != HIGH && (time + ackTimeout) < millis()) {
 	}
 	if ((time + ackTimeout) < millis()) {
 		_timeoutCount++;
 		if (_timeoutCount > 10) {
 			_timeoutCount = 0;
-			//Serial.println("Stall reset");
+			Serial.println("Stall reset");
 			begin();
 		}
 	}
@@ -572,16 +582,14 @@ uint8_t WiiChuck::_readByte() {
 		_clockHigh();
 		currentBit = digitalRead(_sda_pin);
 		value |= (currentBit << 7 - i);
-		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 		_clockLow();
-		if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 	}
 	return value;
 }
 
 void WiiChuck::_writeByte(uint8_t value) {
 	pinMode(_sda_pin, OUTPUT);
-	_shiftOut(_sda_pin, _scl_pin, value);
+	_shiftOut( value);
 }
 void WiiChuck::initBytes() {
 	switch (type) {
@@ -600,17 +608,12 @@ void WiiChuck::initBytes() {
 	}
 }
 
-void WiiChuck::_shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val) {
+void WiiChuck::_shiftOut( uint8_t val) {
 	uint8_t i;
-	_clockStallCheck();
 	for (i = 0; i < 8; i++) {
-		digitalWrite(dataPin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
+		digitalWrite(_sda_pin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
 		_clockHigh();
-		if (_clockSpacing > 0)
-			delayMicroseconds(_clockSpacing);
 		_clockLow();
-		if (_clockSpacing > 0)
-			delayMicroseconds(_clockSpacing);
 	}
 }
 

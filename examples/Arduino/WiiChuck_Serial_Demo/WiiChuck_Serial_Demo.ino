@@ -41,10 +41,13 @@
 #include <WiiChuck.h>
 
 #if defined(ARDUINO_ARCH_ESP8266)
-#define SDA D2
-#define SCL D1
+//	#define SDA D2
+//	#define SCL D3
+	WiiChuck myChuck(D4, D3);
+#else
+	WiiChuck myChuck(SDA, SCL);
 #endif
-WiiChuck myChuck(SDA, SCL);
+
 
 char st[500];
 
@@ -156,6 +159,6 @@ void loop() {
 	else
 		Serial.print("-");
 	Serial.println();
+ 
 	delay(100);
 }
-

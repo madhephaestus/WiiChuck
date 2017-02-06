@@ -3,7 +3,6 @@ void WiiChuck::begin()
 
 
 	_use_hw = false;
-	_clockLow();
 	initBytes();
 	//Serial.println("Init sent, reading");
 

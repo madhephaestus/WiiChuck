@@ -113,15 +113,19 @@ public:
 	void addButtonMap(int servoPin, int servoMin,
 				int servoMax,
 				ButtonMapName mapName);
+
+	void _clockHigh();
+	void _clockLow();
+
+	uint8_t _dataarray[6];
 private:
 	ServoWiiControllerMap * maps;
 	void addControlMap(int servoPin, int servoMin,int servoCenter,
 				int servoMax,int axisMin,int axisCenter,int axisMax,
 				FunctionMapName mapName,ButtonMapName button);
 	int performMap(ServoWiiControllerMap * tmp);
-	uint8_t _scl_pin;
+	uint8_t _scl_PIN;
 	uint8_t _sda_pin;
-	uint8_t _dataarray[6];
 	int32_t _joy_x_center, _joy_y_center;
 	int32_t _joy_x_max, _joy_y_max;
 	int32_t _joy_x_min, _joy_y_min;
@@ -134,15 +138,13 @@ private:
 	void _sendStop();
 	void _sendAck();
 	void _sendNack();
-	void _clockHigh();
-	void _clockLow();
 	void _waitForAck();
 	void _clockStallCheck();
 	uint8_t _readByte();
 	void _writeByte(uint8_t value);
 	void _burstRead();
 	void _writeRegister(uint8_t reg, uint8_t value);
-	void _shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val);
+	void _shiftOut(uint8_t val);
 	boolean _PressedRowBit(uint8_t row, uint8_t bit);
 
 #if defined(__arm__)
