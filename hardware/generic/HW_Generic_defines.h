@@ -1,1 +1,0 @@
-// *** Hardwarespecific defines ***

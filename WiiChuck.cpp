@@ -20,17 +20,9 @@
  examples and tools supplied with the library.
  */
 #include "WiiChuck.h"
+#include <Arduino.h>
+#include <Wire.h>
 
-// Include hardware-specific functions for the correct MCU
-#if defined(__AVR__)
-#include "hardware/avr/HW_AVR.h"
-#elif defined(__PIC32MX__)
-#include "hardware/pic32/HW_PIC32.h"
-#elif defined(__arm__)
-#include "hardware/arm/HW_ARM.h"
-#else
-#include  "hardware/generic/HW_Generic.h"
-#endif
 
 /* Public */
 
@@ -590,6 +582,114 @@ void WiiChuck::_shiftOut( uint8_t val) {
 		digitalWrite(_sda_pin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
 		_clockHigh();
 		_clockLow();
+	}
+}
+
+void WiiChuck::begin()
+{
+
+
+	_use_hw = false;
+	if (	((_sda_pin == SDA) and (_scl_pin == SCL)))
+	{
+		_use_hw = true;
+		  Wire.begin();
+
+		  // We use the "new" method of initialization
+		  // See http://forum.arduino.cc/index.php?topic=45924#msg333160
+		  // and http://wiibrew.org/wiki/Wiimote/Extension_Controllers#Identification
+
+		  Wire.beginTransmission(I2C_ADDR);
+		  Wire.write(0xF0);
+		  Wire.write(0x55);
+		  Wire.endTransmission();
+
+		  Wire.beginTransmission(I2C_ADDR);
+		  Wire.write(0xFB);
+		  Wire.write(0x00);
+		  Wire.endTransmission();
+
+	}
+	initBytes();
+	//Serial.println("Init sent, reading");
+
+	delay(100);
+	_burstRead();
+	//Serial.println("re-reading");
+	delay(100);
+	_burstRead();
+	_joy_x_center = _dataarray[0];
+	_joy_y_center = _dataarray[1];
+	_joy_x_max=_joy_x_center;
+	_joy_x_min=_joy_x_center;
+	_joy_y_max=_joy_y_center;
+	_joy_y_min=_joy_y_center;
+	Serial.println("Initialization Done");
+
+}
+
+void WiiChuck::_burstRead()
+{
+	if (_use_hw)
+	{
+		 // send conversion command
+		  Wire.beginTransmission(I2C_ADDR);
+		  Wire.write(0x00);
+		  Wire.endTransmission();
+
+		  // wait for data to be converted
+		  delay(1);
+
+		  // read data
+		  Wire.readBytes(_dataarray, Wire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+
+	}else{
+	// send conversion command
+		_sendStart(I2C_ADDR_W);
+		_waitForAck();
+		_writeByte(0);
+		_waitForAck();
+		_sendStop();
+		// wait for data to be converted
+		  delay(1);
+		_sendStart(I2C_ADDR_R);
+		_waitForAck();
+
+		for (int i=0; i<6; i++)
+		{
+			delayMicroseconds(40);
+			_dataarray[i] = _readByte()  ;
+			if (i<5)
+				_sendAck();
+			else
+				_sendNack();
+		}
+		_sendStop();
+	}
+}
+
+void WiiChuck::_writeRegister(uint8_t reg, uint8_t value)
+{
+	if (_use_hw)
+	{
+		  Wire.beginTransmission(I2C_ADDR);
+		  Wire.write(reg);
+		  Wire.write(value);
+		  Wire.endTransmission();
+	}else{
+	//Serial.println("Sending start");
+		_sendStart(I2C_ADDR_W);
+		_waitForAck();
+		//Serial.println("First byte");
+		_writeByte(reg);
+		_waitForAck();
+		//Serial.println("Seconde byte");
+		_writeByte(value);
+		//Serial.println("waiting");
+		_waitForAck();
+		//Serial.println("stopping");
+		_sendStop();
+		//Serial.println("done");
 	}
 }
 
