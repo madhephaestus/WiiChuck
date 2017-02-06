@@ -459,42 +459,53 @@ boolean WiiChuck::_PressedRowBit(byte row, byte bit) {
 }
 
 void WiiChuck::_sendStart(byte addr) {
-	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_sda_pin, HIGH);
+	_dataHigh();
 	_clockHigh();
-	digitalWrite(_sda_pin, LOW);
+	_dataLow();
 	_clockLow();
 	_shiftOut( addr);
 
 }
 
 void WiiChuck::_sendStop() {
-	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_sda_pin, LOW);
+	_clockLow();
 	_clockHigh();
-	digitalWrite(_sda_pin, HIGH);
+	_dataHigh();
 	pinMode(_sda_pin, INPUT);
 }
 
 void WiiChuck::_sendNack() {
-	pinMode(_sda_pin, OUTPUT);
 	_clockLow();
-	digitalWrite(_sda_pin, HIGH);
+	_dataHigh();
 	_clockHigh();
 	_clockLow();
 	pinMode(_sda_pin, INPUT);
 }
 
 void WiiChuck::_sendAck() {
-	pinMode(_sda_pin, OUTPUT);
 	_clockLow();
-	digitalWrite(_sda_pin, LOW);
+	_dataLow();
 	_clockHigh();
 	_clockLow();
 	pinMode(_sda_pin, INPUT);
 }
 
+void WiiChuck::_dataHigh(){
+	//Serial.println("high");
+	if(usePullUpClock){
+		pinMode(_scl_PIN, INPUT);
+	}else{
+		pinMode(_sda_pin, OUTPUT);
+		digitalWrite(_scl_PIN, HIGH);
+	}
 
+}
+void WiiChuck::_dataLow(){
+	//Serial.println("low");
+	pinMode(_sda_pin, OUTPUT);
+	digitalWrite(_scl_PIN, LOW);
+
+}
 void WiiChuck::_clockHigh(){
 	//Serial.println("high");
 	if(usePullUpClock){
@@ -563,7 +574,6 @@ uint8_t WiiChuck::_readByte() {
 }
 
 void WiiChuck::_writeByte(uint8_t value) {
-	pinMode(_sda_pin, OUTPUT);
 	_shiftOut( value);
 }
 void WiiChuck::initBytes() {
@@ -584,7 +594,7 @@ void WiiChuck::initBytes() {
 void WiiChuck::_shiftOut( uint8_t val) {
 	uint8_t i;
 	for (i = 0; i < 8; i++) {
-		digitalWrite(_sda_pin, (val & (1 << (7 - i))) == 0 ? 0 : 1);
+		((val & (1 << (7 - i))) == 0) ? _dataLow() : _dataHigh();
 		_clockHigh();
 		_clockLow();
 	}
@@ -595,7 +605,7 @@ void WiiChuck::begin()
 
 
 	_use_hw = false;
-	if (	((_sda_pin == SDA) and (_scl_PIN == SCL)))
+	if (	(_sda_pin == SDA) and (_scl_PIN == SCL))
 	{
 		_use_hw = true;
 		  Wire.begin();

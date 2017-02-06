@@ -113,7 +113,8 @@ public:
 
 	void _clockHigh();
 	void _clockLow();
-
+	void _dataHigh();
+	void _dataLow();
 	uint8_t _dataarray[6];
 	boolean usePullUpClock;
 private:

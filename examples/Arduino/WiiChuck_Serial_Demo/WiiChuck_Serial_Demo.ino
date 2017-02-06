@@ -55,7 +55,7 @@ void setup() {
 	Serial.println("Starting WiiChuck Demo");
 	//myChuck.type=OFFICIALWII;
 	myChuck.type = THIRDPARTYWII;
-	myChuck.usePullUpClock = false;
+	myChuck.usePullUpClock = true;
 	//myChuck.type = WIICLASSIC;
 	myChuck.begin();
 }
