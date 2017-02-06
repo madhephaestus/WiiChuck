@@ -41,14 +41,12 @@
 #include <WiiChuck.h>
 
 #if defined(ARDUINO_ARCH_ESP8266)
-//	#define SDA D2
-//	#define SCL D3
-	WiiChuck myChuck(D4, D3);
-#else
-	WiiChuck myChuck(SDA, SCL);
+#define SDA D2
+#define SCL D1
 #endif
 
 
+WiiChuck myChuck(SDA, SCL);
 char st[500];
 
 void setup() {
@@ -64,9 +62,14 @@ void setup() {
 void loop() {
 
 	myChuck.readData();
-
+	Serial.print("JoyX BYTE: ");
+	//Serial.print(myChuck._dataarray[0], BIN) ;
+	Serial.print(myChuck._dataarray[0], HEX) ;
+	Serial.print("  JoyY BYTE: ");
+	//Serial.print(myChuck._dataarray[1], BIN) ;
+	Serial.print(myChuck._dataarray[1], HEX) ;
 	sprintf(st,
-			"JoyX: %4d%% | JoyY: %4d%% | Roll: %4d | Pitch: %4d | Buttons: ",
+			"  JoyX: %4d%% | JoyY: %4d%% | Roll: %4d | Pitch: %4d | Buttons: ",
 			myChuck.getJoyX(), myChuck.getJoyY(), myChuck.getRollAngle(),
 			myChuck.getPitchAngle());
 

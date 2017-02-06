@@ -23,20 +23,21 @@ void WiiChuck::begin()
 
 void WiiChuck::_burstRead()
 {
-
+	// send conversion command
 		_sendStart(I2C_ADDR_W);
 		_waitForAck();
 		_writeByte(0);
 		_waitForAck();
 		_sendStop();
-
+		// wait for data to be converted
+		  delay(1);
 		_sendStart(I2C_ADDR_R);
 		_waitForAck();
 
 		for (int i=0; i<6; i++)
 		{
-			delayMicroseconds(10);
-			_dataarray[i] = (_readByte() ^ 0x17) + 0x17;
+			delayMicroseconds(40);
+			_dataarray[i] = _readByte()  ;
 			if (i<5)
 				_sendAck();
 			else

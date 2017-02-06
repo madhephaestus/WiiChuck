@@ -40,7 +40,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_callCount = 0;
 	callCountBeforeReset = 1000;
 	_clockSpacing = 1;
-	ackTimeout = 10;
+	ackTimeout = 100;
 	_timeoutCount = 0;
 	type = THIRDPARTYWII;
 	maps = NULL;
@@ -184,19 +184,12 @@ int WiiChuck::getAccelY() {
 int WiiChuck::getAccelZ() {
 	return ((_dataarray[4] << 2) + ((_dataarray[5] & 0xC0) >> 6)) - 512;;
 }
+boolean WiiChuck::checkButtonZ() {
 
+	return (_dataarray[5] & 0x01)==0;
+}
 boolean WiiChuck::checkButtonC() {
-	int buttons = _dataarray[5] & 0x03;
-	switch (buttons) {
-	case 0:
-		return false;
-	case 1:
-		return true;
-	case 2:
-		return true;
-	case 3:
-		return false;
-	}
+	return (_dataarray[5] & 0x02)==0;
 }
 boolean WiiChuck::leftShoulderPressed() {
 	return _PressedRowBit(0, 5);
@@ -284,20 +277,7 @@ int WiiChuck::rightStickY() {
 	return (_dataarray[2] & 0x1f);
 }
 
-boolean WiiChuck::checkButtonZ() {
 
-	int buttons = _dataarray[5] & 0x03;
-	switch (buttons) {
-	case 0:
-		return true;
-	case 1:
-		return false;
-	case 2:
-		return true;
-	case 3:
-		return false;
-	}
-}
 
 // Create a map between controller and a servo
 void WiiChuck::addControlMap(int servoPin, int servoMin, int servoCenter,
@@ -525,9 +505,9 @@ void WiiChuck::_sendAck() {
 void WiiChuck::_clockHigh(){
 	//Serial.println("high");
 
-	//_clockStallCheck();
-	pinMode(_scl_PIN, OUTPUT);
-	digitalWrite(_scl_PIN, HIGH);
+	_clockStallCheck();
+//	pinMode(_scl_PIN, OUTPUT);
+//	digitalWrite(_scl_PIN, HIGH);
 	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 
 }
@@ -569,19 +549,17 @@ void WiiChuck::_waitForAck() {
 		}
 	}
 	_clockLow();
-	//delayMicroseconds(75);
+	delayMicroseconds(75);
 }
 
 uint8_t WiiChuck::_readByte() {
 	pinMode(_sda_pin, INPUT);
 
 	uint8_t value = 0;
-	uint8_t currentBit = 0;
-	_clockLow();
+	//_clockLow();
 	for (int i = 0; i < 8; ++i) {
 		_clockHigh();
-		currentBit = digitalRead(_sda_pin);
-		value |= (currentBit << 7 - i);
+		value |= (digitalRead(_sda_pin) << (7 - i));
 		_clockLow();
 	}
 	return value;
@@ -601,11 +579,9 @@ void WiiChuck::initBytes() {
 	case OFFICIALWII:
 	case WIICLASSIC:
 
-		_writeRegister(0x40, 0x00);
 		break;
-//	default:
-//		Serial.println("Error, specify a controller type");
 	}
+	_writeRegister(0x40, 0x00);
 }
 
 void WiiChuck::_shiftOut( uint8_t val) {
