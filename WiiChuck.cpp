@@ -533,14 +533,14 @@ void WiiChuck::_clockStallCheck(){
 	unsigned long time = millis();
 	while (digitalRead(_scl_PIN) != HIGH && (time + ackTimeout) < millis()) {
 	}
-	if ((time + ackTimeout) < millis()) {
-		_timeoutCount++;
-		if (_timeoutCount > 10) {
-			_timeoutCount = 0;
-			Serial.println("Stall reset");
-			begin();
-		}
-	}
+//	if ((time + ackTimeout) < millis()) {
+//		_timeoutCount++;
+//		if (_timeoutCount > 10) {
+//			_timeoutCount = 0;
+//			Serial.println("Stall reset");
+//			begin();
+//		}
+//	}
 }
 void WiiChuck::_waitForAck() {
 	pinMode(_sda_pin, INPUT);
@@ -548,14 +548,14 @@ void WiiChuck::_waitForAck() {
 	unsigned long time = millis();
 	while (digitalRead(_sda_pin) == HIGH && (time + ackTimeout) < millis()) {
 	}
-	if ((time + ackTimeout) < millis()) {
-		_timeoutCount++;
-		if (_timeoutCount > 10) {
-			_timeoutCount = 0;
-			//Serial.println("Timeout reset");
-			begin();
-		}
-	}
+//	if ((time + ackTimeout) < millis()) {
+//		_timeoutCount++;
+//		if (_timeoutCount > 10) {
+//			_timeoutCount = 0;
+//			Serial.println("Timeout reset");
+//			begin();
+//		}
+//	}
 	_clockLow();
 	delayMicroseconds(75);
 }
@@ -594,7 +594,10 @@ void WiiChuck::initBytes() {
 void WiiChuck::_shiftOut( uint8_t val) {
 	uint8_t i;
 	for (i = 0; i < 8; i++) {
-		((val & (1 << (7 - i))) == 0) ? _dataLow() : _dataHigh();
+		if((val & (1 << (7 - i))) == 0) {
+			_dataLow() ;
+		}else
+			_dataHigh();
 		_clockHigh();
 		_clockLow();
 	}
