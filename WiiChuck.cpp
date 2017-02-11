@@ -557,7 +557,7 @@ void WiiChuck::_waitForAck() {
 //		}
 //	}
 	_clockLow();
-	delayMicroseconds(75);
+//	delayMicroseconds(75);
 }
 
 uint8_t WiiChuck::_readByte() {
