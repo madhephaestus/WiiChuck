@@ -115,7 +115,7 @@ public:
 	void _clockLow();
 	void _dataHigh();
 	void _dataLow();
-	uint8_t _dataarray[6];
+	uint8_t _dataarray[8];
 	boolean usePullUpClock;
 private:
 	ServoWiiControllerMap * maps;

@@ -637,6 +637,9 @@ void WiiChuck::begin()
 
 void WiiChuck::_burstRead()
 {
+	int readAmnt =6;
+	if(type == WIICLASSIC)
+		readAmnt =8;
 	if (_use_hw)
 	{
 		 // send conversion command
@@ -662,11 +665,11 @@ void WiiChuck::_burstRead()
 		_sendStart(I2C_ADDR_R);
 		_waitForAck();
 
-		for (int i=0; i<6; i++)
+		for (int i=0; i<readAmnt; i++)
 		{
 			delayMicroseconds(40);
 			_dataarray[i] = _readByte()  ;
-			if (i<5)
+			if (i<(readAmnt-1))
 				_sendAck();
 			else
 				_sendNack();
