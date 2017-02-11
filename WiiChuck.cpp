@@ -583,9 +583,11 @@ void WiiChuck::initBytes() {
 		_writeRegister(0xF0, 0x55);
 		_writeRegister(0xFB, 0x00);
 		break;
-	case OFFICIALWII:
-	case WIICLASSIC:
 
+	case WIICLASSIC:
+		_writeRegister(0xFE, 0xA5);
+		break;
+	case OFFICIALWII:
 		break;
 	}
 	_writeRegister(0x40, 0x00);
