@@ -577,20 +577,11 @@ void WiiChuck::_writeByte(uint8_t value) {
 	_shiftOut( value);
 }
 void WiiChuck::initBytes() {
-	switch (type) {
-	case THIRDPARTYWII:
+
 		// improved startup procedure from http://playground.arduino.cc/Main/WiiChuckClass
 		_writeRegister(0xF0, 0x55);
 		_writeRegister(0xFB, 0x00);
-		break;
 
-	case WIICLASSIC:
-		_writeRegister(0xFE, 0xA5);
-		break;
-	case OFFICIALWII:
-		break;
-	}
-	_writeRegister(0x40, 0x00);
 }
 
 void WiiChuck::_shiftOut( uint8_t val) {
