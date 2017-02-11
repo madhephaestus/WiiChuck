@@ -46,7 +46,7 @@
 #endif
 
 
-WiiChuck myChuck(3, 2);
+WiiChuck myChuck(SDA, SCL);
 char st[500];
 
 void setup() {

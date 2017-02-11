@@ -41,7 +41,7 @@ void setup() {
 	//classic controller
 	//LZ,RZ,LD,RD,UD,DD,SL,H,START,X,Y,A,B
 	myChuck.addButtonMap(D6, // Servo IO pin
-			20,// released value
+			60,// released value
 			130, //pressed falue
 			ZBUTTON);// select a button funtion
 	myChuck.begin();
