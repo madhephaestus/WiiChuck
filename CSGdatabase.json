@@ -1,0 +1,553 @@
+{
+  "Sphere Offset Distance": {
+    "name": "Sphere Offset Distance",
+    "options": [
+      "20",
+      "-5"
+    ],
+    "value": 15000
+  },
+  "Left Eye Diameter": {
+    "name": "Left Eye Diameter",
+    "options": [
+      "70.0",
+      "56"
+    ],
+    "value": 56000
+  },
+  "printerOffset": {
+    "name": "printerOffset",
+    "options": [
+      "2.0",
+      "0.001"
+    ],
+    "value": 500
+  },
+  "Timing Belt Length": {
+    "name": "Timing Belt Length",
+    "options": [
+      "1000",
+      "3"
+    ],
+    "value": 40000
+  },
+  "Head Dimeter": {
+    "name": "Head Dimeter",
+    "options": [
+      "200",
+      "50"
+    ],
+    "value": 140000
+  },
+  "Right Eye Diameter": {
+    "name": "Right Eye Diameter",
+    "options": [
+      "70.0",
+      "56"
+    ],
+    "value": 56000
+  },
+  "Upper Head Height": {
+    "name": "Upper Head Height",
+    "options": [
+      "300",
+      "0"
+    ],
+    "value": 20000
+  },
+  "vexGear Default": {
+    "name": "vexGear Default",
+    "options": [
+      "HS84T",
+      "15T",
+      "36T",
+      "HS60T",
+      "12T",
+      "HS12T",
+      "84T",
+      "60T",
+      "HS36T"
+    ],
+    "strValue": "HS84T"
+  },
+  "smaller size": {
+    "name": "smaller size",
+    "options": [
+      "120.0",
+      "1.0"
+    ],
+    "value": 25000
+  },
+  "hobbyServo Default": {
+    "name": "hobbyServo Default",
+    "options": [
+      "standardMicro",
+      "standard",
+      "hv6214mg",
+      "Dynam",
+      "tproSG90",
+      "towerProMG91",
+      "es08maII"
+    ],
+    "strValue": "hv6214mg"
+  },
+  "vexFlatSheet Default": {
+    "name": "vexFlatSheet Default",
+    "options": [
+      "5x10",
+      "1x5"
+    ],
+    "strValue": "5x10"
+  },
+  "Ball Joint Pin Size": {
+    "name": "Ball Joint Pin Size",
+    "options": [
+      "50",
+      "8.0"
+    ],
+    "value": 4000
+  },
+  "vexSpacer Default": {
+    "name": "vexSpacer Default",
+    "options": [
+      "washer",
+      "oneQuater",
+      "oneHalf",
+      "threeEighth",
+      "oneEighth"
+    ],
+    "strValue": "washer"
+  },
+  "Eye Mech Wheel Center Hole Diam": {
+    "name": "Eye Mech Wheel Center Hole Diam",
+    "options": [
+      "8",
+      "3"
+    ],
+    "value": 7250
+  },
+  "timingBelt Default": {
+    "name": "timingBelt Default",
+    "options": [
+      "XH",
+      "T5",
+      "AT5",
+      "T10",
+      "T20",
+      "GT2",
+      "XL",
+      "H",
+      "AT10",
+      "L",
+      "AT20"
+    ],
+    "strValue": "XH"
+  },
+  "Bolt Diameter": {
+    "name": "Bolt Diameter",
+    "options": [
+      "8",
+      "2"
+    ],
+    "value": 4200
+  },
+  "Nut Thickness": {
+    "name": "Nut Thickness",
+    "options": [
+      "10",
+      "3"
+    ],
+    "value": 4000
+  },
+  "Z dimention": {
+    "name": "Z dimention",
+    "options": [
+      "140.0",
+      "3.0"
+    ],
+    "value": 30000
+  },
+  "Ball Joint Ball Radius": {
+    "name": "Ball Joint Ball Radius",
+    "options": [
+      "50",
+      "4"
+    ],
+    "value": 8000
+  },
+  "Connection Wire Diameter": {
+    "name": "Connection Wire Diameter",
+    "options": [
+      "3.0",
+      "1"
+    ],
+    "value": 1600
+  },
+  "Eye Center Distance": {
+    "name": "Eye Center Distance",
+    "options": [
+      "140.0",
+      "84.0"
+    ],
+    "value": 76400
+  },
+  "size": {
+    "name": "size",
+    "options": [
+      "120.0",
+      "1.0"
+    ],
+    "value": 40000
+  },
+  "Center Of Ball": {
+    "name": "Center Of Ball",
+    "options": [
+      "50",
+      "8.0"
+    ],
+    "value": 18500
+  },
+  "lockNut Default": {
+    "name": "lockNut Default",
+    "options": [
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M20",
+      "M8",
+      "M10",
+      "M12",
+      "M14",
+      "M16",
+      "8#32",
+      "M18"
+    ],
+    "strValue": "M3"
+  },
+  "Bolt Length": {
+    "name": "Bolt Length",
+    "options": [
+      "20",
+      "5"
+    ],
+    "value": 10000
+  },
+  "Sphere Size": {
+    "name": "Sphere Size",
+    "options": [
+      "150.0",
+      "4.0"
+    ],
+    "value": 30000
+  },
+  "Cable Cut Out Length": {
+    "name": "Cable Cut Out Length",
+    "options": [
+      "500",
+      "0.01"
+    ],
+    "value": 30000
+  },
+  "nut Default": {
+    "name": "nut Default",
+    "options": [
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M20",
+      "M42",
+      "M30",
+      "M8",
+      "M10",
+      "M24",
+      "M1.6",
+      "M12",
+      "M2.5",
+      "M14",
+      "M36",
+      "8#32",
+      "M16"
+    ],
+    "strValue": "M2"
+  },
+  "vexWheels Default": {
+    "name": "vexWheels Default",
+    "options": [
+      "4inchStandard",
+      "4inchSmooth",
+      "2.75inchSmooth"
+    ],
+    "strValue": "2.75inchSmooth"
+  },
+  "Timing Belt Width": {
+    "name": "Timing Belt Width",
+    "options": [
+      "19",
+      "3"
+    ],
+    "value": 6200
+  },
+  "Y dimention": {
+    "name": "Y dimention",
+    "options": [
+      "130.0",
+      "2.0"
+    ],
+    "value": 30000
+  },
+  "Material Thicknes": {
+    "name": "Material Thicknes",
+    "options": [
+      "8.0",
+      "1.0"
+    ],
+    "value": 3500
+  },
+  "hobbyServoHorn Default": {
+    "name": "hobbyServoHorn Default",
+    "options": [
+      "tproSG90_1",
+      "standard4",
+      "standardMicro1",
+      "hv6214mg_1"
+    ],
+    "strValue": "standardMicro1"
+  },
+  "Jaw Height": {
+    "name": "Jaw Height",
+    "options": [
+      "200",
+      "10"
+    ],
+    "value": 32000
+  },
+  "Eye Mech Linkage": {
+    "name": "Eye Mech Linkage",
+    "options": [
+      "20",
+      "5"
+    ],
+    "value": 16000
+  },
+  "stepperMotor Default": {
+    "name": "stepperMotor Default",
+    "options": [
+      "GenericNEMA11",
+      "GenericNEMA14",
+      "GenericNEMA17",
+      "GenericNEMA8",
+      "Pololu35x26"
+    ],
+    "strValue": "GenericNEMA11"
+  },
+  "linearBallBearing Default": {
+    "name": "linearBallBearing Default",
+    "options": [
+      "LME20UU",
+      "LM16UU",
+      "LM10UU",
+      "LM8UU",
+      "LM5UU",
+      "LM6UU",
+      "LME12UU",
+      "LME8UU"
+    ],
+    "strValue": "LME20UU"
+  },
+  "vexCchannel Default": {
+    "name": "vexCchannel Default",
+    "options": [
+      "5x5",
+      "2x15",
+      "5x20",
+      "5x10",
+      "2x20",
+      "2x10",
+      "5x15",
+      "2x5"
+    ],
+    "strValue": "5x5"
+  },
+  "Bolt Size": {
+    "name": "Bolt Size",
+    "options": [
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M20",
+      "M42",
+      "M30",
+      "M8",
+      "M22",
+      "M10",
+      "M24",
+      "M1.6",
+      "M12",
+      "M2.5",
+      "M14",
+      "M36",
+      "8#32",
+      "M16",
+      "M27",
+      "6#32",
+      "M18"
+    ],
+    "strValue": "8#32"
+  },
+  "Snout Length": {
+    "name": "Snout Length",
+    "options": [
+      "200",
+      "50"
+    ],
+    "value": 77000
+  },
+  "ballBearing Default": {
+    "name": "ballBearing Default",
+    "options": [
+      "696zz",
+      "695zz",
+      "694zz",
+      "693zz",
+      "699zz",
+      "698zz",
+      "634zz",
+      "697zz",
+      "635zz",
+      "6920_2RS",
+      "685zz",
+      "684zz",
+      "683zz",
+      "689zz",
+      "688zz",
+      "687zz",
+      "623zz",
+      "686zz",
+      "624zz",
+      "625zz",
+      "626zz",
+      "627zz",
+      "608zz",
+      "607zz",
+      "606zz",
+      "605zz",
+      "604zz",
+      "603zz"
+    ],
+    "strValue": "696zz"
+  },
+  "vexStandoff Default": {
+    "name": "vexStandoff Default",
+    "options": [
+      "5 inch",
+      "4 inch",
+      "0.75 inch",
+      "1 inch",
+      "3 inch",
+      "0.25 inch",
+      "2 inch",
+      "6 inch",
+      "0.5 inch",
+      "1.5 inch",
+      "2.5 inch"
+    ],
+    "strValue": "5 inch"
+  },
+  "Nut Diameter": {
+    "name": "Nut Diameter",
+    "options": [
+      "10",
+      "3"
+    ],
+    "value": 8600
+  },
+  "Jaw Side Width": {
+    "name": "Jaw Side Width",
+    "options": [
+      "40",
+      "10"
+    ],
+    "value": 20000
+  },
+  "capScrew Default": {
+    "name": "capScrew Default",
+    "options": [
+      "M2",
+      "M3",
+      "M4",
+      "M5",
+      "M6",
+      "M20",
+      "M42",
+      "M30",
+      "M8",
+      "M22",
+      "M10",
+      "M24",
+      "M1.6",
+      "M12",
+      "M2.5",
+      "M14",
+      "M36",
+      "8#32",
+      "M16",
+      "M27",
+      "6#32",
+      "M18"
+    ],
+    "strValue": "M3"
+  },
+  "X dimention": {
+    "name": "X dimention",
+    "options": [
+      "120.0",
+      "1.0"
+    ],
+    "value": 30000
+  },
+  "sheetY": {
+    "name": "sheetY",
+    "options": [
+      "609.6",
+      "1"
+    ],
+    "value": 590000
+  },
+  "Material Thickness": {
+    "name": "Material Thickness",
+    "options": [
+      "10",
+      "1"
+    ],
+    "value": 3200
+  },
+  "Foam Thickness": {
+    "name": "Foam Thickness",
+    "options": [
+      "40",
+      "1"
+    ],
+    "value": 25000
+  },
+  "Divider Height": {
+    "name": "Divider Height",
+    "options": [
+      "200",
+      "1"
+    ],
+    "value": 60000
+  },
+  "sheetX": {
+    "name": "sheetX",
+    "options": [
+      "914.4",
+      "1"
+    ],
+    "value": 590000
+  }
+}
