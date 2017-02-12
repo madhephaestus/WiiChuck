@@ -26,8 +26,10 @@ class Accessory {
 
 	  void begin();
 	  void readData();
+	  
+	  void usePullUpClock();
 
-	  boolean usePullUpClock;
+	  
 	  ControllerType identifyController();
   private:
 
@@ -43,6 +45,7 @@ class Accessory {
 	  boolean _use_hw;
 	  uint32_t _clockSpacing;
     unsigned long ackTimeout;
+    boolean _usePullUpClock;
 	  
 	  void _clockHigh();
 	  void _clockLow();

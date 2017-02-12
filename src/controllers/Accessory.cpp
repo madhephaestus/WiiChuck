@@ -7,7 +7,7 @@ Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	_scl_pin = sclk_pin;
 	_clockSpacing = 1;
 	ackTimeout = 100;
-	usePullUpClock=false;
+	_usePullUpClock=false;
 
 }
 /**
@@ -174,7 +174,7 @@ void Accessory::_sendAck() {
 
 void Accessory::_dataHigh(){
 	//Serial.println("high");
-	if(usePullUpClock){
+	if(_usePullUpClock){
 		pinMode(_sda_pin, INPUT);
 	}else{
 		pinMode(_sda_pin, OUTPUT);
@@ -190,7 +190,7 @@ void Accessory::_dataLow(){
 }
 void Accessory::_clockHigh(){
 	//Serial.println("high");
-	if(usePullUpClock){
+	if(_usePullUpClock){
 		_clockStallCheck();
 	}else{
 		pinMode(_scl_pin, OUTPUT);
@@ -250,6 +250,10 @@ void Accessory::initBytes() {
 		_writeRegister(0xF0, 0x55);
 		_writeRegister(0xFB, 0x00);
 
+}
+
+void Accessory::usePullUpClock(){
+  _usePullUpClock=false;
 }
 
 void Accessory::_shiftOut( uint8_t val) {
