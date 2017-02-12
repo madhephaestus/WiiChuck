@@ -323,7 +323,7 @@ void Accessory::_burstRead(){
 	_burstReadWithAddress(0);
 }
 
-void Accessory::_burstReadWithAddress(unsigned char addr)
+void Accessory::_burstReadWithAddress(uint8_t addr)
 {
 	int readAmnt =6;
 
