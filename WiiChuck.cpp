@@ -69,19 +69,11 @@ void WiiChuck::readData() {
 int WiiChuck::getJoyX() {
 	int JoyPos = _dataarray[0];
 	int center = _joy_x_center;
-	int min = _joy_x_min;
-	int max = _joy_x_max;
+	int min = 0;
+	int max = 255;
 
 	int value =0;
-	// Set up the min and max values on this channel
-	if(JoyPos>max){
-		_joy_x_max=JoyPos;
-		max=JoyPos;
-	}
-	if(JoyPos<min){
-		_joy_x_min=JoyPos;
-		min=JoyPos;
-	}
+
 	bool m=false;
 	// select the bounding value to map to
 	if (JoyPos < center) {
@@ -120,19 +112,11 @@ int WiiChuck::getJoyX() {
 int WiiChuck::getJoyY() {
 	int JoyPos = _dataarray[1];
 	int center = _joy_y_center;
-	int min = _joy_y_min;
-	int max = _joy_y_max;
+	int min = 0;
+	int max = 255;
 
 	int value =0;
-	// Set up the min and max values on this channel
-	if(JoyPos>max){
-		_joy_y_max=JoyPos;
-		max=JoyPos;
-	}
-	if(JoyPos<min){
-		_joy_y_min=JoyPos;
-		min=JoyPos;
-	}
+
 	bool m=false;
 	// select the bounding value to map to
 	if (JoyPos < center) {
@@ -618,10 +602,6 @@ void WiiChuck::begin()
 	_burstRead();
 	_joy_x_center = _dataarray[0];
 	_joy_y_center = _dataarray[1];
-	_joy_x_max=_joy_x_center;
-	_joy_x_min=_joy_x_center;
-	_joy_y_max=_joy_y_center;
-	_joy_y_min=_joy_y_center;
 	Serial.println("Initialization Done");
 
 }

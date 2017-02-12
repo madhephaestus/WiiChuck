@@ -117,8 +117,6 @@ private:
 	uint8_t _scl_PIN;
 	uint8_t _sda_pin;
 	int32_t _joy_x_center, _joy_y_center;
-	int32_t _joy_x_max, _joy_y_max;
-	int32_t _joy_x_min, _joy_y_min;
 	boolean _use_hw;
 	uint32_t _callCount;
 	uint32_t _clockSpacing;
