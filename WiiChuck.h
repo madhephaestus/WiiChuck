@@ -10,13 +10,14 @@
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
 #define I2C_ADDR_W		(I2C_ADDR << 1)
 
-#define THIRDPARTYWII 0
-#define OFFICIALWII 1
-#define WIICLASSIC 2
+//#define THIRDPARTYWII 0
+//#define OFFICIALWII 1
+//#define WIICLASSIC 2
+typedef enum _controllertype {NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHeroWorldTourDrums,DrumController,DrawsomeTablet,Mystery} ControllerType;
 
 typedef enum _functionMapName {JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
 	RSPRESSURE,LSPRESSURE,LEFTSTICKX,LEFTSTICKY,RIGHTSTICKX,RIGHTSTICKY,NOFUNCTION} FunctionMapName;
-	typedef enum _buttonMapName {CBUTTON,ZBUTTON,LZ,RZ,LD,RD,UD,DD,SL,H,START,X,Y,A,B,NOBUTTON} ButtonMapName;
+typedef enum _buttonMapName {CBUTTON,ZBUTTON,LZ,RZ,LD,RD,UD,DD,SL,H,START,X,Y,A,B,NOBUTTON} ButtonMapName;
 
 typedef struct controllerMap {
 	FunctionMapName name;
@@ -51,7 +52,7 @@ public:
 	boolean checkButtonC();
 	boolean checkButtonZ();
 	uint32_t callCountBeforeReset;
-	int type;
+	ControllerType type;
 	unsigned long ackTimeout;
 	boolean leftShoulderPressed();
 	boolean rightShoulderPressed();
@@ -90,7 +91,7 @@ public:
 	void _dataLow();
 	uint8_t _dataarray[8];
 	boolean usePullUpClock;
-	int identifyController();
+	ControllerType identifyController();
 private:
 	ServoWiiControllerMap * maps;
 	void addControlMap(int servoPin, int servoMin,int servoCenter,

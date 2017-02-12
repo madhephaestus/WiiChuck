@@ -16,23 +16,24 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_clockSpacing = 1;
 	ackTimeout = 100;
 	_timeoutCount = 0;
-	type = THIRDPARTYWII;
+	type = Mystery;
 	maps = NULL;
 	numMaps=0;
 	printServos=false;
 	usePullUpClock=false;
+
 }
 
-int WiiChuck::identifyController(){
+ControllerType WiiChuck::identifyController(){
 	_burstReadWithAddress(0xfe);
   
   if (_dataarray[0] == 0x01)
     if (_dataarray[1] == 0x01)
-      return 1; // Classic Controller
+      return WIICLASSIC; // Classic Controller
       
   if (_dataarray[0] == 0x00)
     if (_dataarray[1] == 0x00)
-      return 0; // nunchuck
+      return NUNCHUCK; // nunchuck
       
   // It's something else.
   _burstReadWithAddress(0xfa);
@@ -43,7 +44,7 @@ int WiiChuck::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x01)
             if (_dataarray[5] == 0x03)
-              return 2; // Guitar Hero Controller
+              return GuitarHeroController; // Guitar Hero Controller
   
   if (_dataarray[0] == 0x01)
     if (_dataarray[1] == 0x00)
@@ -51,7 +52,7 @@ int WiiChuck::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x01)
             if (_dataarray[5] == 0x03)
-              return 3; // Guitar Hero World Tour Drums
+              return GuitarHeroWorldTourDrums; // Guitar Hero World Tour Drums
               
               
   if (_dataarray[0] == 0x03)
@@ -60,7 +61,7 @@ int WiiChuck::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x01)
             if (_dataarray[5] == 0x03)
-              return 4; // Guitar Hero World Tour Drums
+              return GuitarHeroWorldTourDrums; // Guitar Hero World Tour Drums
               
   if (_dataarray[0] == 0x00)
     if (_dataarray[1] == 0x00)
@@ -68,7 +69,7 @@ int WiiChuck::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x01)
             if (_dataarray[5] == 0x11)
-              return 5; // Taiko no Tatsujin TaTaCon (Drum controller)
+              return DrumController; // Taiko no Tatsujin TaTaCon (Drum controller)
               
   if (_dataarray[0] == 0xFF)
     if (_dataarray[1] == 0x00)
@@ -76,9 +77,9 @@ int WiiChuck::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x00)
             if (_dataarray[5] == 0x13)
-              return 5; // Drawsome Tablet
+              return DrawsomeTablet; // Drawsome Tablet
               
-  return -1;
+  return Mystery;
 }
 
 
@@ -129,26 +130,9 @@ int WiiChuck::getJoyX() {
 	// calculate a mapping value
 	float valueDiff = value -center;
 	float joyDiff =  JoyPos -center;
-//	Serial.print("Raw x center ");
-//	Serial.print (center);
-//
-//	Serial.print(" Raw x val ");
-//	Serial.print (JoyPos);
-//	Serial.print("  ");
-//	Serial.print(" Raw bound ");
-//	Serial.print (value);
-//	Serial.print("  ");
+
 	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
 
-/*
-	if (_dataarray[0] < _joy_x_center) {
-		return -((_joy_x_center - _dataarray[0]) / (_joy_x_center / 100.0f));
-	} else if (_dataarray[0] > _joy_x_center) {
-		return ((_dataarray[0] - _joy_x_center)
-				/ ((255 - _joy_x_center) / 100.0f));
-	} else
-		return 0;
-*/
 }
 
 int WiiChuck::getJoyY() {
@@ -172,15 +156,7 @@ int WiiChuck::getJoyY() {
 	// calculate a mapping value
 	float valueDiff = value -center;
 	float joyDiff =  JoyPos -center;
-//	Serial.print("Raw  center ");
-//	Serial.print (center);
-//
-//	Serial.print(" Raw  val ");
-//	Serial.print (JoyPos);
-//	Serial.print("  ");
-//	Serial.print(" Raw bound ");
-//	Serial.print (value);
-//	Serial.print("  ");
+
 	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
 }
 
@@ -410,16 +386,7 @@ int WiiChuck::performMap(ServoWiiControllerMap * tmp) {
 		float valueRange =(float)(axis -tmp->axisCenter);
 		float servoRange =serv -tmp->servoCenter;
 		int servoIncremt =(int) (servoRange*axisRange/valueRange);
-//		Serial.print(" incoming ");
-//		Serial.print(value);
-//		Serial.print(" axisRange ");
-//		Serial.print(axisRange);
-//		Serial.print(" valueRange ");
-//		Serial.print(valueRange);
-//		Serial.print(" servoRange ");
-//		Serial.print(servoRange);
-//		Serial.print(" servoIncremt ");
-//		Serial.print(servoIncremt);
+
 		return tmp->servoCenter+servoIncremt;
 	}
 	if (tmp->button != NOBUTTON) {
@@ -644,6 +611,7 @@ void WiiChuck::begin()
 	_burstRead();
 	_joy_x_center = _dataarray[0];
 	_joy_y_center = _dataarray[1];
+	type=identifyController();
 	Serial.println("Initialization Done");
 
 }
@@ -655,8 +623,7 @@ void WiiChuck::_burstRead(){
 void WiiChuck::_burstReadWithAddress(unsigned char addr)
 {
 	int readAmnt =6;
-	if(type == WIICLASSIC)
-		readAmnt =6;
+
 	if (_use_hw)
 	{
 		 // send conversion command

@@ -10,12 +10,9 @@ void setup() {
 
 	Serial.begin(115200);
 	Serial.println("\n\nStarting WiiChuck Demo");
-	//myChuck.type=OFFICIALWII;
-	myChuck.type = THIRDPARTYWII;
 	myChuck.printServos=true;	
 	myChuck.usePullUpClock = false;
 
-	//myChuck.type = WIICLASSIC;
 	// optional functions 
 	//JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
 	//classic controller
