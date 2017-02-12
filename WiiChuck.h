@@ -22,16 +22,7 @@
 #ifndef WiiChuck_h
 #define WiiChuck_h
 #include "Servo.h"
-#if defined(__AVR__)
-#include "Arduino.h"
-#include "hardware/avr/HW_AVR_defines.h"
-#elif defined(__PIC32MX__)
-#include "WProgram.h"
-#include "hardware/pic32/HW_PIC32_defines.h"
-#elif defined(__arm__)
-#include "Arduino.h"
-#include "hardware/arm/HW_ARM_defines.h"
-#endif
+
 
 #define I2C_ADDR		0x52
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
@@ -146,8 +137,5 @@ private:
 	void _shiftOut(uint8_t val);
 	boolean _PressedRowBit(uint8_t row, uint8_t bit);
 
-#if defined(__arm__)
-	Twi *twi;
-#endif
 };
 #endif
