@@ -102,7 +102,7 @@ typedef struct _inputMapping {
   
   Servo   servo;
   
-  input* nextMap;
-} input;
+  struct _inputMapping* nextMap;
+} inputMapping;
 
 #endif
