@@ -37,7 +37,7 @@ class Accessory {
 	  ControllerType identifyController();
   private:
     uint8_t _dataarray[8];
-	  uint8_t _scl_PIN;
+	  uint8_t _Scl_pin;
 	  uint8_t _sda_pin;
 	  boolean _use_hw;
 	  uint32_t _callCount;

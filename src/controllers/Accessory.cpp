@@ -4,7 +4,7 @@
 
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	_sda_pin = data_pin;
-	_scl_PIN = sclk_pin;
+	_Scl_pin = sclk_pin;
 	_callCount = 0;
 	_clockSpacing = 1;
 	ackTimeout = 100;
@@ -203,27 +203,27 @@ void Accessory::_clockHigh(){
 	if(usePullUpClock){
 		_clockStallCheck();
 	}else{
-		pinMode(_scl_PIN, OUTPUT);
-		digitalWrite(_scl_PIN, HIGH);
+		pinMode(_Scl_pin, OUTPUT);
+		digitalWrite(_Scl_pin, HIGH);
 	}
-//	pinMode(_scl_PIN, OUTPUT);
-//	digitalWrite(_scl_PIN, HIGH);
+//	pinMode(_Scl_pin, OUTPUT);
+//	digitalWrite(_Scl_pin, HIGH);
 	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 
 }
 void Accessory::_clockLow(){
 	//Serial.println("low");
-	pinMode(_scl_PIN, OUTPUT);
-	digitalWrite(_scl_PIN, LOW);
+	pinMode(_Scl_pin, OUTPUT);
+	digitalWrite(_Scl_pin, LOW);
 	if (_clockSpacing > 0)delayMicroseconds(_clockSpacing);
 
 }
 
 void Accessory::_clockStallCheck(){
-	pinMode(_scl_PIN, INPUT);
+	pinMode(_Scl_pin, INPUT);
 
 	unsigned long time = millis();
-	while (digitalRead(_scl_PIN) != HIGH && (time + ackTimeout) < millis()) {
+	while (digitalRead(_Scl_pin) != HIGH && (time + ackTimeout) < millis()) {
 	}
 //	if ((time + ackTimeout) < millis()) {
 //		_timeoutCount++;
@@ -293,7 +293,7 @@ void Accessory::begin()
 
 
 	_use_hw = false;
-	if (	(_sda_pin == SDA) and (_scl_PIN == SCL))
+	if (	(_sda_pin == SDA) and (_Scl_pin == SCL))
 	{
 		_use_hw = true;
 		  Wire.begin();
