@@ -27,39 +27,40 @@ class Accessory {
                            uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
                            uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend);
     bool  decodeBit(uint8_t byte, uint8_t bit, bool activeLow); 
-	void begin();
-	void readData();
-	void initBytes();
-	ControllerType type;
-	unsigned long ackTimeout;
-	void _clockHigh();
-	void _clockLow();
-	void _dataHigh();
-	void _dataLow();
-	boolean usePullUpClock;
-	ControllerType identifyController();
+	  void begin();
+	  void readData();
+	  void initBytes();
+
+	  boolean usePullUpClock;
+	  ControllerType identifyController();
   private:
     uint8_t _dataarray[8];
-	uint8_t _scl_PIN;
-	uint8_t _sda_pin;
-	boolean _use_hw;
-	uint32_t _callCount;
-	uint32_t _clockSpacing;
-	uint32_t _timeoutCount;
-	int numMaps;
-	void _sendStart(byte addr);
-	void _sendStop();
-	void _sendAck();
-	void _sendNack();
-	void _waitForAck();
-	void _clockStallCheck();
-	uint8_t _readByte();
-	void _writeByte(uint8_t value);
-	void _burstRead();
-	void _burstReadWithAddress(unsigned char addr);
+	  uint8_t _scl_PIN;
+	  uint8_t _sda_pin;
+	  boolean _use_hw;
+	  uint32_t _callCount;
+	  uint32_t _clockSpacing;
+	  uint32_t _timeoutCount;
+	  int numMaps;
+	
+    unsigned long ackTimeout;
+	  void _clockHigh();
+	  void _clockLow();
+	  void _dataHigh();
+	  void _dataLow();
+	  void _sendStart(byte addr);
+	  void _sendStop();
+	  void _sendAck();
+	  void _sendNack();
+	  void _waitForAck();
+	  void _clockStallCheck();
+	  uint8_t _readByte();
+	  void _writeByte(uint8_t value);
+	  void _burstRead();
+	  void _burstReadWithAddress(unsigned char addr);
 
-	void _writeRegister(uint8_t reg, uint8_t value);
-	void _shiftOut(uint8_t val);
+	  void _writeRegister(uint8_t reg, uint8_t value);
+	  void _shiftOut(uint8_t val);
 
 
 
@@ -67,7 +68,7 @@ class Accessory {
 
 typedef enum _inType {ANALOG,DIGITAL} inType;
 
-typedef struct inputMap {
+typedef struct _inputMapping {
   inType  type;
   
   // digital in params
@@ -101,6 +102,7 @@ typedef struct inputMap {
   uint8_t servomin;
   
   Servo   servo;
-}
+  
+} input
 
 #endif
