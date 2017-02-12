@@ -24,7 +24,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 }
 
 int WiiChuck::identifyController(){
-  WiiChuck::_burstRead(0xfe);
+	_burstReadWithAddress(0xfe);
   
   if (_dataarray[0] == 0x01)
     if (_dataarray[1] == 0x01)
@@ -35,7 +35,7 @@ int WiiChuck::identifyController(){
       return 0; // nunchuck
       
   // It's something else.
-  WiiChuck::_burstRead(0xfa);
+  _burstReadWithAddress(0xfa);
   
   if (_dataarray[0] == 0x00)
     if (_dataarray[1] == 0x00)
@@ -104,7 +104,7 @@ void WiiChuck::readData() {
 				tmp = tmp->next;
 			}
 		}
-		Serial.println();
+		if(printServos)Serial.println();
 	}
 }
 
@@ -649,10 +649,10 @@ void WiiChuck::begin()
 }
 
 void WiiChuck::_burstRead(){
-  _burstRead(0);
+	_burstReadWithAddress(0);
 }
 
-void WiiChuck::_burstRead(unsigned char addr)
+void WiiChuck::_burstReadWithAddress(unsigned char addr)
 {
 	int readAmnt =6;
 	if(type == WIICLASSIC)

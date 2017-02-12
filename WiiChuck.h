@@ -90,6 +90,7 @@ public:
 	void _dataLow();
 	uint8_t _dataarray[8];
 	boolean usePullUpClock;
+	int identifyController();
 private:
 	ServoWiiControllerMap * maps;
 	void addControlMap(int servoPin, int servoMin,int servoCenter,
@@ -113,6 +114,8 @@ private:
 	uint8_t _readByte();
 	void _writeByte(uint8_t value);
 	void _burstRead();
+	void _burstReadWithAddress(unsigned char addr);
+
 	void _writeRegister(uint8_t reg, uint8_t value);
 	void _shiftOut(uint8_t val);
 	boolean _PressedRowBit(uint8_t row, uint8_t bit);
