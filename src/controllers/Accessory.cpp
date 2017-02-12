@@ -5,7 +5,6 @@
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	_sda_pin = data_pin;
 	_scl_pin = sclk_pin;
-	_callCount = 0;
 	_clockSpacing = 1;
 	ackTimeout = 100;
 	usePullUpClock=false;
@@ -216,14 +215,7 @@ void Accessory::_clockStallCheck(){
 	unsigned long time = millis();
 	while (digitalRead(_scl_pin) != HIGH && (time + ackTimeout) < millis()) {
 	}
-//	if ((time + ackTimeout) < millis()) {
-//		_timeoutCount++;
-//		if (_timeoutCount > 10) {
-//			_timeoutCount = 0;
-//			Serial.println("Stall reset");
-//			begin();
-//		}
-//	}
+
 }
 void Accessory::_waitForAck() {
 	pinMode(_sda_pin, INPUT);
@@ -231,14 +223,7 @@ void Accessory::_waitForAck() {
 	unsigned long time = millis();
 	while (digitalRead(_sda_pin) == HIGH && (time + ackTimeout) < millis()) {
 	}
-//	if ((time + ackTimeout) < millis()) {
-//		_timeoutCount++;
-//		if (_timeoutCount > 10) {
-//			_timeoutCount = 0;
-//			Serial.println("Timeout reset");
-//			begin();
-//		}
-//	}
+
 	_clockLow();
 //	delayMicroseconds(75);
 }

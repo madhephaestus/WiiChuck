@@ -38,12 +38,9 @@ class Accessory {
 	  uint8_t _scl_pin;
 	  uint8_t _sda_pin;
 	  boolean _use_hw;
-	  uint32_t _callCount;
 	  uint32_t _clockSpacing;
-	  uint32_t _timeoutCount;
-	  int numMaps;
-	
     unsigned long ackTimeout;
+    
 	  void _clockHigh();
 	  void _clockLow();
 	  void _dataHigh();
