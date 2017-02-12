@@ -23,24 +23,27 @@ class Accessory {
   
     void printInputs(Stream& stream);
     
-    int   decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
-                           uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-                           uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend);
-    bool  decodeBit(uint8_t byte, uint8_t bit, bool activeLow); 
+
 	  void begin();
 	  void readData();
-	  void initBytes();
 
 	  boolean usePullUpClock;
 	  ControllerType identifyController();
   private:
-    uint8_t _dataarray[8];
+
+    // Data Parsing
+    int   decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
+                           uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+                           uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend);
+    bool  decodeBit(uint8_t byte, uint8_t bit, bool activeLow); 
+    
+	  // SW i2c
 	  uint8_t _scl_pin;
 	  uint8_t _sda_pin;
 	  boolean _use_hw;
 	  uint32_t _clockSpacing;
     unsigned long ackTimeout;
-    
+	  
 	  void _clockHigh();
 	  void _clockLow();
 	  void _dataHigh();
@@ -51,13 +54,18 @@ class Accessory {
 	  void _sendNack();
 	  void _waitForAck();
 	  void _clockStallCheck();
+	  void _shiftOut(uint8_t val);
 	  uint8_t _readByte();
 	  void _writeByte(uint8_t value);
+	  
+	  // Controller Register Transactions
+	  uint8_t _dataarray[8];
+
 	  void _burstRead();
 	  void _burstReadWithAddress(uint8_t addr);
-
 	  void _writeRegister(uint8_t reg, uint8_t value);
-	  void _shiftOut(uint8_t val);
+	  void initBytes();
+
 
 
 
