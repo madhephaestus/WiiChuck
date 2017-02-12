@@ -60,6 +60,7 @@ void loop() {
 
 	myChuck.readData();
 	if (myChuck.type == NUNCHUCK) {
+		Serial.print("NUNCHUCK ");
 		Serial.print("JoyX BYTE: ");
 		//Serial.print(myChuck._dataarray[0], BIN) ;
 		Serial.print(myChuck._dataarray[0], HEX);
@@ -81,8 +82,12 @@ void loop() {
 			Serial.print("Z");
 		else
 			Serial.print("-");
+		Serial.println();
+
 	}else
 	if (myChuck.type == WIICLASSIC) {
+		Serial.print("Classic Controller ");
+
 		sprintf(st,
 				"rightStickX: %4d%% | rightStickY() : %4d%% | leftStickX(): %4d | leftStickY(): %4d ",
 				myChuck.rightStickX(), myChuck.rightStickY(),
