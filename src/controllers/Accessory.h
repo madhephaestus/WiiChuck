@@ -26,4 +26,42 @@ class Accessory {
 
 };
 
+typedef enum _inType {ANALOG,DIGITAL} inType;
+
+typedef struct inputMap {
+  inType  type;
+  
+  // digital in params
+  uint8_t dByte;
+  uint8_t dBit;
+  bool    dActiveLow;
+  
+  // analog in params
+  uint8_t msbbyte;
+  uint8_t msbstart;
+  uint8_t msbend;
+  
+  uint8_t msbbyte;
+  uint8_t msbstart;
+  uint8_t msbend;
+  
+  uint8_t csbbyte;
+  uint8_t csbstart;
+  uint8_t csbend;
+  
+  uint8_t lsbbyte;
+  uint8_t lsbstart;
+  uint8_t lsbend;
+  
+  uint8_t anmax;
+  uint8_t anzero;
+  uint8_t anmin;
+  
+  uint8_t sevomax;
+  uint8_t servozero;
+  uint8_t servomin;
+  
+  Servo   servo;
+}
+
 #endif

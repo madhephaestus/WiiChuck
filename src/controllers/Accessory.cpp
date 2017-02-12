@@ -37,22 +37,6 @@ int   Accessory::decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
   if (csbbyte>5) return false;
   if (lsbbyte>5) return false;
 
-
-// 60 E0 91 61 FF FF
-// 2 7 7
-// 91   1001 0001
-// 1000 0000  mask
-// 1000 0000  unpack bit 7
-// 0000 0001  shift right
-
-// 1 6 7
-
-// E0   1110 0000
-// 1100 0000
-//      1100 0000  masked.
-// 
- 
-
   uint32_t analog=0;
   uint32_t lpart;
   lpart = _dataarray[lsbbyte];
@@ -77,9 +61,6 @@ int   Accessory::decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
   
   return analog;
   
-
-
-
 }
 
 bool  Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow){
