@@ -41,6 +41,65 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	usePullUpClock=false;
 }
 
+int WiiChuck::identifyController(){
+  WiiChuck::_burstRead(0xfe);
+  
+  if (_dataarray[0] == 0x01)
+    if (_dataarray[1] == 0x01)
+      return 1; // Classic Controller
+      
+  if (_dataarray[0] == 0x00)
+    if (_dataarray[1] == 0x00)
+      return 0; // nunchuck
+      
+  // It's something else.
+  WiiChuck::_burstRead(0xfa);
+  
+  if (_dataarray[0] == 0x00)
+    if (_dataarray[1] == 0x00)
+      if (_dataarray[2] == 0xa4)
+        if (_dataarray[3] == 0x20)
+          if (_dataarray[4] == 0x01)
+            if (_dataarray[5] == 0x03)
+              return 2; // Guitar Hero Controller
+  
+  if (_dataarray[0] == 0x01)
+    if (_dataarray[1] == 0x00)
+      if (_dataarray[2] == 0xa4)
+        if (_dataarray[3] == 0x20)
+          if (_dataarray[4] == 0x01)
+            if (_dataarray[5] == 0x03)
+              return 3; // Guitar Hero World Tour Drums
+              
+              
+  if (_dataarray[0] == 0x03)
+    if (_dataarray[1] == 0x00)
+      if (_dataarray[2] == 0xa4)
+        if (_dataarray[3] == 0x20)
+          if (_dataarray[4] == 0x01)
+            if (_dataarray[5] == 0x03)
+              return 4; // Guitar Hero World Tour Drums
+              
+  if (_dataarray[0] == 0x00)
+    if (_dataarray[1] == 0x00)
+      if (_dataarray[2] == 0xa4)
+        if (_dataarray[3] == 0x20)
+          if (_dataarray[4] == 0x01)
+            if (_dataarray[5] == 0x11)
+              return 5; // Taiko no Tatsujin TaTaCon (Drum controller)
+              
+  if (_dataarray[0] == 0xFF)
+    if (_dataarray[1] == 0x00)
+      if (_dataarray[2] == 0xa4)
+        if (_dataarray[3] == 0x20)
+          if (_dataarray[4] == 0x00)
+            if (_dataarray[5] == 0x13)
+              return 5; // Drawsome Tablet
+              
+  return -1;
+}
+
+
 void WiiChuck::readData() {
 
 	//delay(100);
@@ -607,16 +666,20 @@ void WiiChuck::begin()
 
 }
 
-void WiiChuck::_burstRead()
+void WiiChuck::_burstRead(){
+  _burstRead(0);
+}
+
+void WiiChuck::_burstRead(unsigned char addr)
 {
 	int readAmnt =6;
 	if(type == WIICLASSIC)
-		readAmnt =8;
+		readAmnt =6;
 	if (_use_hw)
 	{
 		 // send conversion command
 		  Wire.beginTransmission(I2C_ADDR);
-		  Wire.write(0x00);
+		  Wire.write(addr);
 		  Wire.endTransmission();
 
 		  // wait for data to be converted
@@ -629,7 +692,7 @@ void WiiChuck::_burstRead()
 	// send conversion command
 		_sendStart(I2C_ADDR_W);
 		_waitForAck();
-		_writeByte(0);
+		_writeByte(addr);
 		_waitForAck();
 		_sendStop();
 		// wait for data to be converted
