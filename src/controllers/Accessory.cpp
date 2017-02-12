@@ -81,15 +81,6 @@ void Accessory::readData() {
 
 }
 
-Accessory::Accessory(uint8_t bytes[6]){
-  setDataArray(bytes);
-}
-
-Accessory::Accessory(){
-  uint8_t a[] = {0,0,0,0,0,0};
-  setDataArray(a);
-}
-
 uint8_t* Accessory::getDataArray(){
   return _dataarray;
 }

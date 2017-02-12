@@ -16,8 +16,6 @@ typedef enum _controllertype {NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHer
 
 class Accessory {
   public:
-    Accessory(uint8_t bytes[6]);
-    Accessory();
     Accessory(uint8_t data_pin, uint8_t sclk_pin);
     
     uint8_t* getDataArray();
