@@ -1,17 +1,13 @@
 #include "Accessory.h"
+#include <Wire.h>
 
 
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	_sda_pin = data_pin;
 	_scl_PIN = sclk_pin;
 	_callCount = 0;
-	callCountBeforeReset = 1000;
 	_clockSpacing = 1;
 	ackTimeout = 100;
-	type = Mystery;
-	maps = NULL;
-	numMaps=0;
-	printServos=false;
 	usePullUpClock=false;
 
 }
@@ -312,9 +308,6 @@ void Accessory::begin()
 	//Serial.println("re-reading");
 	delay(100);
 	_burstRead();
-	_joy_x_center = _dataarray[0];
-	_joy_y_center = _dataarray[1];
-	type=identifyController();
 	Serial.println("Initialization Done");
 
 }
