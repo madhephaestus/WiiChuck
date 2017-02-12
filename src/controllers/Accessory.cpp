@@ -252,8 +252,8 @@ void Accessory::initBytes() {
 
 }
 
-void Accessory::usePullUpClock(){
-  _usePullUpClock=false;
+void Accessory::usePullUpClock(bool mode){
+  _usePullUpClock=mode;
 }
 
 void Accessory::_shiftOut( uint8_t val) {

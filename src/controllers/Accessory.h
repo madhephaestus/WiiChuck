@@ -27,7 +27,7 @@ class Accessory {
 	  void begin();
 	  void readData();
 	  
-	  void usePullUpClock();
+	  void usePullUpClock(bool mode);
 
 	  
 	  ControllerType identifyController();
