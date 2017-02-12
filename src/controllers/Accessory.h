@@ -2,6 +2,7 @@
 #define Accessory_h
 
 #include "Arduino.h"
+#include <Servo.h>
 
 #define I2C_ADDR		0x52
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
@@ -101,7 +102,7 @@ typedef struct _inputMapping {
   
   Servo   servo;
   
-  input nextMap;
-} input
+  input* nextMap;
+} input;
 
 #endif
