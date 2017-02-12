@@ -43,6 +43,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 
 void WiiChuck::readData() {
 	initBytes();
+	delay(100);
 	_burstRead();
 	if (maps != NULL) {
 		ServoWiiControllerMap * tmp = maps;
