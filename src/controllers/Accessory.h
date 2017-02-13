@@ -8,6 +8,23 @@
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
 #define I2C_ADDR_W		(I2C_ADDR << 1)
 
+
+#define BYTE0 0
+#define BYTE1 1
+#define BYTE2 2
+#define BYTE3 3
+#define BYTE4 4
+#define BYTE5 5
+
+#define BIT0 0
+#define BIT1 1
+#define BIT2 2
+#define BIT3 3
+#define BIT4 4
+#define BIT5 5
+#define BIT6 6
+#define BIT7 7
+
 //#define THIRDPARTYWII 0
 //#define OFFICIALWII 1
 //#define WIICLASSIC 2

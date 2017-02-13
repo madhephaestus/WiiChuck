@@ -365,3 +365,29 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value)
 	}
 }
 
+	  uint8_t Accessory::addAnalogMap( uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
+	                     uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+	                     uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend,
+	  	                 uint8_t sMin, uint8_t sMax, uint8_t sZero,
+	                     uint8_t sChan){
+	    //
+	                     }
+	                     
+	  uint8_t Accessory::addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
+	                     uint8_t sMin, uint8_t sMax, uint8_t sZero,
+	                     uint8_t sChan){
+	    //
+	    
+	    }
+	                     
+	  void Accessory::printMaps(Stream& stream){
+	  
+	  }
+	  uint8_t Accessory::getMapCount(){
+	  
+	  }
+	  void Accessory::removeMaps(){
+	  }
+	  void Accessory::removeMap(uint8_t id){
+	  }
+
