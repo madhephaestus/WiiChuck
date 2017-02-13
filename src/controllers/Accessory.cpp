@@ -50,7 +50,7 @@ ControllerType Accessory::identifyController(){
         if (_dataarray[3] == 0x20)
           if (_dataarray[4] == 0x01)
             if (_dataarray[5] == 0x03)
-              return GuitarHeroWorldTourDrums; // Guitar Hero World Tour Drums
+              return Turntable; // Guitar Hero World Tour Drums
 
   if (_dataarray[0] == 0x00)
     if (_dataarray[1] == 0x00)
@@ -68,7 +68,7 @@ ControllerType Accessory::identifyController(){
             if (_dataarray[5] == 0x13)
               return DrawsomeTablet; // Drawsome Tablet
 
-  return Mystery;
+  return Unknown;
 }
 
 /*

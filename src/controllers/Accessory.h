@@ -28,7 +28,7 @@
 //#define THIRDPARTYWII 0
 //#define OFFICIALWII 1
 //#define WIICLASSIC 2
-typedef enum _controllertype {NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHeroWorldTourDrums,DrumController,DrawsomeTablet,Mystery} ControllerType;
+typedef enum _controllertype {Unknown,NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHeroWorldTourDrums,DrumController,DrawsomeTablet,Turntable} ControllerType;
 typedef enum _inType {ANALOG,DIGITAL} inType;
 
 typedef struct _inputMapping {
