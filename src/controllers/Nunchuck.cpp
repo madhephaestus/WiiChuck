@@ -1,3 +1,4 @@
+#include "Nunchuck.h"
 int Nunchuck::getJoyX() {
 	return 0;
 }
