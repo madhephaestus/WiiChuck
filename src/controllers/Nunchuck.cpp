@@ -1,5 +1,6 @@
 #include "Nunchuck.h"
-Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin):Accessory( data_pin,  sclk_pin){
+Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
+		Accessory(data_pin, sclk_pin) {
 
 }
 int Nunchuck::getJoyX() {
@@ -31,18 +32,20 @@ boolean Nunchuck::checkButtonZ() {
 	return false;
 }
 
-void Nunchuck::printInputs(Stream& stream){
+void Nunchuck::printInputs(Stream& stream) {
 	char st[100];
-  stream.print("Accessory Bytes:\t");
-  for(int i=0; i<6; i++) {
-         if (_dataarray[i]<0x10) {stream.print("0");}
-         stream.print(_dataarray[i],HEX);
-         stream.print(" ");
-  }
+	stream.print("Accessory Bytes:\t");
+	for (int i = 0; i < 6; i++) {
+		if (_dataarray[i] < 0x10) {
+			stream.print("0");
+		}
+		stream.print(_dataarray[i], HEX);
+		stream.print(" ");
+	}
 
-  stream.println("");
+	stream.println("");
 
-  stream.print("NUNCHUCK ");
+	stream.print("NUNCHUCK ");
 	stream.print("JoyX BYTE: ");
 	//stream.print(_dataarray[0], BIN) ;
 	stream.print(_dataarray[0], HEX);
@@ -51,8 +54,7 @@ void Nunchuck::printInputs(Stream& stream){
 	stream.print(_dataarray[1], HEX);
 	sprintf(st,
 			"  JoyX: %4d%% | JoyY: %4d%% | Roll: %4d | Pitch: %4d | Buttons: ",
-			getJoyX(), getJoyY(), getRollAngle(),
-			getPitchAngle());
+			getJoyX(), getJoyY(), getRollAngle(), getPitchAngle());
 
 	stream.print(st);
 
