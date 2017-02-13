@@ -101,37 +101,39 @@ void Accessory::printInputs(Stream& stream) {
 
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 		uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-		uint8_t lsbstart, uint8_t lsbend) {
+		uint8_t lsbstart, uint8_t lsbend, uint16_t offset, float scale) {
 // 5 bit int split across 3 bytes. what... the... fuck... nintendo...
-
+  bool msbflag=false,csbflag=false,lsbflag=false;
 	if (msbbyte > 5)
-		return false;
+		msbflag=true;
 	if (csbbyte > 5)
-		return false;
+		csbflag=true;
 	if (lsbbyte > 5)
-		return false;
+		lsbflag=true;
 
 	uint32_t analog = 0;
 	uint32_t lpart;
-	lpart = _dataarray[lsbbyte];
+	lpart = (lsbflag)?0:_dataarray[lsbbyte];
 	lpart = lpart >> lsbstart;
 	lpart = lpart & (0xFF >> (7 - (lsbend - lsbstart)));
 
 	uint32_t cpart;
-	cpart = _dataarray[csbbyte];
+	cpart = (csbflag)?0:_dataarray[csbbyte];
 	cpart = cpart >> csbstart;
 	cpart = cpart & (0xFF >> (7 - (csbend - csbstart)));
 
 	cpart = cpart << ((lsbend - lsbstart) + 1);
 
 	uint32_t mpart;
-	mpart = _dataarray[msbbyte];
+	mpart = (lsbflag)?0:_dataarray[msbbyte];
 	mpart = mpart >> msbstart;
 	mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
 
 	mpart = mpart << (((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1));
 
 	analog = lpart | cpart | mpart;
+	analog = analog + offset;
+	analog = (analog*scale);
 
 	return analog;
 
@@ -367,7 +369,7 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 
 uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 		uint8_t msbend, uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, uint8_t sMin,
+		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, uint16_t aOffset, float aSscale, uint8_t sMin,
 		uint8_t sMax, uint8_t sZero, uint8_t sChan) {
 	//
 }

@@ -14,6 +14,7 @@
 #define BYTE3 3
 #define BYTE4 4
 #define BYTE5 5
+#define UNUSED 255
 
 #define BIT0 0
 #define BIT1 1
@@ -82,10 +83,9 @@ typedef struct _inputMapping {
 	uint8_t aLsbstart;
 	uint8_t aLsbend;
 
-	// Analog Scaling info
-	uint8_t aMax;
-	uint8_t aZero;
-	uint8_t aMin;
+	//Input Scaling info
+	uint16_t offset;
+	float    scale;
 
 	// Servo Scaling Info
 	uint8_t sevoMax;
@@ -114,7 +114,7 @@ public:
 	// mapping funcs
 	uint8_t addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend, uint8_t sMin, uint8_t sMax,
+			uint8_t lsbstart, uint8_t lsbend,uint16_t aOffset, float aSscale, uint8_t sMin, uint8_t sMax,
 			uint8_t sZero, uint8_t sChan);
 
 	uint8_t addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
@@ -134,7 +134,7 @@ protected:
 	// Data Parsing
 	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend);
+			uint8_t lsbstart, uint8_t lsbend,uint16_t offset, float scale);
 	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 private:
 
