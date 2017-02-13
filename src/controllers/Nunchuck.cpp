@@ -4,10 +4,10 @@ Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 
 }
 int Nunchuck::getJoyX() {
-	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE0,BIT0,BIT7,-127,1.0); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE0,BIT0,BIT7,0,127,255); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getJoyY() {
-	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE1,BIT0,BIT7,-127,1.0); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE1,BIT0,BIT7,0,127,255); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 
 int Nunchuck::getRollAngle() {
@@ -17,13 +17,13 @@ int Nunchuck::getPitchAngle() {
 	return (int) (atan2((double) getAccelY(), (double) getAccelZ()) * 180.0 / PI);
 }
 int Nunchuck::getAccelX() {
-	return decodeInt(UNUSED,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3,-512,1.0); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getAccelY() {
-	return decodeInt(UNUSED,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5,-512,1.0); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getAccelZ() {
-	return decodeInt(UNUSED,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7,-512,1.0); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 boolean Nunchuck::checkButtonC() {
 	return decodeBit(BYTE5,BIT1,true);  // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck

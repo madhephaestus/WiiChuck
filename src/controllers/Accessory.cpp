@@ -1,5 +1,6 @@
 #include "Accessory.h"
 #include <Wire.h>
+#include "Servo.h"
 
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	_sda_pin = data_pin;
@@ -75,7 +76,7 @@ ControllerType Accessory::identifyController() {
 void Accessory::readData() {
 
 	_burstRead();
-
+  _applyMaps();
 }
 
 uint8_t* Accessory::getDataArray() {
@@ -101,7 +102,7 @@ void Accessory::printInputs(Stream& stream) {
 
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 		uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-		uint8_t lsbstart, uint8_t lsbend, int16_t offset, float scale) {
+		uint8_t lsbstart, uint8_t lsbend, int16_t aMin, int16_t aMid, int16_t aMax) {
 // 5 bit int split across 3 bytes. what... the... fuck... nintendo...
   bool msbflag=false,csbflag=false,lsbflag=false;
 	if (msbbyte > 5)
@@ -132,8 +133,8 @@ int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 	mpart = mpart << (((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1));
 
 	analog = lpart | cpart | mpart;
-	analog = analog + offset;
-	analog = (analog*scale);
+	//analog = analog + offset;
+	//analog = (analog*scale);
 
 	return analog;
 
@@ -180,7 +181,6 @@ void Accessory::_sendAck() {
 }
 
 void Accessory::_dataHigh() {
-	//Serial.println("high");
 	if (_usePullUpClock) {
 		pinMode(_sda_pin, INPUT);
 	} else {
@@ -190,27 +190,24 @@ void Accessory::_dataHigh() {
 
 }
 void Accessory::_dataLow() {
-	//Serial.println("low");
 	pinMode(_sda_pin, OUTPUT);
 	digitalWrite(_sda_pin, LOW);
 
 }
 void Accessory::_clockHigh() {
-	//Serial.println("high");
+
 	if (_usePullUpClock) {
 		_clockStallCheck();
 	} else {
 		pinMode(_scl_pin, OUTPUT);
 		digitalWrite(_scl_pin, HIGH);
 	}
-//	pinMode(_scl_pin, OUTPUT);
-//	digitalWrite(_scl_pin, HIGH);
+	
 	if (_clockSpacing > 0)
 		delayMicroseconds(_clockSpacing);
 
 }
 void Accessory::_clockLow() {
-	//Serial.println("low");
 	pinMode(_scl_pin, OUTPUT);
 	digitalWrite(_scl_pin, LOW);
 	if (_clockSpacing > 0)
@@ -234,14 +231,12 @@ void Accessory::_waitForAck() {
 	}
 
 	_clockLow();
-//	delayMicroseconds(75);
 }
 
 uint8_t Accessory::_readByte() {
 	pinMode(_sda_pin, INPUT);
 
 	uint8_t value = 0;
-	//_clockLow();
 	for (int i = 0; i < 8; ++i) {
 		_clockHigh();
 		value |= (digitalRead(_sda_pin) << (7 - i));
@@ -287,11 +282,9 @@ void Accessory::begin() {
 
 	}
 	initBytes();
-	//Serial.println("Init sent, reading");
 
 	delay(100);
 	_burstRead();
-	//Serial.println("re-reading");
 	delay(100);
 	_burstRead();
 	Serial.println("Initialization Done");
@@ -325,6 +318,7 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
 		_writeByte(addr);
 		_waitForAck();
 		_sendStop();
+		
 		// wait for data to be converted
 		delay(1);
 		_sendStart(I2C_ADDR_R);
@@ -344,37 +338,29 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 	if (_use_hw) {
-		//Serial.println("Writing reg");
 		Wire.beginTransmission(I2C_ADDR);
 		Wire.write(reg);
 		Wire.write(value);
 		Wire.endTransmission();
-		//Serial.println("Writing reg done");
 	} else {
-		//Serial.println("Sending start");
 		_sendStart(I2C_ADDR_W);
 		_waitForAck();
-		//Serial.println("First byte");
 		_writeByte(reg);
 		_waitForAck();
-		//Serial.println("Seconde byte");
 		_writeByte(value);
-		//Serial.println("waiting");
 		_waitForAck();
-		//Serial.println("stopping");
 		_sendStop();
-		//Serial.println("done");
 	}
 }
 
-uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
-		uint8_t msbend, uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, int16_t aOffset, float aScale, uint8_t sMin,
-		uint8_t sMax, uint8_t sZero, uint8_t sChan) {
+uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
+			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
+			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax, uint8_t sMin, uint8_t sMax,
+			uint8_t sZero, uint8_t sChan){
 	    inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
 	    if (im==0) return -1;
 	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
-	    // set up mapping
+	    // populate mapping struct
 	    im->type = ANALOG;
 	    im->aMsbbyte=msbbyte;
 	    im->aMsbstart=msbstart;
@@ -388,15 +374,19 @@ uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 	    im->aLsbstart=lsbstart;
 	    im->aLsbend=lsbend;
 	    
-	    im->offset=aOffset;
-	    im->scale=aScale;
+	    im->aMin=aMin;
+	    im->aMid=aMid;
+	    im->aMax=aMax;
 	    
 	    im->servoMax=sMax;
 	    im->servoMin=sMin;
 	    im->servoZero=sZero;
 	    
 	    im->sChan=sChan;
+	    
+	    im->servo = Servo();
 	    im->servo.attach(sChan);
+	    im->servo.write(sZero);
 	    
 	    // Add to list
 	    // Are we first
@@ -415,7 +405,7 @@ uint8_t Accessory::addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
 inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
 	    if (im==0) return -1;
 	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
-	    // set up mapping
+	    // populate mapping struct
 	    im->type = DIGITAL;
 	    im->dByte=byte;
 	    im->dBit=bit;
@@ -478,8 +468,9 @@ void Accessory::printMaps(Stream& stream) {
 	            stream.print(m->aLsbstart);
 	            stream.print("] ");
 	          }
-	          stream.print("Offset: "); stream.print(m->offset);
-	          stream.print(" Scale: "); stream.print(m->scale);
+	          stream.print("min: "); stream.print(m->aMin);
+	          stream.print(" mind: "); stream.print(m->aMid);
+	          stream.print(" max: "); stream.print(m->aMax);
 	        
 	        } else {
 	          stream.print("DIGITAL ");
@@ -496,10 +487,55 @@ void Accessory::printMaps(Stream& stream) {
 	    }
 
 }
+
+void Accessory::_applyMaps(){
+  inputMapping* m=_firstMap;
+  int cnt=0;
+  
+  if (m==0) return; // no maps. bail.
+  do {
+    switch(m->type){
+      case ANALOG: {
+        int val =   decodeInt(
+          m->aMsbbyte,m->aMsbstart,m->aMsbend,        // MSB 
+          m->aCsbbyte,m->aCsbstart,m->aCsbend,        // CSB 
+          m->aLsbbyte,m->aLsbstart,m->aLsbend,        // LSB 
+          m->aMin,m->aMid,m->aMax);                         // bounds
+          
+        // map to servo
+        uint8_t pos=smap(val,m->aMax,m->aMid,m->aMin,m->servoMax,m->servoZero,m->servoMin);
+        
+        // update servo
+        m->servo.write(pos);
+        Serial.print(m->sChan); Serial.print(" pos: "); Serial.println(pos);
+      }
+      break;
+      case DIGITAL: {
+        bool val = decodeBit(m->dByte,m->dBit,m->dActiveLow);
+        if (val) m->servo.write(m->servoMax);
+        else m->servo.write(m->servoMin);
+      }
+      break;
+    }
+    m=m->nextMap;
+	  cnt++;
+  } while(m!=0);
+
+}
+
 uint8_t Accessory::getMapCount() {
 
 }
 void Accessory::removeMaps() {
 }
 void Accessory::removeMap(uint8_t id) {
+}
+
+int16_t Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero, int16_t sMin){
+  if (val>aMid) {
+    return map(val,aMid,aMax,sZero,sMax);
+  } else if (val<aMid) {
+    return map(val,aMin,aMid,sMin,sZero);
+  }
+  return sZero;
 }

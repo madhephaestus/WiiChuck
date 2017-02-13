@@ -38,6 +38,7 @@ typedef enum _controllertype {
 	DrawsomeTablet,
 	Turntable
 } ControllerType;
+
 typedef enum _inType {
 	ANALOG, DIGITAL
 } inType;
@@ -65,9 +66,10 @@ typedef struct _inputMapping {
 	uint8_t aLsbend;
 
 	//Input Scaling info
-	int16_t offset;
-	float    scale;
-
+	int16_t aMin;
+	int16_t aMid;
+	int16_t aMax;
+	
 	// Servo Scaling Info
 	uint8_t servoMax;
 	uint8_t servoZero;
@@ -96,7 +98,7 @@ public:
 	// mapping funcs
 	uint8_t addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,int16_t aOffset, float aScale, uint8_t sMin, uint8_t sMax,
+			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax, uint8_t sMin, uint8_t sMax,
 			uint8_t sZero, uint8_t sChan);
 
 	uint8_t addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
@@ -108,13 +110,14 @@ public:
 	void removeMap(uint8_t id);
 
 	ControllerType identifyController();
+		int16_t smap(int16_t val,int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero,int16_t sMin);
 protected:
 	// allow sub classes to view the data
 	uint8_t _dataarray[8];
 	// Data Parsing
 	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,int16_t offset, float scale);
+			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax);
 	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 private:
 
@@ -152,6 +155,9 @@ private:
 	// Mapping
 	inputMapping* _firstMap;
 	uint8_t mapCount;
+	
+	void _applyMaps();
+
 
 };
 
