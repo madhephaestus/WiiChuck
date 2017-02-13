@@ -5,6 +5,9 @@
 class Nunchuck : public Accessory
 {
 public:
+	Nunchuck(uint8_t data_pin, uint8_t sclk_pin);
+    void printInputs(Stream& stream);
+
 	int getJoyX();
 	int getJoyY();
 
@@ -16,7 +19,6 @@ public:
 
 	boolean checkButtonC();
 	boolean checkButtonZ();
-
 };
 
 #endif
