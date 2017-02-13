@@ -101,6 +101,9 @@ class Accessory {
 
 	  
 	  ControllerType identifyController();
+  protected:
+	  // allow sub classes to view the data
+	  uint8_t _dataarray[8];
   private:
 
     // Data Parsing
@@ -132,7 +135,7 @@ class Accessory {
 	  void _writeByte(uint8_t value);
 	  
 	  // Controller Register Transactions
-	  uint8_t _dataarray[8];
+
 
 	  void _burstRead();
 	  void _burstReadWithAddress(uint8_t addr);
