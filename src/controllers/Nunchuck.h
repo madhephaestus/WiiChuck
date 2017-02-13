@@ -4,10 +4,18 @@
 
 class Nunchuck : public Accessory
 {
-
 public:
+	int getJoyX();
+	int getJoyY();
 
-private:
+	int getRollAngle();
+	int getPitchAngle();
+	int getAccelX();
+	int getAccelY();
+	int getAccelZ();
+
+	boolean checkButtonC();
+	boolean checkButtonZ();
 
 };
 
