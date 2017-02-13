@@ -42,25 +42,6 @@ typedef enum _inType {
 	ANALOG, DIGITAL
 } inType;
 
-typedef enum _functionMapName {
-	JOY_X,
-	JOY_Y,
-	ROLL,
-	PITCH,
-	ACCELX,
-	ACCELY,
-	ACCELZ,
-	RSPRESSURE,
-	LSPRESSURE,
-	LEFTSTICKX,
-	LEFTSTICKY,
-	RIGHTSTICKX,
-	RIGHTSTICKY,
-	NOFUNCTION
-} FunctionMapName;
-typedef enum _buttonMapName {
-	CBUTTON, ZBUTTON, LZ, RZ, LD, RD, UD, DD, SL, H, START, X, Y, A, B, NOBUTTON
-} ButtonMapName;
 
 typedef struct _inputMapping {
 	inType type;
