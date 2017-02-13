@@ -19,10 +19,10 @@ int Nunchuck::getPitchAngle() {
 int Nunchuck::getAccelX() {
 	return decodeInt(0,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
-int getAccelY() {
+int Nunchuck::getAccelY() {
 	return decodeInt(0,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
-int getAccelZ() {
+int Nunchuck::getAccelZ() {
 	return decodeInt(0,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 boolean Nunchuck::checkButtonC() {
@@ -55,7 +55,7 @@ void Nunchuck::printInputs(Stream& stream) {
 }
 
 int Nunchuck::getAnalog(FunctionMapName name) {
-	switch (tmp->name) {
+	switch (name) {
 	case JOY_X:
 	case RIGHTSTICKX:
 		return getJoyX();
@@ -83,7 +83,7 @@ int Nunchuck::getAnalog(FunctionMapName name) {
 	}
 }
 boolean Nunchuck::getDigital(ButtonMapName name) {
-	switch (tmp->button) {
+	switch (name) {
 	case CBUTTON:
 		return checkButtonC();
 	case ZBUTTON:
