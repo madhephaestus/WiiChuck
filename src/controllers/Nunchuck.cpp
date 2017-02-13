@@ -4,7 +4,7 @@ Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 
 }
 int Nunchuck::getJoyX() {
-	return 0;
+	return decodeInt(0,0,0,0,0,0,BYTE0,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getJoyY() {
 	return 0;
