@@ -12,6 +12,43 @@
 //#define OFFICIALWII 1
 //#define WIICLASSIC 2
 typedef enum _controllertype {NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHeroWorldTourDrums,DrumController,DrawsomeTablet,Mystery} ControllerType;
+typedef enum _inType {ANALOG,DIGITAL} inType;
+
+typedef struct _inputMapping {
+  inType  type;
+  
+  // digital in params
+  uint8_t dByte;
+  uint8_t dBit;
+  bool    dActiveLow;
+  
+  // analog in params
+  uint8_t aMsbbyte;
+  uint8_t aMsbstart;
+  uint8_t aMsbend;
+  
+  uint8_t aCsbbyte;
+  uint8_t aCsbstart;
+  uint8_t aCsbend;
+  
+  uint8_t aLsbbyte;
+  uint8_t aLsbstart;
+  uint8_t aLsbend;
+  
+  // Analog Scaling info
+  uint8_t aMax;
+  uint8_t aZero;
+  uint8_t aMin;
+  
+  // Servo Scaling Info
+  uint8_t sevoMax;
+  uint8_t servoZero;
+  uint8_t servoMin;
+  
+  Servo   servo;
+  
+  struct _inputMapping* nextMap;
+} inputMapping;
 
 
 class Accessory {
@@ -93,42 +130,5 @@ class Accessory {
 
 };
 
-typedef enum _inType {ANALOG,DIGITAL} inType;
-
-typedef struct _inputMapping {
-  inType  type;
-  
-  // digital in params
-  uint8_t dByte;
-  uint8_t dBit;
-  bool    dActiveLow;
-  
-  // analog in params
-  uint8_t aMsbbyte;
-  uint8_t aMsbstart;
-  uint8_t aMsbend;
-  
-  uint8_t aCsbbyte;
-  uint8_t aCsbstart;
-  uint8_t aCsbend;
-  
-  uint8_t aLsbbyte;
-  uint8_t aLsbstart;
-  uint8_t aLsbend;
-  
-  // Analog Scaling info
-  uint8_t aMax;
-  uint8_t aZero;
-  uint8_t aMin;
-  
-  // Servo Scaling Info
-  uint8_t sevoMax;
-  uint8_t servoZero;
-  uint8_t servoMin;
-  
-  Servo   servo;
-  
-  struct _inputMapping* nextMap;
-} inputMapping;
 
 #endif
