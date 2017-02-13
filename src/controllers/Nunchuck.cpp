@@ -2,9 +2,9 @@
 Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 		Accessory(data_pin, sclk_pin) {
 	delay(100);
-	_burstRead();
+	readData();
 	delay(100);
-	_burstRead();
+	readData();
 	_joy_x_center = _rawgetJoyX() ;
 	_joy_y_center = _rawgetJoyY();
 
@@ -34,7 +34,6 @@ int Nunchuck::getJoyX() {
 	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
 }
 int Nunchuck::getJoyY() {
-	return
 	int JoyPos = _rawgetJoyY();
 	int center = _joy_y_center;
 	int min = 0;
