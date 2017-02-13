@@ -16,7 +16,7 @@ WiiChuck::WiiChuck(uint8_t data_pin, uint8_t sclk_pin) {
 	_clockSpacing = 1;
 	ackTimeout = 100;
 	_timeoutCount = 0;
-	type = Mystery;
+	type = Unknown;
 	maps = NULL;
 	numMaps=0;
 	printServos=false;
@@ -79,7 +79,7 @@ ControllerType WiiChuck::identifyController(){
             if (_dataarray[5] == 0x13)
               return DrawsomeTablet; // Drawsome Tablet
               
-  return Mystery;
+  return Unknown;
 }
 
 

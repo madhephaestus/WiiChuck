@@ -5,6 +5,7 @@
 #define WiiChuck_h
 #include "Servo.h"
 
+#include "controllers/Accessory.h"
 
 #define I2C_ADDR		0x52
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
@@ -13,7 +14,6 @@
 //#define THIRDPARTYWII 0
 //#define OFFICIALWII 1
 //#define WIICLASSIC 2
-typedef enum _controllertype {NUNCHUCK,WIICLASSIC,GuitarHeroController,GuitarHeroWorldTourDrums,DrumController,DrawsomeTablet,Mystery} ControllerType;
 
 typedef enum _functionMapName {JOY_X,JOY_Y,ROLL,PITCH,ACCELX,ACCELY ,ACCELZ,
 	RSPRESSURE,LSPRESSURE,LEFTSTICKX,LEFTSTICKY,RIGHTSTICKX,RIGHTSTICKY,NOFUNCTION} FunctionMapName;
