@@ -10,6 +10,100 @@ Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 	usePullUpClock=false;
 
 }
+
+uint8_t* Accessory::getDataArray(){
+  return _dataarray;
+}
+
+void Accessory::setDataArray(uint8_t data[6]){
+  for(int i=0; i<6; i++) _dataarray[i] = data[i];
+}
+  
+void Accessory::printInputs(Stream& stream){
+  stream.print("Accessory Bytes:\t");
+  for(int i=0; i<6; i++) {
+         if (_dataarray[i]<0x10) {stream.print("0");} 
+         stream.print(_dataarray[i],HEX); 
+         stream.print(" "); 
+  }
+  stream.println("");
+}
+
+int   Accessory::decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
+                           uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+                           uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend){
+// 5 bit int split across 3 bytes. what... the... fuck... nintendo...
+
+  if (msbbyte>5) return false;
+  if (csbbyte>5) return false;
+  if (lsbbyte>5) return false;
+
+  uint32_t analog=0;
+  uint32_t lpart;
+  lpart = _dataarray[lsbbyte];
+  lpart = lpart >> lsbstart;
+  lpart = lpart &  (0xFF>>(7-(lsbend-lsbstart)) ) ;
+  
+  uint32_t cpart;
+  cpart = _dataarray[csbbyte];
+  cpart = cpart >> csbstart;
+  cpart = cpart &  (0xFF>>(7-(csbend-csbstart)) ) ;
+  
+  cpart = cpart << ((lsbend-lsbstart)+1);
+  
+  uint32_t mpart;
+  mpart = _dataarray[msbbyte];
+  mpart = mpart >> msbstart;
+  mpart = mpart &  (0xFF>>(7-(msbend-msbstart)) ) ;
+  
+  mpart = mpart << ( ((lsbend-lsbstart)+1) + ((csbend-csbstart)+1) ) ;
+  
+  analog = lpart | cpart | mpart;
+  
+  return analog;
+  
+}
+
+bool  Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow){
+  if (byte>5) return false;
+  uint8_t swb = _dataarray[byte];
+  uint8_t sw   = (swb>>bit) & 0x01;
+  return activeLow?(!sw):(sw);
+} 
+
+void Accessory::begin()
+{
+
+
+	_use_hw = false;
+	if (	(_sda_pin == SDA) and (_scl_pin == SCL))
+	{
+		_use_hw = true;
+		  Wire.begin();
+		  Serial.println("Starting Wire");
+
+	}
+	_initBytes();
+	//Serial.println("Init sent, reading");
+
+	delay(100);
+	_burstRead();
+	//Serial.println("re-reading");
+	delay(100);
+	_burstRead();
+	Serial.println("Initialization Done");
+
+}
+
+
+/*
+ * public function to read data
+ */
+void Accessory::readData() {
+
+	_burstRead();
+
+}
 /**
  * Reads the device type from the controller
  */
@@ -71,74 +165,7 @@ ControllerType Accessory::identifyController(){
   return Mystery;
 }
 
-/*
- * public function to read data
- */
-void Accessory::readData() {
-
-	_burstRead();
-
-}
-
-uint8_t* Accessory::getDataArray(){
-  return _dataarray;
-}
-
-void Accessory::setDataArray(uint8_t data[6]){
-  for(int i=0; i<6; i++) _dataarray[i] = data[i];
-}
-  
-void Accessory::printInputs(Stream& stream){
-  stream.print("Accessory Bytes:\t");
-  for(int i=0; i<6; i++) {
-         if (_dataarray[i]<0x10) {stream.print("0");} 
-         stream.print(_dataarray[i],HEX); 
-         stream.print(" "); 
-  }
-  stream.println("");
-}
-
-int   Accessory::decodeInt(uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
-                           uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-                           uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend){
-// 5 bit int split across 3 bytes. what... the... fuck... nintendo...
-
-  if (msbbyte>5) return false;
-  if (csbbyte>5) return false;
-  if (lsbbyte>5) return false;
-
-  uint32_t analog=0;
-  uint32_t lpart;
-  lpart = _dataarray[lsbbyte];
-  lpart = lpart >> lsbstart;
-  lpart = lpart &  (0xFF>>(7-(lsbend-lsbstart)) ) ;
-  
-  uint32_t cpart;
-  cpart = _dataarray[csbbyte];
-  cpart = cpart >> csbstart;
-  cpart = cpart &  (0xFF>>(7-(csbend-csbstart)) ) ;
-  
-  cpart = cpart << ((lsbend-lsbstart)+1);
-  
-  uint32_t mpart;
-  mpart = _dataarray[msbbyte];
-  mpart = mpart >> msbstart;
-  mpart = mpart &  (0xFF>>(7-(msbend-msbstart)) ) ;
-  
-  mpart = mpart << ( ((lsbend-lsbstart)+1) + ((csbend-csbstart)+1) ) ;
-  
-  analog = lpart | cpart | mpart;
-  
-  return analog;
-  
-}
-
-bool  Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow){
-  if (byte>5) return false;
-  uint8_t swb = _dataarray[byte];
-  uint8_t sw   = (swb>>bit) & 0x01;
-  return activeLow?(!sw):(sw);
-} 
+/**Private functions*/
 
 void Accessory::_sendStart(byte addr) {
 	_dataHigh();
@@ -244,13 +271,7 @@ uint8_t Accessory::_readByte() {
 void Accessory::_writeByte(uint8_t value) {
 	_shiftOut( value);
 }
-void Accessory::initBytes() {
 
-		// improved startup procedure from http://playground.arduino.cc/Main/AccessoryClass
-		_writeRegister(0xF0, 0x55);
-		_writeRegister(0xFB, 0x00);
-
-}
 
 void Accessory::_shiftOut( uint8_t val) {
 	uint8_t i;
@@ -264,29 +285,6 @@ void Accessory::_shiftOut( uint8_t val) {
 	}
 }
 
-void Accessory::begin()
-{
-
-
-	_use_hw = false;
-	if (	(_sda_pin == SDA) and (_scl_pin == SCL))
-	{
-		_use_hw = true;
-		  Wire.begin();
-		  Serial.println("Starting Wire");
-
-	}
-	initBytes();
-	//Serial.println("Init sent, reading");
-
-	delay(100);
-	_burstRead();
-	//Serial.println("re-reading");
-	delay(100);
-	_burstRead();
-	Serial.println("Initialization Done");
-
-}
 
 void Accessory::_burstRead(){
 	_burstReadWithAddress(0);
@@ -359,5 +357,12 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value)
 		_sendStop();
 		//Serial.println("done");
 	}
+}
+void Accessory::_initBytes() {
+
+		// improved startup procedure from http://playground.arduino.cc/Main/AccessoryClass
+		_writeRegister(0xF0, 0x55);
+		_writeRegister(0xFB, 0x00);
+
 }
 
