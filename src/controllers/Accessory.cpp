@@ -372,7 +372,8 @@ uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, int16_t aOffset, float aScale, uint8_t sMin,
 		uint8_t sMax, uint8_t sZero, uint8_t sChan) {
 	    inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
-	    if (im=0) return -1;
+	    if (im==0) return -1;
+	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
 	    // set up mapping
 	    im->type = ANALOG;
 	    im->aMsbbyte=msbbyte;
@@ -394,6 +395,7 @@ uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 	    im->servoMin=sMin;
 	    im->servoZero=sZero;
 	    
+	    im->sChan=sChan;
 	    im->servo.attach(sChan);
 	    
 	    // Add to list
@@ -410,11 +412,88 @@ uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 
 uint8_t Accessory::addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
 		uint8_t sMin, uint8_t sMax, uint8_t sZero, uint8_t sChan) {
-	//
-
+inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
+	    if (im==0) return -1;
+	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
+	    // set up mapping
+	    im->type = DIGITAL;
+	    im->dByte=byte;
+	    im->dBit=bit;
+	    
+	    im->servoMax=sMax;
+	    im->servoMin=sMin;
+	    im->servoZero=sZero;
+	    
+	    im->sChan=sChan;
+	    im->servo.attach(sChan);
+	    
+	    // Add to list
+	    // Are we first
+	    if (_firstMap==0) _firstMap = im;
+	    else {
+	      // Walk the list
+	      inputMapping* m=_firstMap;
+	      while(m->nextMap!=0) m=m->nextMap;
+	      // Ok we're at the end. Add our map.
+	      m->nextMap=im;
+	    }
 }
 
 void Accessory::printMaps(Stream& stream) {
+   stream.println("Active Maps");
+   if (_firstMap==0) stream.println("/tNo Maps");
+	    else {
+	      // Walk the list
+	      inputMapping* m=_firstMap;
+	      int cnt=0;
+	      do {
+	        stream.print("\t["); stream.print(cnt); stream.print("]  "); stream.print("Servo: ");stream.print(m->sChan);stream.print("(");
+	        stream.print(m->servoMin);stream.print(",");
+	        stream.print(m->servoZero);stream.print(",");
+	        stream.print(m->servoMax);stream.print(") ");
+	        
+	        if (m->type == ANALOG){
+	        stream.print("ANALOG ");
+	          if (m->aMsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aMsbbyte);
+	            stream.print("[");
+	            stream.print(m->aMsbend);
+	            stream.print(":");
+	            stream.print(m->aMsbstart);
+	            stream.print("] ");
+	          }
+	          if (m->aCsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aCsbbyte);
+	            stream.print("[");
+	            stream.print(m->aCsbend);
+	            stream.print(":");
+	            stream.print(m->aCsbstart);
+	            stream.print("] ");
+	          }
+	          if (m->aLsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aLsbbyte);
+	            stream.print("[");
+	            stream.print(m->aLsbend);
+	            stream.print(":");
+	            stream.print(m->aLsbstart);
+	            stream.print("] ");
+	          }
+	          stream.print("Offset: "); stream.print(m->offset);
+	          stream.print(" Scale: "); stream.print(m->scale);
+	        
+	        } else {
+	          stream.print("DIGITAL ");
+	          stream.print("BIT");stream.print(m->dByte);
+	          stream.print("[");
+	          stream.print(m->dBit);
+	          stream.print("]");
+	        }
+	        
+	        stream.println("");
+	        m=m->nextMap;
+	        cnt++;
+	      } while(m!=0);
+	    }
 
 }
 uint8_t Accessory::getMapCount() {

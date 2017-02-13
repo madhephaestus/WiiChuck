@@ -65,7 +65,7 @@ typedef struct _inputMapping {
 	uint8_t aLsbend;
 
 	//Input Scaling info
-	uint16_t offset;
+	int16_t offset;
 	float    scale;
 
 	// Servo Scaling Info
@@ -74,6 +74,7 @@ typedef struct _inputMapping {
 	uint8_t servoMin;
 
 	Servo servo;
+	uint8_t sChan;
 
 	struct _inputMapping* nextMap;
 } inputMapping;
