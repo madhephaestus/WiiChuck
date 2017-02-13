@@ -1,12 +1,67 @@
 #include "Nunchuck.h"
 Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 		Accessory(data_pin, sclk_pin) {
+	delay(100);
+	_burstRead();
+	delay(100);
+	_burstRead();
+	_joy_x_center = _rawgetJoyX() ;
+	_joy_y_center = _rawgetJoyY();
 
 }
 int Nunchuck::getJoyX() {
-	return decodeInt(0,0,0,0,0,0,BYTE0,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	int JoyPos =_rawgetJoyX();
+	int center = _joy_x_center;
+	int min = 0;
+	int max = 255;
+
+	int value =0;
+
+	bool m=false;
+	// select the bounding value to map to
+	if (JoyPos < center) {
+		value=min;
+
+	} else if (JoyPos > center) {
+		value=max;
+		m=true;
+	} else
+		return 0;
+	// calculate a mapping value
+	float valueDiff = value -center;
+	float joyDiff =  JoyPos -center;
+
+	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
 }
 int Nunchuck::getJoyY() {
+	return
+	int JoyPos = _rawgetJoyY();
+	int center = _joy_y_center;
+	int min = 0;
+	int max = 255;
+
+	int value =0;
+
+	bool m=false;
+	// select the bounding value to map to
+	if (JoyPos < center) {
+		value=min;
+
+	} else if (JoyPos > center) {
+		value=max;
+		m=true;
+	} else
+		return 0;
+	// calculate a mapping value
+	float valueDiff = value -center;
+	float joyDiff =  JoyPos -center;
+
+	return (int) ((100.0*joyDiff)/valueDiff)*(m?1:-1);
+}
+int Nunchuck::_rawgetJoyX() {
+	return decodeInt(0,0,0,0,0,0,BYTE0,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+}
+int Nunchuck::_rawgetJoyY() {
 	return decodeInt(0,0,0,0,0,0,BYTE1,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 

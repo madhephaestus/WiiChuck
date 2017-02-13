@@ -21,6 +21,11 @@ public:
 	boolean checkButtonZ();
 	int getAnalog(FunctionMapName name);
 	boolean getDigital(ButtonMapName name);
+private:
+	int _rawgetJoyX();
+	int _rawgetJoyY();
+	int32_t _joy_x_center, _joy_y_center;
+
 };
 
 #endif
