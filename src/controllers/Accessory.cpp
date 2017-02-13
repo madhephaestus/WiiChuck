@@ -87,11 +87,9 @@ void Accessory::begin() {
 
 	}
 	_initBytes();
-	//Serial.println("Init sent, reading");
 
 	delay(100);
 	_burstRead();
-	//Serial.println("re-reading");
 	delay(100);
 	_burstRead();
 	Serial.println("Initialization Done");
@@ -201,7 +199,6 @@ void Accessory::_sendAck() {
 }
 
 void Accessory::_dataHigh() {
-	//Serial.println("high");
 	if (usePullUpClock) {
 		pinMode(_sda_pin, INPUT);
 	} else {
@@ -211,27 +208,22 @@ void Accessory::_dataHigh() {
 
 }
 void Accessory::_dataLow() {
-	//Serial.println("low");
 	pinMode(_sda_pin, OUTPUT);
 	digitalWrite(_sda_pin, LOW);
 
 }
 void Accessory::_clockHigh() {
-	//Serial.println("high");
 	if (usePullUpClock) {
 		_clockStallCheck();
 	} else {
 		pinMode(_scl_pin, OUTPUT);
 		digitalWrite(_scl_pin, HIGH);
 	}
-//	pinMode(_scl_pin, OUTPUT);
-//	digitalWrite(_scl_pin, HIGH);
 	if (_clockSpacing > 0)
 		delayMicroseconds(_clockSpacing);
 
 }
 void Accessory::_clockLow() {
-	//Serial.println("low");
 	pinMode(_scl_pin, OUTPUT);
 	digitalWrite(_scl_pin, LOW);
 	if (_clockSpacing > 0)
@@ -255,14 +247,12 @@ void Accessory::_waitForAck() {
 	}
 
 	_clockLow();
-//	delayMicroseconds(75);
 }
 
 uint8_t Accessory::_readByte() {
 	pinMode(_sda_pin, INPUT);
 
 	uint8_t value = 0;
-	//_clockLow();
 	for (int i = 0; i < 8; ++i) {
 		_clockHigh();
 		value |= (digitalRead(_sda_pin) << (7 - i));
@@ -333,26 +323,18 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 	if (_use_hw) {
-		//Serial.println("Writing reg");
 		Wire.beginTransmission(I2C_ADDR);
 		Wire.write(reg);
 		Wire.write(value);
 		Wire.endTransmission();
-		//Serial.println("Writing reg done");
 	} else {
-		//Serial.println("Sending start");
 		_sendStart(I2C_ADDR_W);
 		_waitForAck();
-		//Serial.println("First byte");
 		_writeByte(reg);
 		_waitForAck();
-		//Serial.println("Seconde byte");
 		_writeByte(value);
-		//Serial.println("waiting");
 		_waitForAck();
-		//Serial.println("stopping");
 		_sendStop();
-		//Serial.println("done");
 	}
 }
 void Accessory::_initBytes() {
