@@ -53,3 +53,33 @@ void Nunchuck::printInputs(Stream& stream) {
 		stream.print("-");
 	stream.println();
 }
+
+int Nunchuck::getAnalog(FunctionMapName name) {
+	switch (tmp->name) {
+	case JOY_X:
+		return getJoyX();
+	case JOY_Y:
+		return getJoyY();
+
+	case ROLL:
+		return getRollAngle();
+
+	case PITCH:
+		return getPitchAngle();
+
+	case ACCELX:
+		return getAccelX();
+
+	case ACCELY:
+		return getAccelY();
+
+	case ACCELZ:
+		return getAccelZ();
+
+	default:
+		return 0;
+	}
+}
+boolean Nunchuck::getDigital(ButtonMapName name) {
+	return false;
+}

@@ -19,6 +19,8 @@ public:
 
 	boolean checkButtonC();
 	boolean checkButtonZ();
+	int getAnalog(FunctionMapName name);
+	boolean getDigital(ButtonMapName name);
 };
 
 #endif
