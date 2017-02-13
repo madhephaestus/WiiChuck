@@ -126,6 +126,8 @@ public:
 	void removeMap(uint8_t id);
 
 	ControllerType identifyController();
+	int getAnalog(FunctionMapName name);
+	boolean getDigital(ButtonMapName name);
 protected:
 	// allow sub classes to view the data
 	uint8_t _dataarray[8];
