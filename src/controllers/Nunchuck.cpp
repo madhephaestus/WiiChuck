@@ -26,7 +26,7 @@ int getAccelZ() {
 	return 0;
 }
 boolean Nunchuck::checkButtonC() {
-	return false;
+	return decodeBit(BYTE5,BIT1,true); 
 }
 boolean Nunchuck::checkButtonZ() {
 	return false;
