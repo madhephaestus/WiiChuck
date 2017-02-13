@@ -4,10 +4,10 @@ Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 
 }
 int Nunchuck::getJoyX() {
-	return decodeInt(0,0,0,0,0,0,BYTE0,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE0,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getJoyY() {
-	return decodeInt(0,0,0,0,0,0,BYTE1,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE1,BIT0,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 
 int Nunchuck::getRollAngle() {
@@ -17,13 +17,13 @@ int Nunchuck::getPitchAngle() {
 	return (int) (atan2((double) getAccelY(), (double) getAccelZ()) * 180.0 / PI);
 }
 int Nunchuck::getAccelX() {
-	return decodeInt(0,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getAccelY() {
-	return decodeInt(0,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 int Nunchuck::getAccelZ() {
-	return decodeInt(0,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7) - 512; // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(UNUSED,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
 }
 boolean Nunchuck::checkButtonC() {
 	return decodeBit(BYTE5,BIT1,true);  // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
@@ -38,8 +38,8 @@ void Nunchuck::printInputs(Stream& stream) {
 
 	stream.print("NUNCHUCK ");
 	sprintf(st,
-			"  JoyX: %4d%% | JoyY: %4d%% | Roll: %4d | Pitch: %4d | Buttons: ",
-			getJoyX(), getJoyY(), getRollAngle(), getPitchAngle());
+			"  JoyX: %4d  | JoyY: %4d | Ax: %4d | Ay: %4d | Az: %4d | Buttons: ",
+			getJoyX(), getJoyY(), getAccelX(), getAccelY(),getAccelZ());
 
 	stream.print(st);
 
