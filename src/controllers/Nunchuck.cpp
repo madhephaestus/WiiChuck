@@ -57,8 +57,10 @@ void Nunchuck::printInputs(Stream& stream) {
 int Nunchuck::getAnalog(FunctionMapName name) {
 	switch (tmp->name) {
 	case JOY_X:
+	case RIGHTSTICKX:
 		return getJoyX();
 	case JOY_Y:
+	case RIGHTSTICKY:
 		return getJoyY();
 
 	case ROLL:
