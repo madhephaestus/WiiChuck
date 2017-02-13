@@ -17,7 +17,7 @@ int Nunchuck::getPitchAngle() {
 	return 0;
 }
 int Nunchuck::getAccelX() {
-	return 0;
+	return decodeInt(0,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT4,BIT5);
 }
 int getAccelY() {
 	return 0;
