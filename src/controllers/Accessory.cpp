@@ -101,7 +101,7 @@ void Accessory::printInputs(Stream& stream) {
 
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 		uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-		uint8_t lsbstart, uint8_t lsbend, uint16_t offset, float scale) {
+		uint8_t lsbstart, uint8_t lsbend, int16_t offset, float scale) {
 // 5 bit int split across 3 bytes. what... the... fuck... nintendo...
   bool msbflag=false,csbflag=false,lsbflag=false;
 	if (msbbyte > 5)
@@ -111,7 +111,7 @@ int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 	if (lsbbyte > 5)
 		lsbflag=true;
 
-	uint32_t analog = 0;
+	int32_t analog = 0;
 	uint32_t lpart;
 	lpart = (lsbflag)?0:_dataarray[lsbbyte];
 	lpart = lpart >> lsbstart;
@@ -369,9 +369,43 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 
 uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart,
 		uint8_t msbend, uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, uint16_t aOffset, float aSscale, uint8_t sMin,
+		uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend, int16_t aOffset, float aScale, uint8_t sMin,
 		uint8_t sMax, uint8_t sZero, uint8_t sChan) {
-	//
+	    inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
+	    if (im=0) return -1;
+	    // set up mapping
+	    im->type = ANALOG;
+	    im->aMsbbyte=msbbyte;
+	    im->aMsbstart=msbstart;
+	    im->aMsbend=msbend;
+	    
+	    im->aCsbbyte=csbbyte;
+	    im->aCsbstart=csbstart;
+	    im->aCsbend=csbend;
+	    
+	    im->aLsbbyte=lsbbyte;
+	    im->aLsbstart=lsbstart;
+	    im->aLsbend=lsbend;
+	    
+	    im->offset=aOffset;
+	    im->scale=aScale;
+	    
+	    im->servoMax=sMax;
+	    im->servoMin=sMin;
+	    im->servoZero=sZero;
+	    
+	    im->servo.attach(sChan);
+	    
+	    // Add to list
+	    // Are we first
+	    if (_firstMap==0) _firstMap = im;
+	    else {
+	      // Walk the list
+	      inputMapping* m=_firstMap;
+	      while(m->nextMap!=0) m=m->nextMap;
+	      // Ok we're at the end. Add our map.
+	      m->nextMap=im;
+	    }
 }
 
 uint8_t Accessory::addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
@@ -390,11 +424,3 @@ void Accessory::removeMaps() {
 }
 void Accessory::removeMap(uint8_t id) {
 }
-
-int Accessory::getAnalog(FunctionMapName name) {
-	return 0;
-}
-boolean Accessory::getDigital(ButtonMapName name) {
-	return false;
-}
-

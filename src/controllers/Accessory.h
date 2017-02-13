@@ -69,7 +69,7 @@ typedef struct _inputMapping {
 	float    scale;
 
 	// Servo Scaling Info
-	uint8_t sevoMax;
+	uint8_t servoMax;
 	uint8_t servoZero;
 	uint8_t servoMin;
 
@@ -95,7 +95,7 @@ public:
 	// mapping funcs
 	uint8_t addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,uint16_t aOffset, float aSscale, uint8_t sMin, uint8_t sMax,
+			uint8_t lsbstart, uint8_t lsbend,int16_t aOffset, float aScale, uint8_t sMin, uint8_t sMax,
 			uint8_t sZero, uint8_t sChan);
 
 	uint8_t addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
@@ -107,15 +107,13 @@ public:
 	void removeMap(uint8_t id);
 
 	ControllerType identifyController();
-	int getAnalog(FunctionMapName name);
-	boolean getDigital(ButtonMapName name);
 protected:
 	// allow sub classes to view the data
 	uint8_t _dataarray[8];
 	// Data Parsing
 	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,uint16_t offset, float scale);
+			uint8_t lsbstart, uint8_t lsbend,int16_t offset, float scale);
 	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 private:
 
@@ -151,7 +149,7 @@ private:
 	void initBytes();
 
 	// Mapping
-	inputMapping* first;
+	inputMapping* _firstMap;
 	uint8_t mapCount;
 
 };
