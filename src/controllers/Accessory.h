@@ -28,6 +28,22 @@ class Accessory {
 	  void readData();
 	  
 	  void usePullUpClock(bool mode);
+	  
+	  // mapping funcs
+	  uint8_t addAnalogMap( uint8_t msbbyte,uint8_t msbstart,uint8_t msbend,
+	                     uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+	                     uint8_t lsbbyte, uint8_t lsbstart, uint8_t lsbend,
+	  	                 uint8_t sMin, uint8_t sMax, uint8_t sZero,
+	                     uint8_t sChan);
+	                     
+	  uint8_t addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
+	                     uint8_t sMin, uint8_t sMax, uint8_t sZero,
+	                     uint8_t sChan);
+	                     
+	  void printMaps(Stream& stream);
+	  uint8_t getMapCount();
+	  void removeMaps();
+	  void removeMap(uint8_t id);
 
 	  
 	  ControllerType identifyController();
@@ -69,6 +85,9 @@ class Accessory {
 	  void _writeRegister(uint8_t reg, uint8_t value);
 	  void initBytes();
 
+    // Mapping
+    inputMapping* first;
+    uint8_t mapCount;
 
 
 
