@@ -7,9 +7,9 @@
 //#define WiiChickUseSWiic
 
 //#ifdef WiiChickUseSWiic
-  sWire myWire;
+//  sWire myWire;
 //#else
-  //#define myWire Wire
+#define myWire Wire
 //#endif
 
 
