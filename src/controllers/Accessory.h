@@ -4,6 +4,8 @@
 #include "Arduino.h"
 #include <Servo.h>
 
+
+
 #define I2C_ADDR		0x52
 #define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
 #define I2C_ADDR_W		(I2C_ADDR << 1)
@@ -43,16 +45,8 @@ typedef enum _inType {
 	ANALOG, DIGITAL
 } inType;
 
-
-typedef struct _inputMapping {
-	inType type;
-
-	// digital in params
-	uint8_t dByte;
-	uint8_t dBit;
-	bool dActiveLow;
-
-	// analog in params
+typedef struct _analogMapBits {
+  	// analog in params
 	uint8_t aMsbbyte;
 	uint8_t aMsbstart;
 	uint8_t aMsbend;
@@ -64,6 +58,23 @@ typedef struct _inputMapping {
 	uint8_t aLsbbyte;
 	uint8_t aLsbstart;
 	uint8_t aLsbend;
+} analogMapBits;
+
+typedef struct _digitalMapBits {
+	// digital in params
+	uint8_t dByte;
+	uint8_t dBit;
+	bool dActiveLow;
+
+} digitalMapBits;
+
+typedef struct _inputMapping {
+	inType type;
+
+	// digital in params
+  digitalMapBits dSch;
+	// analog in params
+  analogMapBits aSch;
 
 	//Input Scaling info
 	int16_t aMin;
@@ -93,7 +104,7 @@ public:
 	void begin();
 	void readData();
 
-	void usePullUpClock(bool mode);
+	
 
 	// mapping funcs
 	uint8_t addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
@@ -121,29 +132,6 @@ protected:
 	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 private:
 
-
-
-	// SW i2c
-	uint8_t _scl_pin;
-	uint8_t _sda_pin;
-	boolean _use_hw;
-	uint32_t _clockSpacing;
-	unsigned long ackTimeout;
-	boolean _usePullUpClock;
-
-	void _clockHigh();
-	void _clockLow();
-	void _dataHigh();
-	void _dataLow();
-	void _sendStart(byte addr);
-	void _sendStop();
-	void _sendAck();
-	void _sendNack();
-	void _waitForAck();
-	void _clockStallCheck();
-	void _shiftOut(uint8_t val);
-	uint8_t _readByte();
-	void _writeByte(uint8_t value);
 
 	// Controller Register Transactions
 

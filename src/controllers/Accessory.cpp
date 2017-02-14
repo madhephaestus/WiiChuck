@@ -1,13 +1,22 @@
 #include "Accessory.h"
 #include <Wire.h>
+
+#include "sWire.h"
 #include "Servo.h"
 
+//#define WiiChickUseSWiic
+
+//#ifdef WiiChickUseSWiic
+  sWire myWire;
+//#else
+  //#define myWire Wire
+//#endif
+
+
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
-	_sda_pin = data_pin;
-	_scl_pin = sclk_pin;
-	_clockSpacing = 1;
-	ackTimeout = 100;
-	_usePullUpClock = false;
+//#ifdef WiiChickUseSWiic
+  myWire.setiicpins(data_pin,sclk_pin);
+//#endif
 
 }
 /**
@@ -83,6 +92,14 @@ uint8_t* Accessory::getDataArray() {
 	return _dataarray;
 }
 
+void Accessory::initBytes() {
+
+	// improved startup procedure from http://playground.arduino.cc/Main/sWireClass
+	_writeRegister(0xF0, 0x55);
+	_writeRegister(0xFB, 0x00);
+
+}
+
 void Accessory::setDataArray(uint8_t data[6]) {
 	for (int i = 0; i < 6; i++)
 		_dataarray[i] = data[i];
@@ -148,145 +165,17 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 	return activeLow ? (!sw) : (sw);
 }
 
-void Accessory::_sendStart(byte addr) {
-	_dataHigh();
-	_clockHigh();
-	_dataLow();
-	_clockLow();
-	_shiftOut(addr);
-
-}
-
-void Accessory::_sendStop() {
-	_clockLow();
-	_clockHigh();
-	_dataHigh();
-	pinMode(_sda_pin, INPUT);
-}
-
-void Accessory::_sendNack() {
-	_clockLow();
-	_dataHigh();
-	_clockHigh();
-	_clockLow();
-	pinMode(_sda_pin, INPUT);
-}
-
-void Accessory::_sendAck() {
-	_clockLow();
-	_dataLow();
-	_clockHigh();
-	_clockLow();
-	pinMode(_sda_pin, INPUT);
-}
-
-void Accessory::_dataHigh() {
-	if (_usePullUpClock) {
-		pinMode(_sda_pin, INPUT);
-	} else {
-		pinMode(_sda_pin, OUTPUT);
-		digitalWrite(_sda_pin, HIGH);
-	}
-
-}
-void Accessory::_dataLow() {
-	pinMode(_sda_pin, OUTPUT);
-	digitalWrite(_sda_pin, LOW);
-
-}
-void Accessory::_clockHigh() {
-
-	if (_usePullUpClock) {
-		_clockStallCheck();
-	} else {
-		pinMode(_scl_pin, OUTPUT);
-		digitalWrite(_scl_pin, HIGH);
-	}
-	
-	if (_clockSpacing > 0)
-		delayMicroseconds(_clockSpacing);
-
-}
-void Accessory::_clockLow() {
-	pinMode(_scl_pin, OUTPUT);
-	digitalWrite(_scl_pin, LOW);
-	if (_clockSpacing > 0)
-		delayMicroseconds(_clockSpacing);
-
-}
-
-void Accessory::_clockStallCheck() {
-	pinMode(_scl_pin, INPUT);
-
-	unsigned long time = millis();
-	while (digitalRead(_scl_pin) != HIGH && (time + ackTimeout) < millis()) {
-	}
-
-}
-void Accessory::_waitForAck() {
-	pinMode(_sda_pin, INPUT);
-	_clockHigh();
-	unsigned long time = millis();
-	while (digitalRead(_sda_pin) == HIGH && (time + ackTimeout) < millis()) {
-	}
-
-	_clockLow();
-}
-
-uint8_t Accessory::_readByte() {
-	pinMode(_sda_pin, INPUT);
-
-	uint8_t value = 0;
-	for (int i = 0; i < 8; ++i) {
-		_clockHigh();
-		value |= (digitalRead(_sda_pin) << (7 - i));
-		_clockLow();
-	}
-	return value;
-}
-
-void Accessory::_writeByte(uint8_t value) {
-	_shiftOut(value);
-}
-void Accessory::initBytes() {
-
-	// improved startup procedure from http://playground.arduino.cc/Main/AccessoryClass
-	_writeRegister(0xF0, 0x55);
-	_writeRegister(0xFB, 0x00);
-
-}
-
-void Accessory::usePullUpClock(bool mode) {
-	_usePullUpClock = mode;
-}
-
-void Accessory::_shiftOut(uint8_t val) {
-	uint8_t i;
-	for (i = 0; i < 8; i++) {
-		if ((val & (1 << (7 - i))) == 0) {
-			_dataLow();
-		} else
-			_dataHigh();
-		_clockHigh();
-		_clockLow();
-	}
-}
 
 void Accessory::begin() {
+  myWire.begin();
 
-	_use_hw = false;
-	if ((_sda_pin == SDA) and (_scl_pin == SCL)) {
-		_use_hw = true;
-		Wire.begin();
-		Serial.println("Starting Wire");
-
-	}
 	initBytes();
 
 	delay(100);
 	_burstRead();
 	delay(100);
 	_burstRead();
+	
 	Serial.println("Initialization Done");
 
 }
@@ -298,59 +187,24 @@ void Accessory::_burstRead() {
 void Accessory::_burstReadWithAddress(uint8_t addr) {
 	int readAmnt = 6;
 
-	if (_use_hw) {
 		// send conversion command
-		Wire.beginTransmission(I2C_ADDR);
-		Wire.write(addr);
-		Wire.endTransmission();
+		myWire.beginTransmission(I2C_ADDR);
+		myWire.write(addr);
+		myWire.endTransmission();
 
 		// wait for data to be converted
 		delay(1);
 
 		// read data
-		Wire.readBytes(_dataarray,
-				Wire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
-
-	} else {
-		// send conversion command
-		_sendStart(I2C_ADDR_W);
-		_waitForAck();
-		_writeByte(addr);
-		_waitForAck();
-		_sendStop();
-		
-		// wait for data to be converted
-		delay(1);
-		_sendStart(I2C_ADDR_R);
-		_waitForAck();
-
-		for (int i = 0; i < readAmnt; i++) {
-			delayMicroseconds(40);
-			_dataarray[i] = _readByte();
-			if (i < (readAmnt - 1))
-				_sendAck();
-			else
-				_sendNack();
-		}
-		_sendStop();
-	}
+		myWire.readBytes(_dataarray,
+				myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
 }
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
-	if (_use_hw) {
-		Wire.beginTransmission(I2C_ADDR);
-		Wire.write(reg);
-		Wire.write(value);
-		Wire.endTransmission();
-	} else {
-		_sendStart(I2C_ADDR_W);
-		_waitForAck();
-		_writeByte(reg);
-		_waitForAck();
-		_writeByte(value);
-		_waitForAck();
-		_sendStop();
-	}
+		myWire.beginTransmission(I2C_ADDR);
+		myWire.write(reg);
+		myWire.write(value);
+		myWire.endTransmission();
 }
 
 uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
@@ -362,17 +216,17 @@ uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msben
 	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
 	    // populate mapping struct
 	    im->type = ANALOG;
-	    im->aMsbbyte=msbbyte;
-	    im->aMsbstart=msbstart;
-	    im->aMsbend=msbend;
+	    im->aSch.aMsbbyte=msbbyte;
+	    im->aSch.aMsbstart=msbstart;
+	    im->aSch.aMsbend=msbend;
 	    
-	    im->aCsbbyte=csbbyte;
-	    im->aCsbstart=csbstart;
-	    im->aCsbend=csbend;
+	    im->aSch.aCsbbyte=csbbyte;
+	    im->aSch.aCsbstart=csbstart;
+	    im->aSch.aCsbend=csbend;
 	    
-	    im->aLsbbyte=lsbbyte;
-	    im->aLsbstart=lsbstart;
-	    im->aLsbend=lsbend;
+	    im->aSch.aLsbbyte=lsbbyte;
+	    im->aSch.aLsbstart=lsbstart;
+	    im->aSch.aLsbend=lsbend;
 	    
 	    im->aMin=aMin;
 	    im->aMid=aMid;
@@ -407,8 +261,9 @@ inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
 	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
 	    // populate mapping struct
 	    im->type = DIGITAL;
-	    im->dByte=byte;
-	    im->dBit=bit;
+	    im->dSch.dByte=byte;
+	    im->dSch.dBit=bit;
+	    im->dSch.dActiveLow;
 	    
 	    im->servoMax=sMax;
 	    im->servoMin=sMin;
@@ -444,28 +299,28 @@ void Accessory::printMaps(Stream& stream) {
 	        
 	        if (m->type == ANALOG){
 	        stream.print("ANALOG ");
-	          if (m->aMsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aMsbbyte);
+	          if (m->aSch.aMsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aSch.aMsbbyte);
 	            stream.print("[");
-	            stream.print(m->aMsbend);
+	            stream.print(m->aSch.aMsbend);
 	            stream.print(":");
-	            stream.print(m->aMsbstart);
+	            stream.print(m->aSch.aMsbstart);
 	            stream.print("] ");
 	          }
-	          if (m->aCsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aCsbbyte);
+	          if (m->aSch.aCsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aSch.aCsbbyte);
 	            stream.print("[");
-	            stream.print(m->aCsbend);
+	            stream.print(m->aSch.aCsbend);
 	            stream.print(":");
-	            stream.print(m->aCsbstart);
+	            stream.print(m->aSch.aCsbstart);
 	            stream.print("] ");
 	          }
-	          if (m->aLsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aLsbbyte);
+	          if (m->aSch.aLsbbyte != UNUSED){
+	            stream.print("BIT");stream.print(m->aSch.aLsbbyte);
 	            stream.print("[");
-	            stream.print(m->aLsbend);
+	            stream.print(m->aSch.aLsbend);
 	            stream.print(":");
-	            stream.print(m->aLsbstart);
+	            stream.print(m->aSch.aLsbstart);
 	            stream.print("] ");
 	          }
 	          stream.print("min: "); stream.print(m->aMin);
@@ -474,9 +329,9 @@ void Accessory::printMaps(Stream& stream) {
 	        
 	        } else {
 	          stream.print("DIGITAL ");
-	          stream.print("BIT");stream.print(m->dByte);
+	          stream.print("BIT");stream.print(m->dSch.dByte);
 	          stream.print("[");
-	          stream.print(m->dBit);
+	          stream.print(m->dSch.dBit);
 	          stream.print("]");
 	        }
 	        
@@ -497,9 +352,9 @@ void Accessory::_applyMaps(){
     switch(m->type){
       case ANALOG: {
         int val =   decodeInt(
-          m->aMsbbyte,m->aMsbstart,m->aMsbend,        // MSB 
-          m->aCsbbyte,m->aCsbstart,m->aCsbend,        // CSB 
-          m->aLsbbyte,m->aLsbstart,m->aLsbend,        // LSB 
+          m->aSch.aMsbbyte,m->aSch.aMsbstart,m->aSch.aMsbend,        // MSB 
+          m->aSch.aCsbbyte,m->aSch.aCsbstart,m->aSch.aCsbend,        // CSB 
+          m->aSch.aLsbbyte,m->aSch.aLsbstart,m->aSch.aLsbend,        // LSB 
           m->aMin,m->aMid,m->aMax);                         // bounds
           
         // map to servo
@@ -507,11 +362,10 @@ void Accessory::_applyMaps(){
         
         // update servo
         m->servo.write(pos);
-        Serial.print(m->sChan); Serial.print(" pos: "); Serial.println(pos);
       }
       break;
       case DIGITAL: {
-        bool val = decodeBit(m->dByte,m->dBit,m->dActiveLow);
+        bool val = decodeBit(m->dSch.dByte,m->dSch.dBit,m->dSch.dActiveLow);
         if (val) m->servo.write(m->servoMax);
         else m->servo.write(m->servoMin);
       }
