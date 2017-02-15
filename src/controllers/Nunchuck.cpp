@@ -4,10 +4,10 @@ Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
 
 }
 int Nunchuck::getJoyX() {
-	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE0,BIT0,BIT7,0,127,255); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(joyXBytes); 
 }
 int Nunchuck::getJoyY() {
-	return decodeInt(UNUSED,0,0,UNUSED,0,0,BYTE1,BIT0,BIT7,0,127,255); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(joyYBytes); 
 }
 
 int Nunchuck::getRollAngle() {
@@ -17,19 +17,19 @@ int Nunchuck::getPitchAngle() {
 	return (int) (atan2((double) getAccelY(), (double) getAccelZ()) * 180.0 / PI);
 }
 int Nunchuck::getAccelX() {
-	return decodeInt(UNUSED,0,0,BYTE2,BIT0,BIT7,BYTE5,BIT2,BIT3,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(accelXBytes); 
 }
 int Nunchuck::getAccelY() {
-	return decodeInt(UNUSED,0,0,BYTE3,BIT0,BIT7,BYTE5,BIT4,BIT5,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(accelYBytes); 
 }
 int Nunchuck::getAccelZ() {
-	return decodeInt(UNUSED,0,0,BYTE4,BIT0,BIT7,BYTE5,BIT6,BIT7,0,512,1023); // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeInt(accelZBytes); 
 }
 boolean Nunchuck::checkButtonC() {
-	return decodeBit(BYTE5,BIT1,true);  // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeBit(buttonCBits);  
 }
 boolean Nunchuck::checkButtonZ() {
-	return decodeBit(BYTE5,BIT0,true);  // see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+	return decodeBit(buttonZBits);  
 }
 
 void Nunchuck::printInputs(Stream& stream) {
@@ -53,4 +53,68 @@ void Nunchuck::printInputs(Stream& stream) {
 		stream.print("-");
 	stream.println();
 }
+
+  
+
+	uint16_t Nunchuck::joyX::mapVar(){
+	  Nunchuck* c = (Nunchuck*)controller;
+	  return smap(c->getJoyX(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+	}
+
+  void Nunchuck::joyX::printMap(Stream& stream){
+    stream.print("Nunchuck::joyX -> ");
+    Mapping::printMap(stream);
+  }
+
+	uint16_t Nunchuck::joyY::mapVar(){
+	  Nunchuck* c = (Nunchuck*)controller;
+	  return smap(c->getJoyY(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+	}
+
+  void Nunchuck::joyY::printMap(Stream& stream){
+    stream.print("Nunchuck::joyY -> ");
+    Mapping::printMap(stream);
+  }
+
+	uint16_t Nunchuck::roll::mapVar(){
+		Nunchuck* c = (Nunchuck*)controller;
+	  return smap(c->getRollAngle(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+	}
+
+  void Nunchuck::roll::printMap(Stream& stream){
+    stream.print("Nunchuck::roll -> ");
+    Mapping::printMap(stream);
+  }
+  
+  
+	uint16_t Nunchuck::pitch::mapVar(){
+		Nunchuck* c = (Nunchuck*)controller;
+	  return smap(c->getPitchAngle(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+	}
+
+  void Nunchuck::pitch::printMap(Stream& stream){
+    stream.print("Nunchuck::pitch -> ");
+    Mapping::printMap(stream);
+  }
+
+	uint16_t Nunchuck::buttonC::mapVar(){
+	  Nunchuck* c = (Nunchuck*)controller;
+	  return (c->checkButtonC()) ? servoMax:servoZero;
+	}
+	
+	void Nunchuck::buttonC::printMap(Stream& stream){
+    stream.print("Nunchuck::ButtonC -> ");
+    Mapping::printMap(stream);
+  }
+
+	uint16_t Nunchuck::buttonZ::mapVar(){
+		Nunchuck* c = (Nunchuck*)controller;
+	  return (c->checkButtonZ()) ? servoMax:servoZero;
+	}
+
+	void Nunchuck::buttonZ::printMap(Stream& stream){
+    stream.print("Nunchuck::ButtonZ -> ");
+    Mapping::printMap(stream);
+  }
+
 

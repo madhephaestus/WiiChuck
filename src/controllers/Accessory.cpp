@@ -15,7 +15,7 @@
 
 Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
 //#ifdef WiiChickUseSWiic
-  myWire.setiicpins(data_pin,sclk_pin);
+//  myWire.setiicpins(data_pin,sclk_pin);
 //#endif
 
 }
@@ -118,8 +118,8 @@ void Accessory::printInputs(Stream& stream) {
 }
 
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-		uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-		uint8_t lsbstart, uint8_t lsbend, int16_t aMin, int16_t aMid, int16_t aMax) {
+			            uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+			            uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend){
 // 5 bit int split across 3 bytes. what... the... fuck... nintendo...
   bool msbflag=false,csbflag=false,lsbflag=false;
 	if (msbbyte > 5)
@@ -129,20 +129,20 @@ int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 	if (lsbbyte > 5)
 		lsbflag=true;
 
-	int32_t analog = 0;
-	uint32_t lpart;
+	uint32_t analog = 0;
+	uint8_t lpart=0;
 	lpart = (lsbflag)?0:_dataarray[lsbbyte];
 	lpart = lpart >> lsbstart;
 	lpart = lpart & (0xFF >> (7 - (lsbend - lsbstart)));
 
-	uint32_t cpart;
+	uint8_t cpart=0;
 	cpart = (csbflag)?0:_dataarray[csbbyte];
 	cpart = cpart >> csbstart;
 	cpart = cpart & (0xFF >> (7 - (csbend - csbstart)));
 
 	cpart = cpart << ((lsbend - lsbstart) + 1);
 
-	uint32_t mpart;
+	uint8_t mpart=0;
 	mpart = (lsbflag)?0:_dataarray[msbbyte];
 	mpart = mpart >> msbstart;
 	mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
@@ -157,6 +157,9 @@ int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 
 }
 
+
+
+
 bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 	if (byte > 5)
 		return false;
@@ -164,6 +167,7 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 	uint8_t sw = (swb >> bit) & 0x01;
 	return activeLow ? (!sw) : (sw);
 }
+
 
 
 void Accessory::begin() {
@@ -175,8 +179,6 @@ void Accessory::begin() {
 	_burstRead();
 	delay(100);
 	_burstRead();
-	
-	Serial.println("Initialization Done");
 
 }
 
@@ -207,184 +209,30 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 		myWire.endTransmission();
 }
 
-uint8_t Accessory::addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax, uint8_t sMin, uint8_t sMax,
-			uint8_t sZero, uint8_t sChan){
-	    inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
-	    if (im==0) return -1;
-	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
-	    // populate mapping struct
-	    im->type = ANALOG;
-	    im->aSch.aMsbbyte=msbbyte;
-	    im->aSch.aMsbstart=msbstart;
-	    im->aSch.aMsbend=msbend;
-	    
-	    im->aSch.aCsbbyte=csbbyte;
-	    im->aSch.aCsbstart=csbstart;
-	    im->aSch.aCsbend=csbend;
-	    
-	    im->aSch.aLsbbyte=lsbbyte;
-	    im->aSch.aLsbstart=lsbstart;
-	    im->aSch.aLsbend=lsbend;
-	    
-	    im->aMin=aMin;
-	    im->aMid=aMid;
-	    im->aMax=aMax;
-	    
-	    im->servoMax=sMax;
-	    im->servoMin=sMin;
-	    im->servoZero=sZero;
-	    
-	    im->sChan=sChan;
-	    
-	    im->servo = Servo();
-	    im->servo.attach(sChan);
-	    im->servo.write(sZero);
-	    
-	    // Add to list
-	    // Are we first
-	    if (_firstMap==0) _firstMap = im;
-	    else {
-	      // Walk the list
-	      inputMapping* m=_firstMap;
-	      while(m->nextMap!=0) m=m->nextMap;
-	      // Ok we're at the end. Add our map.
-	      m->nextMap=im;
-	    }
-}
-
-uint8_t Accessory::addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
-		uint8_t sMin, uint8_t sMax, uint8_t sZero, uint8_t sChan) {
-inputMapping* im = (inputMapping*) malloc(sizeof(inputMapping));
-	    if (im==0) return -1;
-	    Serial.print("Malloc'd:\t0x"); Serial.println((int)im, HEX);
-	    // populate mapping struct
-	    im->type = DIGITAL;
-	    im->dSch.dByte=byte;
-	    im->dSch.dBit=bit;
-	    im->dSch.dActiveLow;
-	    
-	    im->servoMax=sMax;
-	    im->servoMin=sMin;
-	    im->servoZero=sZero;
-	    
-	    im->sChan=sChan;
-	    im->servo.attach(sChan);
-	    
-	    // Add to list
-	    // Are we first
-	    if (_firstMap==0) _firstMap = im;
-	    else {
-	      // Walk the list
-	      inputMapping* m=_firstMap;
-	      while(m->nextMap!=0) m=m->nextMap;
-	      // Ok we're at the end. Add our map.
-	      m->nextMap=im;
-	    }
-}
-
 void Accessory::printMaps(Stream& stream) {
-   stream.println("Active Maps");
-   if (_firstMap==0) stream.println("/tNo Maps");
-	    else {
-	      // Walk the list
-	      inputMapping* m=_firstMap;
-	      int cnt=0;
-	      do {
-	        stream.print("\t["); stream.print(cnt); stream.print("]  "); stream.print("Servo: ");stream.print(m->sChan);stream.print("(");
-	        stream.print(m->servoMin);stream.print(",");
-	        stream.print(m->servoZero);stream.print(",");
-	        stream.print(m->servoMax);stream.print(") ");
-	        
-	        if (m->type == ANALOG){
-	        stream.print("ANALOG ");
-	          if (m->aSch.aMsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aSch.aMsbbyte);
-	            stream.print("[");
-	            stream.print(m->aSch.aMsbend);
-	            stream.print(":");
-	            stream.print(m->aSch.aMsbstart);
-	            stream.print("] ");
-	          }
-	          if (m->aSch.aCsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aSch.aCsbbyte);
-	            stream.print("[");
-	            stream.print(m->aSch.aCsbend);
-	            stream.print(":");
-	            stream.print(m->aSch.aCsbstart);
-	            stream.print("] ");
-	          }
-	          if (m->aSch.aLsbbyte != UNUSED){
-	            stream.print("BIT");stream.print(m->aSch.aLsbbyte);
-	            stream.print("[");
-	            stream.print(m->aSch.aLsbend);
-	            stream.print(":");
-	            stream.print(m->aSch.aLsbstart);
-	            stream.print("] ");
-	          }
-	          stream.print("min: "); stream.print(m->aMin);
-	          stream.print(" mind: "); stream.print(m->aMid);
-	          stream.print(" max: "); stream.print(m->aMax);
-	        
-	        } else {
-	          stream.print("DIGITAL ");
-	          stream.print("BIT");stream.print(m->dSch.dByte);
-	          stream.print("[");
-	          stream.print(m->dSch.dBit);
-	          stream.print("]");
-	        }
-	        
-	        stream.println("");
-	        m=m->nextMap;
-	        cnt++;
-	      } while(m!=0);
-	    }
-
+  stream.println("Listing all mappings");
+  if (firstMap==0) {
+    stream.println("\tNo Maps");
+    return;
+  }
+  Mapping* c=firstMap;
+  do {
+    stream.print("\t");
+    c->printMap(stream);
+    c=c->next;
+  } while (c!=0);
 }
 
 void Accessory::_applyMaps(){
-  inputMapping* m=_firstMap;
-  int cnt=0;
-  
-  if (m==0) return; // no maps. bail.
+  if (firstMap==0) return;
+  Mapping* c=firstMap;
   do {
-    switch(m->type){
-      case ANALOG: {
-        int val =   decodeInt(
-          m->aSch.aMsbbyte,m->aSch.aMsbstart,m->aSch.aMsbend,        // MSB 
-          m->aSch.aCsbbyte,m->aSch.aCsbstart,m->aSch.aCsbend,        // CSB 
-          m->aSch.aLsbbyte,m->aSch.aLsbstart,m->aSch.aLsbend,        // LSB 
-          m->aMin,m->aMid,m->aMax);                         // bounds
-          
-        // map to servo
-        uint8_t pos=smap(val,m->aMax,m->aMid,m->aMin,m->servoMax,m->servoZero,m->servoMin);
-        
-        // update servo
-        m->servo.write(pos);
-      }
-      break;
-      case DIGITAL: {
-        bool val = decodeBit(m->dSch.dByte,m->dSch.dBit,m->dSch.dActiveLow);
-        if (val) m->servo.write(m->servoMax);
-        else m->servo.write(m->servoMin);
-      }
-      break;
-    }
-    m=m->nextMap;
-	  cnt++;
-  } while(m!=0);
+    c->update();
+    c=c->next;
+  } while (c!=0);
+  
 
 }
-
-uint8_t Accessory::getMapCount() {
-
-}
-void Accessory::removeMaps() {
-}
-void Accessory::removeMap(uint8_t id) {
-}
-
 int16_t Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero, int16_t sMin){
   if (val>aMid) {
     return map(val,aMid,aMax,sZero,sMax);
@@ -393,3 +241,65 @@ int16_t Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, i
   }
   return sZero;
 }
+
+
+
+uint8_t Accessory::addMap(Mapping* m){
+  if (m==0) return 255;
+  m->controller = this;
+  
+  if (firstMap==0){
+    firstMap = m; // its the first one.
+    return 0;
+  } else { // walk to end of list
+    Mapping* c=firstMap;
+    int count=0;
+    while(c->next != 0){
+      c = c->next;
+      count++;
+    }
+    // c is end of list
+    c->next = m;
+    return count;
+  }
+
+}
+
+
+Accessory::Mapping::Mapping(){
+}
+
+
+
+Accessory::Mapping::Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min){
+  addServo(chan,max,zero,min);
+}
+
+void Accessory::Mapping::printMap(Stream& stream){
+  stream.print("\t[");stream.print(channel);stream.print("] \t(");
+  stream.print(servoMax);stream.print(" *");
+  stream.print(servoZero);stream.print("* ");
+  stream.print(servoMin);stream.println(" )");
+}
+
+uint16_t Accessory::Mapping::mapVar(){
+
+    return 0;
+}
+
+void Accessory::Mapping::update(){
+int mv = mapVar();
+  servo.write(mv);
+}
+
+void Accessory::Mapping::addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min){
+  servo;
+  servo.attach(chan);
+  channel=chan;
+  servoMin=min;
+  servoMax=max;
+  servoZero=zero;
+}
+
+
+

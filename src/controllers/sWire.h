@@ -1,3 +1,6 @@
+
+#ifndef swire_h
+#define swire_h
 #include "Arduino.h"
 
 class sWire{
@@ -42,3 +45,5 @@ class sWire{
 	  uint8_t _readByte();
 	  void _writeByte(uint8_t value);
 };
+
+#endif

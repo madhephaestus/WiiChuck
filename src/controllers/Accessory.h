@@ -92,28 +92,28 @@ typedef struct _inputMapping {
 	struct _inputMapping* nextMap;
 } inputMapping;
 
+#define dataSize 6
+
 class Accessory {
 public:
 	Accessory(uint8_t data_pin, uint8_t sclk_pin);
 
 	uint8_t* getDataArray();
-	void setDataArray(uint8_t data[6]);
+	void setDataArray(uint8_t data[dataSize]);
 
 	void printInputs(Stream& stream);
 
 	void begin();
 	void readData();
 
+
+
 	
-
-	// mapping funcs
-	uint8_t addAnalogMap(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax, uint8_t sMin, uint8_t sMax,
-			uint8_t sZero, uint8_t sChan);
-
-	uint8_t addDigitalMap(uint8_t byte, uint8_t bit, bool activeLow,
-			uint8_t sMin, uint8_t sMax, uint8_t sZero, uint8_t sChan);
+	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
+			            uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+			            uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
+			            
+	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 
 	void printMaps(Stream& stream);
 	uint8_t getMapCount();
@@ -121,15 +121,46 @@ public:
 	void removeMap(uint8_t id);
 
 	ControllerType identifyController();
-		int16_t smap(int16_t val,int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero,int16_t sMin);
+	static int16_t smap(int16_t val,int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero,int16_t sMin);
+	
+	
+	class Mapping {
+	  public:
+	  Mapping();
+	  Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min);
+	  virtual uint16_t mapVar();
+	  virtual void printMap(Stream& stream);
+	  	// Data Parsing
+
+	  Mapping* next;
+	  Accessory* controller;
+	  
+	  void addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min);
+	  void update();
+	  protected:
+	  Servo servo;
+	  uint8_t channel;
+	  
+	  uint8_t servoMax;
+	  uint8_t servoZero;
+	  uint8_t servoMin;
+	  
+	  
+	  
+	}; 
+	uint8_t addMap(Mapping* m);
 protected:
 	// allow sub classes to view the data
 	uint8_t _dataarray[8];
-	// Data Parsing
-	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
-			uint8_t lsbstart, uint8_t lsbend,int16_t aMin, int16_t aMid, int16_t aMax);
-	bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
+
+	
+
+	
+	Mapping* firstMap;
+	
+	
+
+	
 private:
 
 
