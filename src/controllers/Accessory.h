@@ -105,6 +105,8 @@ public:
 
 	void begin();
 	void readData();
+	
+	void enableEncryption(bool enc);
 
 
 
@@ -138,6 +140,7 @@ public:
 	  void addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min);
 	  void update();
 	  protected:
+	  bool _encrypted=false;
 	  Servo servo;
 	  uint8_t channel;
 	  
@@ -150,8 +153,14 @@ public:
 	}; 
 	uint8_t addMap(Mapping* m);
 protected:
+bool _encrypted;
 	// allow sub classes to view the data
 	uint8_t _dataarray[8];
+	
+	uint8_t _key_table_1[16]={0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97};
+	uint8_t _key_table_2[16]={0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97,0x97};
+	
+	uint8_t decryptByte(uint8_t byte,uint8_t address);
 
 	
 

@@ -95,8 +95,13 @@ uint8_t* Accessory::getDataArray() {
 void Accessory::initBytes() {
 
 	// improved startup procedure from http://playground.arduino.cc/Main/sWireClass
-	_writeRegister(0xF0, 0x55);
-	_writeRegister(0xFB, 0x00);
+	
+	if (_encrypted){
+    _writeRegister(0x40, 0x00); 
+	} else {
+		_writeRegister(0xF0, 0x55);
+	  _writeRegister(0xFB, 0x00);
+	}
 
 }
 
@@ -200,6 +205,10 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
 		// read data
 		myWire.readBytes(_dataarray,
 				myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+				
+		if(_encrypted) {
+		  for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],i);
+		}
 }
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
@@ -207,6 +216,10 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 		myWire.write(reg);
 		myWire.write(value);
 		myWire.endTransmission();
+}
+
+void Accessory::enableEncryption(bool enc){
+  _encrypted = enc;
 }
 
 void Accessory::printMaps(Stream& stream) {
@@ -263,6 +276,10 @@ uint8_t Accessory::addMap(Mapping* m){
     return count;
   }
 
+}
+
+uint8_t Accessory::decryptByte(uint8_t byte, uint8_t address){
+ return (byte ^ _key_table_1[address % 8]) + _key_table_2[address % 8];
 }
 
 
