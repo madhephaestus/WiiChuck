@@ -1,6 +1,16 @@
+#include "Classic.h"
+
+Classic::Classic(uint8_t data_pin, uint8_t sclk_pin) :
+    Accessory(data_pin, sclk_pin) {
+
+}
+
+
+
+
 uint16_t Classic::joyXLeft::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->joyXLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getJoyXLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::joyXLeft::printMap(Stream& stream) {
@@ -8,14 +18,14 @@ void Classic::joyXLeft::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getjoyXLeft() {
+int Classic::getJoyXLeft() {
     return decodeInt(joyXLeftBytes);
 }
 
 
 uint16_t Classic::joyXRight::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->joyXRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getJoyXRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::joyXRight::printMap(Stream& stream) {
@@ -23,14 +33,14 @@ void Classic::joyXRight::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getjoyXRight() {
+int Classic::getJoyXRight() {
     return decodeInt(joyXRightBytes);
 }
 
 
 uint16_t Classic::joyYLeft::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->joyYLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getJoyYLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::joyYLeft::printMap(Stream& stream) {
@@ -38,14 +48,14 @@ void Classic::joyYLeft::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getjoyYLeft() {
+int Classic::getJoyYLeft() {
     return decodeInt(joyYLeftBytes);
 }
 
 
 uint16_t Classic::joyYRight::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->joyYRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getJoyYRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::joyYRight::printMap(Stream& stream) {
@@ -53,14 +63,14 @@ void Classic::joyYRight::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getjoyYRight() {
+int Classic::getJoyYRight() {
     return decodeInt(joyYRightBytes);
 }
 
 
 uint16_t Classic::triggerLeft::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->triggerLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getTriggerLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::triggerLeft::printMap(Stream& stream) {
@@ -68,14 +78,14 @@ void Classic::triggerLeft::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::gettriggerLeft() {
+int Classic::getTriggerLeft() {
     return decodeInt(triggerLeftBytes);
 }
 
 
 uint16_t Classic::triggerRight::mapVar() {
     Classic* c = (Classic*)controller;
-    return smap(c->triggerRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
+    return smap(c->getTriggerRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
 
 void Classic::triggerRight::printMap(Stream& stream) {
@@ -83,29 +93,22 @@ void Classic::triggerRight::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::gettriggerRight() {
+int Classic::getTriggerRight() {
     return decodeInt(triggerRightBytes);
 }
-
-
-uint16_t Classic::padRight::mapVar() {
-    Classic* c = (Classic*)controller;
-    return c->padRight() ? servoMax,sercoZero;
-}
-
 void Classic::padRight::printMap(Stream& stream) {
     stream.print("Classic::padRight -> ");
     Mapping::printMap(stream);
 }
 
-int Classic::getpadRight() {
-    return decodeInt(padRightBytes);
+int Classic::getPadRight() {
+    return decodeBit(padRightBytes);
 }
 
 
 uint16_t Classic::padDown::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->padDown() ? servoMax,sercoZero;
+    return c->getPadDown() ? servoMax:servoZero;
 }
 
 void Classic::padDown::printMap(Stream& stream) {
@@ -113,14 +116,14 @@ void Classic::padDown::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getpadDown() {
-    return decodeInt(padDownBytes);
+int Classic::getPadDown() {
+    return decodeBit(padDownBytes);
 }
 
 
 uint16_t Classic::padUp::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->padUp() ? servoMax,sercoZero;
+    return c->getPadUp() ? servoMax:servoZero;
 }
 
 void Classic::padUp::printMap(Stream& stream) {
@@ -128,14 +131,14 @@ void Classic::padUp::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getpadUp() {
-    return decodeInt(padUpBytes);
+int Classic::getPadUp() {
+    return decodeBit(padUpBytes);
 }
 
 
 uint16_t Classic::padLeft::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->padLeft() ? servoMax,sercoZero;
+    return c->getPadLeft() ? servoMax:servoZero;
 }
 
 void Classic::padLeft::printMap(Stream& stream) {
@@ -143,14 +146,14 @@ void Classic::padLeft::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getpadLeft() {
-    return decodeInt(padLeftBytes);
+int Classic::getPadLeft() {
+    return decodeBit(padLeftBytes);
 }
 
 
 uint16_t Classic::buttonX::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonX() ? servoMax,sercoZero;
+    return c->getButtonX() ? servoMax:servoZero;
 }
 
 void Classic::buttonX::printMap(Stream& stream) {
@@ -158,14 +161,14 @@ void Classic::buttonX::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonX() {
-    return decodeInt(buttonXBytes);
+int Classic::getButtonX() {
+    return decodeBit(buttonXBytes);
 }
 
 
 uint16_t Classic::buttonY::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonY() ? servoMax,sercoZero;
+    return c->getButtonY() ? servoMax:servoZero;
 }
 
 void Classic::buttonY::printMap(Stream& stream) {
@@ -173,14 +176,14 @@ void Classic::buttonY::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonY() {
-    return decodeInt(buttonYBytes);
+int Classic::getButtonY() {
+    return decodeBit(buttonYBytes);
 }
 
 
 uint16_t Classic::buttonA::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonA() ? servoMax,sercoZero;
+    return c->getButtonA() ? servoMax:servoZero;
 }
 
 void Classic::buttonA::printMap(Stream& stream) {
@@ -188,14 +191,14 @@ void Classic::buttonA::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonA() {
-    return decodeInt(buttonABytes);
+int Classic::getButtonA() {
+    return decodeBit(buttonABytes);
 }
 
 
 uint16_t Classic::buttonB::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonB() ? servoMax,sercoZero;
+    return c->getButtonB() ? servoMax:servoZero;
 }
 
 void Classic::buttonB::printMap(Stream& stream) {
@@ -203,14 +206,14 @@ void Classic::buttonB::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonB() {
-    return decodeInt(buttonBBytes);
+int Classic::getButtonB() {
+    return decodeBit(buttonBBytes);
 }
 
 
 uint16_t Classic::buttonMinus::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonMinus() ? servoMax,sercoZero;
+    return c->getButtonMinus() ? servoMax:servoZero;
 }
 
 void Classic::buttonMinus::printMap(Stream& stream) {
@@ -218,14 +221,14 @@ void Classic::buttonMinus::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonMinus() {
-    return decodeInt(buttonMinusBytes);
+int Classic::getButtonMinus() {
+    return decodeBit(buttonMinusBytes);
 }
 
 
 uint16_t Classic::buttonHome::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonHome() ? servoMax,sercoZero;
+    return c->getButtonHome() ? servoMax:servoZero;
 }
 
 void Classic::buttonHome::printMap(Stream& stream) {
@@ -233,14 +236,14 @@ void Classic::buttonHome::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonHome() {
-    return decodeInt(buttonHomeBytes);
+int Classic::getButtonHome() {
+    return decodeBit(buttonHomeBytes);
 }
 
 
 uint16_t Classic::buttonPlus::mapVar() {
     Classic* c = (Classic*)controller;
-    return c->buttonPlus() ? servoMax,sercoZero;
+    return c->getButtonPlus() ? servoMax:servoZero;
 }
 
 void Classic::buttonPlus::printMap(Stream& stream) {
@@ -248,7 +251,9 @@ void Classic::buttonPlus::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-int Classic::getbuttonPlus() {
-    return decodeInt(buttonPlusBytes);
+int Classic::getButtonPlus() {
+    return decodeBit(buttonPlusBytes);
 }
+
+
 

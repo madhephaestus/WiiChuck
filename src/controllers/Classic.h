@@ -1,20 +1,23 @@
-#define joyXLeftBits	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
-#define joyXRightBits	BYTE0,   BIT6,  BIT7,    BYTE1,     BIT6,  BIT7, BYTE2,  BIT7, BIT7
-#define joyYLeftBits	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
-#define joyYRightBits	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE2,  BIT0, BIT4
-#define triggerLeftBits	UNUSED,     0,     0,    BYTE2,     BIT5,  BIT6, BYTE3,  BIT5, BIT7
-#define triggerRightBits	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT0, BIT4
-#define padRightBits
-#define padDownBits
-#define padUpBits
-#define padLeftBits
-#define buttonXBits
-#define buttonYBits
-#define buttonABits
-#define buttonBBits
-#define buttonMinusBits
-#define buttonHomeBits
-#define buttonPlusBits
+#ifndef Classic_h
+#define Classic_h
+#include "controllers/Accessory.h"
+#define joyXLeftBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
+#define joyXRightBytes	BYTE0,   BIT6,  BIT7,    BYTE1,     BIT6,  BIT7, BYTE2,  BIT7, BIT7
+#define joyYLeftBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
+#define joyYRightBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE2,  BIT0, BIT4
+#define triggerLeftBytes	UNUSED,     0,     0,    BYTE2,     BIT5,  BIT6, BYTE3,  BIT5, BIT7
+#define triggerRightBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT0, BIT4
+#define padRightBytes	BYTE5,BIT1,true
+#define padDownBytes	BYTE5,BIT1,true
+#define padUpBytes	BYTE5,BIT1,true
+#define padLeftBytes	BYTE5,BIT1,true
+#define buttonXBytes	BYTE5,BIT1,true
+#define buttonYBytes	BYTE5,BIT1,true
+#define buttonABytes	BYTE5,BIT1,true
+#define buttonBBytes	BYTE5,BIT1,true
+#define buttonMinusBytes	BYTE5,BIT1,true
+#define buttonHomeBytes	BYTE5,BIT1,true
+#define buttonPlusBytes	BYTE5,BIT1,true
 
 
 class Classic : public Accessory
@@ -22,27 +25,26 @@ class Classic : public Accessory
     Classic(uint8_t data_pin, uint8_t sclk_pin);
     void printInputs(Stream& stream);
 
-    int joyXLeft();
-    int joyXRight();
-    int joyYLeft();
-    int joyYRight();
-    int triggerLeft();
-    int triggerRight();
-    int padRight();
-    int padDown();
-    int padUp();
-    int padLeft();
-    int buttonX();
-    int buttonY();
-    int buttonA();
-    int buttonB();
-    int buttonMinus();
-    int buttonHome();
-    int buttonPlus();
-
-
-
     int getJoyXLeft();
+    int getJoyXRight();
+    int getJoyYLeft();
+    int getJoyYRight();
+    int getTriggerLeft();
+    int getTriggerRight();
+    int getPadRight();
+    int getPadDown();
+    int getPadUp();
+    int getPadLeft();
+    int getButtonX();
+    int getButtonY();
+    int getButtonA();
+    int getButtonB();
+    int getButtonMinus();
+    int getButtonHome();
+    int getButtonPlus();
+
+
+
 
     class joyXLeft : public Accessory::Mapping
     {
@@ -56,7 +58,6 @@ class Classic : public Accessory
 
     };
 
-    int getJoyXRight();
 
     class joyXRight : public Accessory::Mapping
     {
@@ -70,7 +71,6 @@ class Classic : public Accessory
 
     };
 
-    int getJoyYLeft();
 
     class joyYLeft : public Accessory::Mapping
     {
@@ -84,7 +84,6 @@ class Classic : public Accessory
 
     };
 
-    int getJoyYRight();
 
     class joyYRight : public Accessory::Mapping
     {
@@ -98,7 +97,6 @@ class Classic : public Accessory
 
     };
 
-    int getTriggerLeft();
 
     class triggerLeft : public Accessory::Mapping
     {
@@ -112,7 +110,6 @@ class Classic : public Accessory
 
     };
 
-    int getTriggerRight();
 
     class triggerRight : public Accessory::Mapping
     {
@@ -126,7 +123,6 @@ class Classic : public Accessory
 
     };
 
-    int getPadRight();
 
     class padRight : public Accessory::Mapping
     {
@@ -137,7 +133,6 @@ class Classic : public Accessory
 
     };
 
-    int getPadDown();
 
     class padDown : public Accessory::Mapping
     {
@@ -148,7 +143,6 @@ class Classic : public Accessory
 
     };
 
-    int getPadUp();
 
     class padUp : public Accessory::Mapping
     {
@@ -159,7 +153,6 @@ class Classic : public Accessory
 
     };
 
-    int getPadLeft();
 
     class padLeft : public Accessory::Mapping
     {
@@ -170,7 +163,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonX();
 
     class buttonX : public Accessory::Mapping
     {
@@ -181,7 +173,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonY();
 
     class buttonY : public Accessory::Mapping
     {
@@ -192,7 +183,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonA();
 
     class buttonA : public Accessory::Mapping
     {
@@ -203,7 +193,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonB();
 
     class buttonB : public Accessory::Mapping
     {
@@ -214,7 +203,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonMinus();
 
     class buttonMinus : public Accessory::Mapping
     {
@@ -225,7 +213,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonHome();
 
     class buttonHome : public Accessory::Mapping
     {
@@ -236,7 +223,6 @@ class Classic : public Accessory
 
     };
 
-    int getButtonPlus();
 
     class buttonPlus : public Accessory::Mapping
     {
@@ -249,5 +235,7 @@ class Classic : public Accessory
 
 
 
-}
+};
+#endif
+
 
