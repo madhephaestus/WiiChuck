@@ -17,86 +17,86 @@
 class Nunchuck : public Accessory
 {
 public:
-	Nunchuck(uint8_t data_pin, uint8_t sclk_pin);
+    Nunchuck(uint8_t data_pin, uint8_t sclk_pin);
     void printInputs(Stream& stream);
 
-	int getJoyX();
-	int getJoyY();
+    int getJoyX();
+    int getJoyY();
 
-	int getRollAngle();
-	int getPitchAngle();
-	int getAccelX();
-	int getAccelY();
-	int getAccelZ();
-	
+    int getRollAngle();
+    int getPitchAngle();
+    int getAccelX();
+    int getAccelY();
+    int getAccelZ();
 
-	boolean checkButtonC();
-	boolean checkButtonZ();
-	
-	
-	class joyX : public Accessory::Mapping
-	{
-	  public:
-	  joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	  uint16_t mapVar();
-	  void printMap(Stream& stream);
-	  const uint16_t myMin = 0;
-	  const uint16_t myZero = 125;
-	  const uint16_t myMax = 255;
-	  
-	};
-	
-  class joyY : public Accessory::Mapping
-	{
-	  public:
-	  joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	  uint16_t mapVar();
-	  void printMap(Stream& stream);
-	  const uint16_t myMin = 0;
-	  const uint16_t myZero = 125;
-	  const uint16_t myMax = 255;
-	};
-	
-		class roll : public Accessory::Mapping
-	{
-		  public:
-	  roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	  uint16_t mapVar();
-	  void printMap(Stream& stream);
-	  const int16_t myMin = -180;
-	  const int16_t myZero = 0;
-	  const int16_t myMax = 180;
-	};
-	
-	
-	class pitch : public Accessory::Mapping
-	{
-		  public:
-	  pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	  uint16_t mapVar();
-	  void printMap(Stream& stream);
-	  const int16_t myMin = -180;
-	  const int16_t myZero = 0;
-	  const int16_t myMax = 180;
-	};
 
-	
-	class buttonC : public Accessory::Mapping
-	{
-		  public:
-	  buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	void printMap(Stream& stream);
-	  uint16_t mapVar();
-	};
-	
-	class buttonZ : public Accessory::Mapping
-	{
-		  public:
-	  buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	  void printMap(Stream& stream);
-	  uint16_t mapVar();
-	};
-	
+    boolean checkButtonC();
+    boolean checkButtonZ();
+
+
+    class joyX : public Accessory::Mapping
+    {
+    public:
+        joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        uint16_t mapVar();
+        void printMap(Stream& stream);
+        const uint16_t myMin = 0;
+        const uint16_t myZero = 125;
+        const uint16_t myMax = 255;
+
+    };
+
+    class joyY : public Accessory::Mapping
+    {
+    public:
+        joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        uint16_t mapVar();
+        void printMap(Stream& stream);
+        const uint16_t myMin = 0;
+        const uint16_t myZero = 125;
+        const uint16_t myMax = 255;
+    };
+
+    class roll : public Accessory::Mapping
+    {
+    public:
+        roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        uint16_t mapVar();
+        void printMap(Stream& stream);
+        const int16_t myMin = -180;
+        const int16_t myZero = 0;
+        const int16_t myMax = 180;
+    };
+
+
+    class pitch : public Accessory::Mapping
+    {
+    public:
+        pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        uint16_t mapVar();
+        void printMap(Stream& stream);
+        const int16_t myMin = -180;
+        const int16_t myZero = 0;
+        const int16_t myMax = 180;
+    };
+
+
+    class buttonC : public Accessory::Mapping
+    {
+    public:
+        buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        void printMap(Stream& stream);
+        uint16_t mapVar();
+    };
+
+    class buttonZ : public Accessory::Mapping
+    {
+    public:
+        buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        void printMap(Stream& stream);
+        uint16_t mapVar();
+    };
+
 };
 
 #endif
