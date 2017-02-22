@@ -1,0 +1,169 @@
+* [33ma0fdfd1[m[33m ([m[1;36mHEAD -> [m[1;32mtemp[m[33m)[m iic was broken all along O_O . Removed switch so it uses Wire now
+* [33m20b7d1c[m[33m ([m[1;32mmaster[m[33m)[m pulled out sw i2c into its own class
+* [33ma7e387a[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m sample sketch for raw mapping
+* [33m95c77ef[m Servo mapping works
+* [33me45e74a[m Removed old mapping code
+* [33mb81d8c0[m Digital and Analog add map funcs done. Printing of active maps done.
+* [33mb3c7834[m Mapping linked list
+* [33m831c178[m removed enum with button types
+*   [33m97b3f8d[m merged
+[32m|[m[33m\[m  
+[32m|[m * [33ma60911a[m fixed compilation
+[32m|[m * [33m3cee85f[m Adding scaling
+* [33m|[m [33m7348a57[m changed print func to display accelerations and removed offsets.
+* [33m|[m [33m7f4e702[m Fixed mapping function and fixed scaling info in map struct
+[33m|[m[33m/[m  
+* [33m7389a4a[m compile errors
+* [33m89c7e05[m Making the decode functions protected
+* [33m1cc0cde[m adding the mappings
+*   [33mc7c46c9[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[34m|[m[35m\[m  
+[34m|[m * [33m320853a[m Added Button C
+* [35m|[m   [33me8e81f3[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[36m|[m[35m\[m [35m\[m  
+[36m|[m [35m|[m[35m/[m  
+[36m|[m * [33m35bc231[m Added bits for accel X
+* [1;31m|[m [33m234dfd9[m adding the double mapping
+[1;31m|[m[1;31m/[m  
+* [33mb1b7528[m Added bits for joy X
+* [33m2c54a3e[m Afdding the implementation
+* [33mc511922[m Adding the default methods for function map
+* [33m3b861ae[m adding function headers
+* [33m4fd6474[m cleaned the print
+* [33m16092e3[m formatting
+* [33m708c56f[m adding correct subclass constructors
+* [33m6f6644c[m moving the data array to protected
+* [33mb8fff91[m fixes compilation
+*   [33mc7873b2[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[1;32m|[m[1;33m\[m  
+[1;32m|[m * [33m41167d5[m Update README.md
+[1;32m|[m *   [33m2f10444[m fixed wiichuck
+[1;32m|[m [1;34m|[m[1;35m\[m  
+[1;32m|[m * [1;35m|[m [33m46a5532[m cleanup
+* [1;35m|[m [1;35m|[m [33m2d0abc4[m adding api
+[1;35m|[m [1;35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;35m|[m   
+* [1;35m|[m [33mf67e1cc[m Fixing imports
+* [1;35m|[m [33me352ad5[m renamed
+[1;35m|[m[1;35m/[m  
+* [33mce59b74[m Generic accesory demo ino
+*   [33m40ca442[m Merge branch 'master' of https://github.com/madhephaestus/WiiChuck
+[1;36m|[m[31m\[m  
+[1;36m|[m *   [33m97bbae8[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[1;36m|[m [32m|[m[33m\[m  
+[1;36m|[m * [33m\[m   [33m27048e1[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[1;36m|[m [34m|[m[35m\[m [33m\[m  
+[1;36m|[m * [35m|[m [33m|[m [33mc0888a4[m removing dead code
+[1;36m|[m * [35m|[m [33m|[m [33m14c2a4d[m formatting
+[1;36m|[m * [35m|[m [33m|[m [33m0e6195d[m sorting functions
+* [35m|[m [35m|[m [33m|[m [33m7bd8000[m fixed enum and detection
+* [35m|[m [35m|[m [33m|[m [33m01165f1[m #defined labels for bits and bytes to make controller definitions easier to read
+[33m|[m [35m|[m[33m_[m[35m|[m[33m/[m  
+[33m|[m[33m/[m[35m|[m [35m|[m   
+* [35m|[m [35m|[m [33mbdeb30d[m moved struct to top of file
+* [35m|[m [35m|[m [33m4ab6c94[m funcs for input mappint
+[35m|[m [35m|[m[35m/[m  
+[35m|[m[35m/[m[35m|[m   
+* [35m|[m [33m474121a[m setter for pullup clock
+* [35m|[m [33m02e5def[m setter for pullup clock
+[35m|[m[35m/[m  
+* [33mf2240cb[m made tings that should be private private and cleaned up class def
+* [33m419f32d[m connects to device
+* [33mc69ff88[m fixed odd capitalization
+* [33m035d45d[m removed old constructors
+* [33m97f663f[m fixed odd capitalization
+* [33mfd7d6a8[m Cleared out old vars that where preventing compile
+* [33m42039bf[m compile error fixes
+* [33mcd1833c[m compile error fixes
+* [33m97c18c9[m More cleanup
+* [33ma2456a6[m began cleanup
+*   [33ma74aac6[m Merge branch 'master' of https://github.com/madhephaestus/WiiChuck
+[36m|[m[1;31m\[m  
+[36m|[m * [33m4ea6d8c[m Adding coms layer to the accery class
+* [1;31m|[m [33m19930c2[m mapping struct
+[1;31m|[m[1;31m/[m  
+* [33m4360554[m remove junk
+* [33mdbc5e49[m no CSG database
+* [33m74bbebb[m removing old cpp files
+*   [33mb7e26a2[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[1;32m|[m[1;33m\[m  
+[1;32m|[m *   [33mc632c25[m Merge branch 'master' of https://github.com/madhephaestus/WiiChuck
+[1;32m|[m [1;34m|[m[1;35m\[m  
+[1;32m|[m * [1;35m|[m [33m23cabc7[m int dissection code working
+[1;32m|[m * [1;35m|[m [33ma7e8d39[m moved files and edited library.properties with new h file
+[1;32m|[m * [1;35m|[m [33ma956d32[m moved files into src and began working on accessory class
+* [1;35m|[m [1;35m|[m [33m9a4804c[m use classic controller
+[1;35m|[m [1;35m|[m[1;35m/[m  
+[1;35m|[m[1;35m/[m[1;35m|[m   
+* [1;35m|[m [33m5501691[m[33m ([m[1;33mtag: 0.0.16[m[33m)[m example tweaks
+[1;35m|[m[1;35m/[m  
+* [33m8a106cf[m adding keywords of the types of controllers
+* [33m26f3e0b[m[33m ([m[1;33mtag: 0.0.15[m[33m)[m 0.0.15 Moving to Enum based controller type
+* [33mf39feae[m[33m ([m[1;33mtag: 0.0.14[m[33m)[m 0.0.14
+* [33mb1d2fb0[m[33m ([m[1;33mtag: 0.0.13[m[33m)[m Alexs changes to allow for classic controller
+* [33m5c68f24[m Controller Identification Function
+* [33m9e3356d[m Only Init's once.
+* [33m1a946ba[m Added delay after init. Makes classic controller work.
+* [33m3a8be03[m[33m ([m[1;33mtag: 0.0.12[m[33m)[m 0.0.12
+* [33m7c1044d[m[33m ([m[1;33mtag: 0.0.11[m[33m)[m 0.0.11
+* [33m3d7461a[m removing junk demo
+* [33m54db88c[m removing the unneeded headers
+* [33ma32c103[m[33m ([m[1;33mtag: 0.0.10[m[33m)[m 0.0.10
+*   [33m153dc6d[m Merge branch 'master' of https://github.com/madhephaestus/WiiChuck
+[1;36m|[m[31m\[m  
+[1;36m|[m * [33m81e2983[m[33m ([m[1;33mtag: 0.0.9[m[33m)[m 0.0.9
+[1;36m|[m * [33mbd9b277[m remove junk wait in waitForAck
+* [31m|[m [33m0d8a3eb[m Fixed init code
+[31m|[m[31m/[m  
+* [33m7f8fe7e[m read 8 bytes for wii classic
+* [33mad873a9[m classic controller startup
+* [33md14b84a[m[33m ([m[1;33mtag: 0.0.8[m[33m)[m 0.0.8
+* [33mb3cfc88[m[33m ([m[1;33mtag: 0.0.7[m[33m)[m rev bump 0.0.7
+* [33m6377f2f[m defaulting the example to forced clock mode
+* [33m69d6b86[m fixing the IO mapping
+* [33m54619a1[m[33m ([m[1;33mtag: 0.0.6[m[33m)[m 0.0.6
+* [33m2249b9c[m use pull ups for both data and clock
+* [33mda4e6b3[m initialize wire
+* [33m8dffa3d[m[33m ([m[1;33mtag: 0.0.5[m[33m)[m Defaulting to no pullups
+* [33me179b95[m Allow user to select pullup mode
+* [33mb827648[m Stripping the hardware layer
+* [33m3573ba2[m[33m ([m[1;33mtag: 0.0.4[m[33m)[m 0.0.4
+* [33md971eb0[m minimizing access to pin mode
+* [33md32a159[m removing the stack overflow
+* [33md3c0a1b[m tighter ack timeout
+* [33md1b6a55[m wrap the clock pin transition in clock check
+* [33m608dcc8[m implementing stall check
+* [33m2385492[m adding a stall checking function
+*   [33mc566a60[m[33m ([m[1;33mtag: 0.0.3[m[33m)[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[32m|[m[33m\[m  
+[32m|[m * [33m46d0af9[m Update README.md
+* [33m|[m [33mc923433[m Dynamic bounding of upper and lower bound
+[33m|[m[33m/[m  
+* [33maf9de02[m[33m ([m[1;33mtag: 0.0.2[m[33m)[m 0.0.2
+* [33ma7a0ffb[m more comments
+*   [33m38af0f5[m Merge branch 'master' of git@github.com:madhephaestus/WiiChuck.git
+[34m|[m[35m\[m  
+[34m|[m * [33m95a4b3e[m Create README.md
+* [35m|[m [33m506506d[m formatting
+* [35m|[m [33mf33951a[m adding comments to the map
+[35m|[m[35m/[m  
+* [33m5dfa263[m[33m ([m[1;33mtag: 0.0.1[m[33m)[m preparing for release.
+* [33m8b38895[m basic map tree
+* [33mac0a43d[m Adding the function calls for controller classic
+* [33m7323e6d[m Adding Wiiclassic interface
+* [33m3d105ad[m C and Z buttons mapped
+* [33mfb86344[m Initialization standardized
+* [33m655df2f[m more robust bit masking
+* [33m3562d96[m adding a spacing to the shift out function
+* [33md0eb819[m Using local shift out function
+* [33m13c3880[m Adding a generic hardware profile
+* [33m8c52bab[m ignore
+* [33mcde359e[m Moving all files up to the top directory
+* [33mfd57c88[m Removing all other libraries except WiiChuck
+* [33m29034e3[m 2017.01.20
+* [33mc725a52[m 2017.01.18
+* [33m469ff1d[m 2017.01.14
+* [33m71316d3[m Delete readme.txt
+* [33me13b61a[m 2017.01.12
+* [33m7fb735a[m 2017.01.07
+* [33m5c0b597[m :space_invader: Added .gitattributes

@@ -1,9 +1,9 @@
 #ifndef Nunchuck_h
 #define Nunchuck_h
-#include "controllers/Accessory.h"
+#include "Accessory.h"
 
 
-// see http://wiibrew.org/wiki/Wiimote/Extension_Controllers/Nunchuck
+// see http://wiibrew.org/wiki/Wiimote/Extension_Nunchuck
 #define joyXBytes     UNUSED, 0, 0, UNUSED ,0   , 0   , BYTE0, BIT0, BIT7
 #define joyYBytes     UNUSED, 0, 0, UNUSED ,0   , 0   , BYTE1, BIT0, BIT7
 #define accelXBytes   UNUSED, 0, 0, BYTE2  ,BIT0, BIT7, BYTE5, BIT2, BIT3

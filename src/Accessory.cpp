@@ -143,6 +143,54 @@ void Accessory::printInputs(Stream& stream) {
     stream.println("");
 }
 
+int Accessory::decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
+                         uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
+                         uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+                         uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend) {
+// 6 bit int split across 3 bytes in 4 parts.... :(
+    bool msbflag=false,csbflag=false,lsbflag=false,mmsbflag=false;
+    if (msbbyte > 5)
+        msbflag=true;
+    if (csbbyte > 5)
+        csbflag=true;
+    if (lsbbyte > 5)
+        lsbflag=true;
+    if (mmsbbyte > 5)
+        mmsbflag=true;
+    uint32_t analog = 0;
+    uint32_t lpart=0;
+    lpart = (lsbflag)?0:_dataarray[lsbbyte];
+    lpart = lpart >> lsbstart;
+    lpart = lpart & (0xFF >> (7 - (lsbend - lsbstart)));
+
+    uint32_t cpart=0;
+    cpart = (csbflag)?0:_dataarray[csbbyte];
+    cpart = cpart >> csbstart;
+    cpart = cpart & (0xFF >> (7 - (csbend - csbstart)));
+
+    cpart = cpart << ((lsbend - lsbstart) + 1);
+
+    uint32_t mpart=0;
+    mpart = (msbflag)?0:_dataarray[msbbyte];
+    mpart = mpart >> msbstart;
+    mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
+
+    mpart = mpart << (((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1));
+    
+    uint32_t mmpart=0;
+    mmpart = (mmsbflag)?0:_dataarray[mmsbbyte];
+    mmpart = mmpart >> mmsbstart;
+    mmpart = mmpart & (0xFF >> (7 - (mmsbend - mmsbstart)));
+
+    mmpart = mmpart << ( ((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1) + ((msbend - msbstart) + 1));
+
+    analog = lpart | cpart | mpart | mmpart;
+    //analog = analog + offset;
+    //analog = (analog*scale);
+
+    return analog;                         
+                         }
+
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
                          uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
                          uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend) {

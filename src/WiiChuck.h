@@ -2,9 +2,11 @@
 #define WiiChuck_h
 
 
-#include <controllers/Accessory.h>
-#include <controllers/Nunchuck.h>
-#include <controllers/Classic.h>
-#include <controllers/Drawsome.h>
+#include <Accessory.h>
+#include <Nunchuck.h>
+#include <Classic.h>
+#include <Drawsome.h>
+#include <Guitar.h>
+#include <DJTable.h>
 
 #endif

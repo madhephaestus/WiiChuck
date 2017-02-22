@@ -255,5 +255,46 @@ int Classic::getButtonPlus() {
     return decodeBit(buttonPlusBytes);
 }
 
+    void Classic::printInputs(Stream& stream) {
+    char st[100];
+    sprintf(st," joy x left: %4d | joy x right: %4d | joy y left: %4d | joy y right: %4d | trigger left: %4d | trigger right: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());  
+   stream.print(st);
+    
+          if (getPadRight())
+        stream.print("pad right");
+
+          if (getPadDown())
+        stream.print("pad down");
+
+          if (getPadUp())
+        stream.print("pad up");
+
+          if (getPadLeft())
+        stream.print("pad left");
+
+          if (getButtonX())
+        stream.print("button x");
+
+          if (getButtonY())
+        stream.print("button y");
+
+          if (getButtonA())
+        stream.print("button a");
+
+          if (getButtonB())
+        stream.print("button b");
+
+          if (getButtonMinus())
+        stream.print("button minus");
+
+          if (getButtonHome())
+        stream.print("button home");
+
+          if (getButtonPlus())
+        stream.print("button plus");
+
+    stream.println("");
+    }
+
 
 

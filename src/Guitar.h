@@ -1,6 +1,6 @@
 #ifndef Guitar_h
 #define Guitar_h
-#include "controllers/Accessory.h"
+#include "Accessory.h"
 #define stickXBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
 #define stickYBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
 #define whammyBarBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT0, BIT4

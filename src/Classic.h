@@ -1,6 +1,6 @@
 #ifndef Classic_h
 #define Classic_h
-#include "controllers/Accessory.h"
+#include "Accessory.h"
 #define joyXLeftBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
 #define joyXRightBytes	BYTE0,   BIT6,  BIT7,    BYTE1,     BIT6,  BIT7, BYTE2,  BIT7, BIT7
 #define joyYLeftBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
@@ -22,6 +22,7 @@
 
 class Classic : public Accessory
 {
+    public:
     Classic(uint8_t data_pin, uint8_t sclk_pin);
     void printInputs(Stream& stream);
 

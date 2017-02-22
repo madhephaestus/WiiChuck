@@ -63,6 +63,11 @@ public:
     int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
                   uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
                   uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
+                  
+   int decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
+                        uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
+                        uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+                       uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
 
     bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 

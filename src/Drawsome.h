@@ -1,6 +1,6 @@
 #ifndef Drawsome_h
 #define Drawsome_h
-#include "controllers/Accessory.h"
+#include "Accessory.h"
 #define penYPositionBytes	UNUSED, 0, 0, BYTE3, BIT0, BIT5, BYTE2, BIT0, BIT5
 #define penXPositionBytes	UNUSED, 0, 0, BYTE1, BIT0, BIT5  , BYTE0, BIT0, BIT5
 #define penPressureBytes	UNUSED, 0, 0, BYTE5, BIT0, BIT3 ,BYTE4   , 0   , 5
