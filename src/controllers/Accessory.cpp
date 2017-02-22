@@ -27,9 +27,9 @@ ControllerType Accessory::getControllerType(){
 }  
  
 ControllerType Accessory::identifyController() {
-    Serial.println("Reading periph bytes");
+    //Serial.println("Reading periph bytes");
     _burstReadWithAddress(0xfa);
-    printInputs(Serial);
+    //printInputs(Serial);
 
     if (_dataarray[4] == 0x01)
         if (_dataarray[5] == 0x01)
@@ -98,16 +98,16 @@ uint8_t* Accessory::getDataArray() {
 }
 
 void Accessory::initBytes() {
-        Serial.println("Init Periph..");
+        //Serial.println("Init Periph..");
         _writeRegister(0xF0, 0x55);
         _writeRegister(0xFB, 0x00);
         delay(100);
         
-        //type = identifyController();
+        type = identifyController();
         delay(100);
         
     if (_encrypted) {
-        Serial.println("Beginning Encrypted Comms");
+        //Serial.println("Beginning Encrypted Comms");
 
         delay(100);
         
@@ -214,7 +214,7 @@ void Accessory::_burstRead() {
 
 
 void Accessory::_burstReadWithAddress(uint8_t addr) {
-    int readAmnt = 6;
+    int readAmnt = sizeof(_dataarray);
 
     // send conversion command
     myWire.beginTransmission(I2C_ADDR);
@@ -228,17 +228,22 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
     myWire.readBytes(_dataarray,
                      myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
 
-    Serial.println(_encrypted);
+    
     if(_encrypted) {
         for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
     }
+    
+    //Serial.print("R ");//Serial.print(addr,HEX);
+    //Serial.print(" (");//Serial.print(readAmnt);
+    //Serial.print("):\t");
+    //printInputs(Serial);
 }
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
-        Serial.print("W ");
-                Serial.print(reg,HEX);
-                        Serial.print(": ");
-                                Serial.println(value,HEX);
+        //Serial.print("W ");
+                //Serial.print(reg,HEX);
+                        //Serial.print(": ");
+                                //Serial.println(value,HEX);
     myWire.beginTransmission(I2C_ADDR);
     myWire.write(reg);
     myWire.write(value);
@@ -246,6 +251,13 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 }
 
 void Accessory::_burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size) {
+        //Serial.print("W ");
+        //Serial.print(addr,HEX);
+        //Serial.print(": ");
+        //for (int i=0; i<size; i++) {//Serial.print(arr[i],HEX);//Serial.print(" ");
+        //}
+        //Serial.println("");
+        
     myWire.beginTransmission(I2C_ADDR);
     myWire.write(addr);
     for (int i=0; i<size; i++) myWire.write(arr[i]);

@@ -8,7 +8,7 @@ Drawsome::Drawsome(uint8_t data_pin, uint8_t sclk_pin) :
 void Drawsome::initBytes() {
     Serial.println("Drawesome Init");
         // Enable Encrypted Mode.
-        enableEncryption(true);
+        //enableEncryption(true);
         Accessory::initBytes();
         Serial.println("Drawesome Specific init");
         
