@@ -328,7 +328,7 @@ void Accessory::printMaps(Stream& stream) {
         stream.print("\t");
         c->printMap(stream);
         c=c->next;
-        Serial.println((uint32_t)c);
+        //Serial.println((uint32_t)c);
     } while (c!=0);
 }
 
@@ -352,7 +352,7 @@ int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16
     } else if (val<aMid) {
         mapv = map(val,aMin,aMid,sMin,sZero);
     }
-    Serial.print(val);Serial.print(" ");Serial.println(mapv);
+    //Serial.print(val);Serial.print(" ");Serial.println(mapv);
     
     return mapv;
 }
