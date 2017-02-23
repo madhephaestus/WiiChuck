@@ -8,5 +8,6 @@
 #include <Drawsome.h>
 #include <Guitar.h>
 #include <DJTable.h>
+#include <Drums.h>
 
 #endif

@@ -324,15 +324,20 @@ void Accessory::printMaps(Stream& stream) {
     }
     Mapping* c=firstMap;
     do {
+        
         stream.print("\t");
         c->printMap(stream);
         c=c->next;
+        Serial.println((uint32_t)c);
     } while (c!=0);
 }
 
 void Accessory::_applyMaps() {
     if (firstMap==0) return;
+    
     Mapping* c=firstMap;
+    
+
     do {
         c->update();
         c=c->next;
@@ -340,13 +345,16 @@ void Accessory::_applyMaps() {
 
 
 }
-int16_t Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero, int16_t sMin) {
+int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero, int16_t sMin) {
+    int mapv=sZero;
     if (val>aMid) {
-        return map(val,aMid,aMax,sZero,sMax);
+        mapv= map(val,aMid,aMax,sZero,sMax);
     } else if (val<aMid) {
-        return map(val,aMin,aMid,sMin,sZero);
+        mapv = map(val,aMin,aMid,sMin,sZero);
     }
-    return sZero;
+    Serial.print(val);Serial.print(" ");Serial.println(mapv);
+    
+    return mapv;
 }
 
 
@@ -354,7 +362,7 @@ int16_t Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, i
 uint8_t Accessory::addMap(Mapping* m) {
     if (m==0) return 255;
     m->controller = this;
-
+    m->next = 0;
     if (firstMap==0) {
         firstMap = m; // its the first one.
         return 0;
@@ -387,6 +395,11 @@ Accessory::Mapping::Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) {
     addServo(chan,max,zero,min);
 }
 
+Accessory::Mapping::Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min,uint16_t cooldown) {
+    addServo(chan,max,zero,min);
+    _cooldown=cooldown;
+}
+
 void Accessory::Mapping::printMap(Stream& stream) {
     stream.print("\t[");
     stream.print(channel);
@@ -399,14 +412,22 @@ void Accessory::Mapping::printMap(Stream& stream) {
     stream.println(" )");
 }
 
-uint16_t Accessory::Mapping::mapVar() {
+unsigned int Accessory::Mapping::mapVar() {
 
     return 0;
 }
 
 void Accessory::Mapping::update() {
-    int mv = mapVar();
-    servo.write(mv);
+    int var = mapVar();
+    
+    
+    if (_cooldown && var!=servoZero){
+      _cooldownCount=_cooldown+millis();
+      servo.write(var);
+      }
+
+    if (_cooldownCount < millis()) servo.write(mapVar());
+
 }
 
 void Accessory::Mapping::addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) {

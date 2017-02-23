@@ -7,7 +7,7 @@ DJTable::DJTable(uint8_t data_pin, uint8_t sclk_pin) :
 
 
 
-  	uint16_t DJTable::crossfadeSlider::mapVar(){
+  	unsigned int  DJTable::crossfadeSlider::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getCrossfadeSlider(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -22,7 +22,7 @@ int DJTable::getCrossfadeSlider() {
 }
 
 
-  	uint16_t DJTable::effectDial::mapVar(){
+  	unsigned int  DJTable::effectDial::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getEffectDial(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -37,7 +37,7 @@ int DJTable::getEffectDial() {
 }
 
 
-  	uint16_t DJTable::stickX::mapVar(){
+  	unsigned int  DJTable::stickX::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getStickX(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -52,7 +52,7 @@ int DJTable::getStickX() {
 }
 
 
-  	uint16_t DJTable::stickY::mapVar(){
+  	unsigned int  DJTable::stickY::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getStickY(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -67,7 +67,7 @@ int DJTable::getStickY() {
 }
 
 
-  	uint16_t DJTable::rightDJTable::mapVar(){
+  	unsigned int  DJTable::rightDJTable::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getRightDJTable(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -82,7 +82,7 @@ int DJTable::getRightDJTable() {
 }
 
 
-  	uint16_t DJTable::leftDJTable::mapVar(){
+  	unsigned int  DJTable::leftDJTable::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return smap(c->getLeftDJTable(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -97,7 +97,7 @@ int DJTable::getLeftDJTable() {
 }
 
 
-  	uint16_t DJTable::euphoriaButton::mapVar(){
+  	unsigned int  DJTable::euphoriaButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getEuphoriaButton() ? servoMax:servoZero;
 	}
@@ -112,7 +112,7 @@ int DJTable::getEuphoriaButton() {
 }
 
 
-  	uint16_t DJTable::plusButton::mapVar(){
+  	unsigned int  DJTable::plusButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getPlusButton() ? servoMax:servoZero;
 	}
@@ -127,7 +127,7 @@ int DJTable::getPlusButton() {
 }
 
 
-  	uint16_t DJTable::minusButton::mapVar(){
+  	unsigned int  DJTable::minusButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getMinusButton() ? servoMax:servoZero;
 	}
@@ -142,7 +142,7 @@ int DJTable::getMinusButton() {
 }
 
 
-  	uint16_t DJTable::leftGreenButton::mapVar(){
+  	unsigned int  DJTable::leftGreenButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getLeftGreenButton() ? servoMax:servoZero;
 	}
@@ -157,7 +157,7 @@ int DJTable::getLeftGreenButton() {
 }
 
 
-  	uint16_t DJTable::leftRedButton::mapVar(){
+  	unsigned int  DJTable::leftRedButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getLeftRedButton() ? servoMax:servoZero;
 	}
@@ -172,7 +172,7 @@ int DJTable::getLeftRedButton() {
 }
 
 
-  	uint16_t DJTable::leftBlueButton::mapVar(){
+  	unsigned int  DJTable::leftBlueButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getLeftBlueButton() ? servoMax:servoZero;
 	}
@@ -187,7 +187,7 @@ int DJTable::getLeftBlueButton() {
 }
 
 
-  	uint16_t DJTable::rightGreenButton::mapVar(){
+  	unsigned int  DJTable::rightGreenButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getRightGreenButton() ? servoMax:servoZero;
 	}
@@ -202,7 +202,7 @@ int DJTable::getRightGreenButton() {
 }
 
 
-  	uint16_t DJTable::rightRedButton::mapVar(){
+  	unsigned int  DJTable::rightRedButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getRightRedButton() ? servoMax:servoZero;
 	}
@@ -217,7 +217,7 @@ int DJTable::getRightRedButton() {
 }
 
 
-  	uint16_t DJTable::rightBlueButton::mapVar(){
+  	unsigned int  DJTable::rightBlueButton::mapVar(){
 	  DJTable* c = (DJTable*)controller;
 	  return c->getRightBlueButton() ? servoMax:servoZero;
 	}

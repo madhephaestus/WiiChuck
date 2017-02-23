@@ -38,7 +38,7 @@ public:
     {
     public:
         joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-        uint16_t mapVar();
+        unsigned int  mapVar();
         void printMap(Stream& stream);
         const uint16_t myMin = 0;
         const uint16_t myZero = 125;
@@ -50,7 +50,7 @@ public:
     {
     public:
         joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-        uint16_t mapVar();
+        unsigned int  mapVar();
         void printMap(Stream& stream);
         const uint16_t myMin = 0;
         const uint16_t myZero = 125;
@@ -61,7 +61,7 @@ public:
     {
     public:
         roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-        uint16_t mapVar();
+        unsigned int  mapVar();
         void printMap(Stream& stream);
         const int16_t myMin = -180;
         const int16_t myZero = 0;
@@ -73,7 +73,7 @@ public:
     {
     public:
         pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-        uint16_t mapVar();
+        unsigned int  mapVar();
         void printMap(Stream& stream);
         const int16_t myMin = -180;
         const int16_t myZero = 0;
@@ -86,7 +86,7 @@ public:
     public:
         buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
         void printMap(Stream& stream);
-        uint16_t mapVar();
+        unsigned int  mapVar();
     };
 
     class buttonZ : public Accessory::Mapping
@@ -94,7 +94,7 @@ public:
     public:
         buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
         void printMap(Stream& stream);
-        uint16_t mapVar();
+        unsigned int  mapVar();
     };
 
 };

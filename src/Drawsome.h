@@ -25,7 +25,7 @@ class Drawsome : public Accessory
 	  {
 	    public:
 	    penXPosition(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    uint16_t mapVar();
+	    unsigned int  mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -38,7 +38,7 @@ class Drawsome : public Accessory
 	  {
 	    public:
 	    penYPosition(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    uint16_t mapVar();
+	    unsigned int  mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -51,7 +51,7 @@ class Drawsome : public Accessory
 	  {
 	    public:
 	    penPressure(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    uint16_t mapVar();
+	    unsigned int  mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -64,7 +64,7 @@ class Drawsome : public Accessory
 	  {
 	    public:
 	    penContact(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    uint16_t mapVar();
+	    unsigned int  mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };

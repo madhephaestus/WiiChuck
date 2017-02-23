@@ -55,7 +55,7 @@ void Nunchuck::printInputs(Stream& stream) {
 
 
 
-uint16_t Nunchuck::joyX::mapVar() {
+unsigned int  Nunchuck::joyX::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return smap(c->getJoyX(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -65,7 +65,7 @@ void Nunchuck::joyX::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-uint16_t Nunchuck::joyY::mapVar() {
+unsigned int  Nunchuck::joyY::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return smap(c->getJoyY(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -75,7 +75,7 @@ void Nunchuck::joyY::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-uint16_t Nunchuck::roll::mapVar() {
+unsigned int  Nunchuck::roll::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return smap(c->getRollAngle(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -86,7 +86,7 @@ void Nunchuck::roll::printMap(Stream& stream) {
 }
 
 
-uint16_t Nunchuck::pitch::mapVar() {
+unsigned int  Nunchuck::pitch::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return smap(c->getPitchAngle(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -96,7 +96,7 @@ void Nunchuck::pitch::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-uint16_t Nunchuck::buttonC::mapVar() {
+unsigned int  Nunchuck::buttonC::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return (c->checkButtonC()) ? servoMax:servoZero;
 }
@@ -106,7 +106,7 @@ void Nunchuck::buttonC::printMap(Stream& stream) {
     Mapping::printMap(stream);
 }
 
-uint16_t Nunchuck::buttonZ::mapVar() {
+unsigned int  Nunchuck::buttonZ::mapVar() {
     Nunchuck* c = (Nunchuck*)controller;
     return (c->checkButtonZ()) ? servoMax:servoZero;
 }

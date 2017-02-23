@@ -77,14 +77,15 @@ public:
     void removeMap(uint8_t id);
     ControllerType getControllerType();
 
-    static int16_t smap(int16_t val,int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero,int16_t sMin);
+    static int smap(int16_t val,int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero,int16_t sMin);
 
 
     class Mapping {
     public:
         Mapping();
         Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min);
-        virtual uint16_t mapVar();
+        Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown);
+        virtual unsigned int  mapVar();
         virtual void printMap(Stream& stream);
         // Data Parsing
 
@@ -99,6 +100,8 @@ public:
         bool _encrypted=false;
         Servo servo;
         uint8_t channel;
+        uint32_t _cooldown=0;
+        uint32_t _cooldownCount=0;
 
         uint8_t servoMax;
         uint8_t servoZero;

@@ -8,7 +8,7 @@ Classic::Classic(uint8_t data_pin, uint8_t sclk_pin) :
 
 
 
-uint16_t Classic::joyXLeft::mapVar() {
+unsigned int  Classic::joyXLeft::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getJoyXLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -23,7 +23,7 @@ int Classic::getJoyXLeft() {
 }
 
 
-uint16_t Classic::joyXRight::mapVar() {
+unsigned int  Classic::joyXRight::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getJoyXRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -38,7 +38,7 @@ int Classic::getJoyXRight() {
 }
 
 
-uint16_t Classic::joyYLeft::mapVar() {
+unsigned int  Classic::joyYLeft::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getJoyYLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -53,7 +53,7 @@ int Classic::getJoyYLeft() {
 }
 
 
-uint16_t Classic::joyYRight::mapVar() {
+unsigned int  Classic::joyYRight::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getJoyYRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -68,7 +68,7 @@ int Classic::getJoyYRight() {
 }
 
 
-uint16_t Classic::triggerLeft::mapVar() {
+unsigned int  Classic::triggerLeft::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getTriggerLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -83,7 +83,7 @@ int Classic::getTriggerLeft() {
 }
 
 
-uint16_t Classic::triggerRight::mapVar() {
+unsigned int  Classic::triggerRight::mapVar() {
     Classic* c = (Classic*)controller;
     return smap(c->getTriggerRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 }
@@ -106,7 +106,7 @@ int Classic::getPadRight() {
 }
 
 
-uint16_t Classic::padDown::mapVar() {
+unsigned int  Classic::padDown::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getPadDown() ? servoMax:servoZero;
 }
@@ -121,7 +121,7 @@ int Classic::getPadDown() {
 }
 
 
-uint16_t Classic::padUp::mapVar() {
+unsigned int  Classic::padUp::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getPadUp() ? servoMax:servoZero;
 }
@@ -136,7 +136,7 @@ int Classic::getPadUp() {
 }
 
 
-uint16_t Classic::padLeft::mapVar() {
+unsigned int  Classic::padLeft::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getPadLeft() ? servoMax:servoZero;
 }
@@ -151,7 +151,7 @@ int Classic::getPadLeft() {
 }
 
 
-uint16_t Classic::buttonX::mapVar() {
+unsigned int  Classic::buttonX::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonX() ? servoMax:servoZero;
 }
@@ -166,7 +166,7 @@ int Classic::getButtonX() {
 }
 
 
-uint16_t Classic::buttonY::mapVar() {
+unsigned int  Classic::buttonY::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonY() ? servoMax:servoZero;
 }
@@ -181,7 +181,7 @@ int Classic::getButtonY() {
 }
 
 
-uint16_t Classic::buttonA::mapVar() {
+unsigned int  Classic::buttonA::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonA() ? servoMax:servoZero;
 }
@@ -196,7 +196,7 @@ int Classic::getButtonA() {
 }
 
 
-uint16_t Classic::buttonB::mapVar() {
+unsigned int  Classic::buttonB::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonB() ? servoMax:servoZero;
 }
@@ -211,7 +211,7 @@ int Classic::getButtonB() {
 }
 
 
-uint16_t Classic::buttonMinus::mapVar() {
+unsigned int  Classic::buttonMinus::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonMinus() ? servoMax:servoZero;
 }
@@ -226,7 +226,7 @@ int Classic::getButtonMinus() {
 }
 
 
-uint16_t Classic::buttonHome::mapVar() {
+unsigned int  Classic::buttonHome::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonHome() ? servoMax:servoZero;
 }
@@ -241,7 +241,7 @@ int Classic::getButtonHome() {
 }
 
 
-uint16_t Classic::buttonPlus::mapVar() {
+unsigned int  Classic::buttonPlus::mapVar() {
     Classic* c = (Classic*)controller;
     return c->getButtonPlus() ? servoMax:servoZero;
 }

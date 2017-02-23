@@ -5,7 +5,7 @@ Guitar::Guitar(uint8_t data_pin, uint8_t sclk_pin) :
 
 
 
-  	uint16_t Guitar::stickX::mapVar(){
+  	unsigned int  Guitar::stickX::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return smap(c->getStickX(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -20,7 +20,7 @@ int Guitar::getStickX() {
 }
 
 
-  	uint16_t Guitar::stickY::mapVar(){
+  	unsigned int  Guitar::stickY::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return smap(c->getStickY(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -35,7 +35,7 @@ int Guitar::getStickY() {
 }
 
 
-  	uint16_t Guitar::whammyBar::mapVar(){
+  	unsigned int  Guitar::whammyBar::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return smap(c->getWhammyBar(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -50,7 +50,7 @@ int Guitar::getWhammyBar() {
 }
 
 
-  	uint16_t Guitar::plusButton::mapVar(){
+  	unsigned int  Guitar::plusButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getPlusButton() ? servoMax:servoZero;
 	}
@@ -65,7 +65,7 @@ int Guitar::getPlusButton() {
 }
 
 
-  	uint16_t Guitar::minusButton::mapVar(){
+  	unsigned int  Guitar::minusButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getMinusButton() ? servoMax:servoZero;
 	}
@@ -80,7 +80,7 @@ int Guitar::getMinusButton() {
 }
 
 
-  	uint16_t Guitar::greenButton::mapVar(){
+  	unsigned int  Guitar::greenButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getGreenButton() ? servoMax:servoZero;
 	}
@@ -95,7 +95,7 @@ int Guitar::getGreenButton() {
 }
 
 
-  	uint16_t Guitar::redButton::mapVar(){
+  	unsigned int  Guitar::redButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getRedButton() ? servoMax:servoZero;
 	}
@@ -110,7 +110,7 @@ int Guitar::getRedButton() {
 }
 
 
-  	uint16_t Guitar::yellowButton::mapVar(){
+  	unsigned int  Guitar::yellowButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getYellowButton() ? servoMax:servoZero;
 	}
@@ -125,7 +125,7 @@ int Guitar::getYellowButton() {
 }
 
 
-  	uint16_t Guitar::blueButton::mapVar(){
+  	unsigned int  Guitar::blueButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getBlueButton() ? servoMax:servoZero;
 	}
@@ -140,7 +140,7 @@ int Guitar::getBlueButton() {
 }
 
 
-  	uint16_t Guitar::orangeButton::mapVar(){
+  	unsigned int  Guitar::orangeButton::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getOrangeButton() ? servoMax:servoZero;
 	}
@@ -155,7 +155,7 @@ int Guitar::getOrangeButton() {
 }
 
 
-  	uint16_t Guitar::strumUp::mapVar(){
+  	unsigned int  Guitar::strumUp::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getStrumUp() ? servoMax:servoZero;
 	}
@@ -170,7 +170,7 @@ int Guitar::getStrumUp() {
 }
 
 
-  	uint16_t Guitar::strumDown::mapVar(){
+  	unsigned int  Guitar::strumDown::mapVar(){
 	  Guitar* c = (Guitar*)controller;
 	  return c->getStrumDown() ? servoMax:servoZero;
 	}

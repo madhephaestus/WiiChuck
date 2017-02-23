@@ -59,7 +59,7 @@ Serial.print(' ');
     Accessory::printInputs(stream);
 }
 
-  	uint16_t Drawsome::penXPosition::mapVar(){
+  	unsigned int  Drawsome::penXPosition::mapVar(){
 	  Drawsome* c = (Drawsome*)controller;
 	  return smap(c->getPenXPosition(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -74,7 +74,7 @@ int Drawsome::getPenXPosition() {
 }
 
 
-  	uint16_t Drawsome::penYPosition::mapVar(){
+  	unsigned int  Drawsome::penYPosition::mapVar(){
 	  Drawsome* c = (Drawsome*)controller;
 	  return smap(c->getPenYPosition(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -89,7 +89,7 @@ int Drawsome::getPenYPosition() {
 }
 
 
-  	uint16_t Drawsome::penPressure::mapVar(){
+  	unsigned int  Drawsome::penPressure::mapVar(){
 	  Drawsome* c = (Drawsome*)controller;
 	  return smap(c->getPenPressure(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
 	}
@@ -104,7 +104,7 @@ int Drawsome::getPenPressure() {
 }
 
 
-  	uint16_t Drawsome::penContact::mapVar(){
+  	unsigned int  Drawsome::penContact::mapVar(){
 	  Drawsome* c = (Drawsome*)controller;
 	  return c->getPenContact() ? servoMax:servoZero;
 	}
