@@ -38,6 +38,8 @@ public:
     {
     public:
         joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         unsigned int  mapVar();
         void printMap(Stream& stream);
         const uint16_t myMin = 0;
@@ -50,6 +52,8 @@ public:
     {
     public:
         joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         unsigned int  mapVar();
         void printMap(Stream& stream);
         const uint16_t myMin = 0;
@@ -61,6 +65,8 @@ public:
     {
     public:
         roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         unsigned int  mapVar();
         void printMap(Stream& stream);
         const int16_t myMin = -180;
@@ -73,6 +79,8 @@ public:
     {
     public:
         pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         unsigned int  mapVar();
         void printMap(Stream& stream);
         const int16_t myMin = -180;
@@ -85,6 +93,8 @@ public:
     {
     public:
         buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         void printMap(Stream& stream);
         unsigned int  mapVar();
     };
@@ -93,6 +103,8 @@ public:
     {
     public:
         buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+        buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+
         void printMap(Stream& stream);
         unsigned int  mapVar();
     };

@@ -45,11 +45,12 @@ class DJTable : public Accessory
   
   
 
-	  class crossfadeSlider : public Accessory::Mapping
+		  class crossfadeSlider : public Accessory::Mapping
 	  {
 	    public:
 	    crossfadeSlider(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    crossfadeSlider(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -62,7 +63,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    effectDial(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    effectDial(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -75,7 +77,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -88,7 +91,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -101,7 +105,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    rightDJTable(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    rightDJTable(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -114,7 +119,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    leftDJTable(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    leftDJTable(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
@@ -127,7 +133,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    euphoriaButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    euphoriaButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -137,7 +144,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -147,7 +155,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -157,7 +166,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    leftGreenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    leftGreenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -167,7 +177,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    leftRedButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    leftRedButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -177,7 +188,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    leftBlueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    leftBlueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -187,7 +199,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    rightGreenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    rightGreenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -197,7 +210,8 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    rightRedButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    rightRedButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
@@ -207,10 +221,12 @@ class DJTable : public Accessory
 	  {
 	    public:
 	    rightBlueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-	    unsigned int  mapVar();
+	    rightBlueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
 	    void printMap(Stream& stream);
 	    
 	  };
+
   
   
   
