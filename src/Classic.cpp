@@ -255,6 +255,38 @@ int Classic::getButtonPlus() {
     return decodeBit(buttonPlusBytes);
 }
 
+
+
+unsigned int  Classic::buttonZLeft::mapVar() {
+    Classic* c = (Classic*)controller;
+    return c->getButtonZLeft() ? servoMax:servoZero;
+}
+
+void Classic::buttonZLeft::printMap(Stream& stream) {
+    stream.print("Classic::buttonZLeft -> ");
+    Mapping::printMap(stream);
+}
+
+int Classic::getButtonZLeft() {
+    return decodeBit(buttonZLBytes);
+}
+
+
+
+unsigned int  Classic::buttonZRight::mapVar() {
+    Classic* c = (Classic*)controller;
+    return c->getButtonZRight() ? servoMax:servoZero;
+}
+
+void Classic::buttonZRight::printMap(Stream& stream) {
+    stream.print("Classic::buttonZRight -> ");
+    Mapping::printMap(stream);
+}
+
+int Classic::getButtonZRight() {
+    return decodeBit(buttonZRBytes);
+}
+
     void Classic::printInputs(Stream& stream) {
     char st[100];
     sprintf(st," joy x left: %4d | joy x right: %4d | joy y left: %4d | joy y right: %4d | trigger left: %4d | trigger right: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());  
@@ -292,6 +324,12 @@ int Classic::getButtonPlus() {
 
           if (getButtonPlus())
         stream.print("button plus");
+
+          if (getButtonZLeft())
+        stream.print("button ZL");
+
+          if (getButtonZRight())
+        stream.print("button ZR");
 
     stream.println("");
     }
