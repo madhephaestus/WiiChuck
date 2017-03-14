@@ -289,7 +289,7 @@ int Classic::getButtonZRight() {
 
     void Classic::printInputs(Stream& stream) {
     char st[100];
-    sprintf(st," joy x left: %4d | joy x right: %4d | joy y left: %4d | joy y right: %4d | trigger left: %4d | trigger right: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());  
+    sprintf(st," jxL: %4d | jxR: %4d | jyL: %4d | jyR: %4d | trigL: %4d | trigR: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());
    stream.print(st);
     
           if (getPadRight())
