@@ -7,17 +7,19 @@
 #define joyYRightBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE2,  BIT0, BIT4
 #define triggerLeftBytes	UNUSED,     0,     0,    BYTE2,     BIT5,  BIT6, BYTE3,  BIT5, BIT7
 #define triggerRightBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT0, BIT4
-#define padRightBytes	BYTE5,BIT1,true
-#define padDownBytes	BYTE5,BIT1,true
-#define padUpBytes	BYTE5,BIT1,true
+#define padRightBytes	BYTE4,BIT7,true
+#define padDownBytes	BYTE4,BIT6,true
+#define padUpBytes	BYTE5,BIT0,true
 #define padLeftBytes	BYTE5,BIT1,true
-#define buttonXBytes	BYTE5,BIT1,true
-#define buttonYBytes	BYTE5,BIT1,true
-#define buttonABytes	BYTE5,BIT1,true
-#define buttonBBytes	BYTE5,BIT1,true
-#define buttonMinusBytes	BYTE5,BIT1,true
-#define buttonHomeBytes	BYTE5,BIT1,true
-#define buttonPlusBytes	BYTE5,BIT1,true
+#define buttonXBytes	BYTE5,BIT3,true
+#define buttonYBytes	BYTE5,BIT5,true
+#define buttonABytes	BYTE5,BIT4,true
+#define buttonBBytes	BYTE5,BIT6,true
+#define buttonMinusBytes	BYTE4,BIT4,true
+#define buttonHomeBytes	BYTE4,BIT3,true
+#define buttonPlusBytes	BYTE4,BIT2,true
+#define buttonZRBytes	BYTE5,BIT2,true
+#define buttonZLBytes	BYTE5,BIT7,true
 
 
 class Classic : public Accessory
@@ -43,7 +45,8 @@ class Classic : public Accessory
     int getButtonMinus();
     int getButtonHome();
     int getButtonPlus();
-
+    int getButtonZLeft();
+    int getButtonZRight();
 
 
 
@@ -252,7 +255,26 @@ class Classic : public Accessory
 	  };
 
 
+	  class buttonZLeft : public Accessory::Mapping
+	  {
+	    public:
+	    buttonZLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+	    buttonZLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
+	    void printMap(Stream& stream);
 
+	  };
+
+
+	  class buttonZRight : public Accessory::Mapping
+	  {
+	    public:
+	    buttonZRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
+	    buttonZRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
+	    unsigned int mapVar();
+	    void printMap(Stream& stream);
+
+	  };
 };
 #endif
 
