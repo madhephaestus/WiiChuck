@@ -1,4 +1,3 @@
-
 #include <WiiChuck.h>
 #include <Wire.h>
 
@@ -14,8 +13,10 @@ void setup() {
   nunchuck.begin();
 
   nunchuck.addMap(new Nunchuck::joyX(5,200,128,10)); // Servo pin, max servo value, zero center value, min servo value 
-                                                           
-  nunchuck.addMap(new Nunchuck::joyY(6,200,128,10)); // Servo pin, max servo value, zero center value, min servo value 
+  nunchuck.addMap(new Nunchuck::joyY(6,200,128,10)); // Servo pin, max servo value, zero center value, min servo value                                                          
+  nunchuck.addMap(new Nunchuck::buttonZ(7,200,128,10)); // Servo pin, max servo value, zero center value, min servo value 
+  nunchuck.addMap(new Nunchuck::buttonC(8,200,128,10)); // Servo pin, max servo value, zero center value, min servo value 
+
   nunchuck.printMaps(Serial);  
 }
 
@@ -23,8 +24,9 @@ void setup() {
 void loop() {
   nunchuck.readData();   // Read inputs and update maps
   nunchuck.printInputs(Serial); // Print all inputs
+  int value = nunchuck.getJoyX();
   Serial.print(" Raw value x: ");
-  Serial.print(nunchuck.getJoyX());
+  Serial.print(value);
   Serial.print(" y: ");
   Serial.print(nunchuck.getJoyY());
   Serial.print(" ");
