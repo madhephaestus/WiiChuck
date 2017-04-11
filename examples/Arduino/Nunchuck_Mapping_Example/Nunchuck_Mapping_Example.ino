@@ -29,6 +29,7 @@ void loop() {
   Serial.print(value);
   Serial.print(" y: ");
   Serial.print(nunchuck.getJoyY());
-  Serial.print(" ");
+  Serial.print("\r\n ");
+  nunchuck.printMaps(Serial);  
   delay(50);
 }
