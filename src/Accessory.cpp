@@ -217,7 +217,7 @@ int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
     cpart = cpart << ((lsbend - lsbstart) + 1);
 
     uint16_t mpart=0;
-    mpart = (lsbflag)?0:_dataarray[msbbyte];
+    mpart = (msbflag)?0:_dataarray[msbbyte];
     mpart = mpart >> msbstart;
     mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
 
