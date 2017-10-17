@@ -50,7 +50,7 @@ public:
     uint8_t* getDataArray();
     void setDataArray(uint8_t data[dataSize]);
 
-    void printInputs(Stream& stream);
+    void printInputs(Stream& stream = Serial);
 
     void begin();
     void readData();
@@ -71,7 +71,7 @@ public:
 
     bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 
-    void printMaps(Stream& stream);
+    void printMaps(Stream& stream = Serial);
     uint8_t getMapCount();
     void removeMaps();
     void removeMap(uint8_t id);
@@ -86,7 +86,7 @@ public:
         Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min);
         Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown);
         virtual unsigned int  mapVar();
-        virtual void printMap(Stream& stream);
+        virtual void printMap(Stream& stream = Serial);
         // Data Parsing
 
         Mapping* next;

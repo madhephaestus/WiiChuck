@@ -23,14 +23,14 @@ void setup() {
                                                            
   drumkit.addMap(new Drums::redDrum(D6,200,10,10,500)); // Servo max zero min cooldown
                                                            // cooldown: hold value for x ms.                                                           
-  drumkit.printMaps(Serial);  
+  drumkit.printMaps();  
 }
 
 
 void loop() {
 
   drumkit.readData();   // Read inputs and update maps
-  drumkit.printInputs(Serial); // Print all inputs
+  drumkit.printInputs(); // Print all inputs
   
   delay(50);
 }

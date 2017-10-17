@@ -19,7 +19,7 @@ class Guitar : public Accessory
 {
   public:
   Guitar(uint8_t data_pin, uint8_t sclk_pin);
-  void printInputs(Stream& stream);
+  void printInputs(Stream& stream = Serial);
   
  	int getStickX();
 	int getStickY();
@@ -43,7 +43,7 @@ class Guitar : public Accessory
 	    stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -57,7 +57,7 @@ class Guitar : public Accessory
 	    stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -71,7 +71,7 @@ class Guitar : public Accessory
 	    whammyBar(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    whammyBar(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -85,7 +85,7 @@ class Guitar : public Accessory
 	    plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -96,7 +96,7 @@ class Guitar : public Accessory
 	    minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -107,7 +107,7 @@ class Guitar : public Accessory
 	    greenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    greenButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -118,7 +118,7 @@ class Guitar : public Accessory
 	    redButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    redButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -129,7 +129,7 @@ class Guitar : public Accessory
 	    yellowButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    yellowButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -140,7 +140,7 @@ class Guitar : public Accessory
 	    blueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    blueButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -151,7 +151,7 @@ class Guitar : public Accessory
 	    orangeButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    orangeButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -162,7 +162,7 @@ class Guitar : public Accessory
 	    strumUp(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    strumUp(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -173,7 +173,7 @@ class Guitar : public Accessory
 	    strumDown(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    strumDown(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
 

@@ -26,7 +26,7 @@ class Classic : public Accessory
 {
     public:
     Classic(uint8_t data_pin, uint8_t sclk_pin);
-    void printInputs(Stream& stream);
+    void printInputs(Stream& stream = Serial);
 
     int getJoyXLeft();
     int getJoyXRight();
@@ -56,7 +56,7 @@ class Classic : public Accessory
 	    joyXLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    joyXLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -70,7 +70,7 @@ class Classic : public Accessory
 	    joyXRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    joyXRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -84,7 +84,7 @@ class Classic : public Accessory
 	    joyYLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    joyYLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -98,7 +98,7 @@ class Classic : public Accessory
 	    joyYRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    joyYRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -112,7 +112,7 @@ class Classic : public Accessory
 	    triggerLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    triggerLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -126,7 +126,7 @@ class Classic : public Accessory
 	    triggerRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    triggerRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    const uint16_t myMin = 0;
 	    const uint16_t myZero = 125;
 	    const uint16_t myMax = 255;
@@ -140,7 +140,7 @@ class Classic : public Accessory
 	    padRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    padRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -151,7 +151,7 @@ class Classic : public Accessory
 	    padDown(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    padDown(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -162,7 +162,7 @@ class Classic : public Accessory
 	    padUp(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    padUp(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -173,7 +173,7 @@ class Classic : public Accessory
 	    padLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    padLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -184,7 +184,7 @@ class Classic : public Accessory
 	    buttonX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -195,7 +195,7 @@ class Classic : public Accessory
 	    buttonY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -206,7 +206,7 @@ class Classic : public Accessory
 	    buttonA(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonA(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -217,7 +217,7 @@ class Classic : public Accessory
 	    buttonB(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonB(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -228,7 +228,7 @@ class Classic : public Accessory
 	    buttonMinus(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonMinus(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -239,7 +239,7 @@ class Classic : public Accessory
 	    buttonHome(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonHome(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
   
@@ -250,7 +250,7 @@ class Classic : public Accessory
 	    buttonPlus(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonPlus(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 	    
 	  };
 
@@ -261,7 +261,7 @@ class Classic : public Accessory
 	    buttonZLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonZLeft(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 
 	  };
 
@@ -272,7 +272,7 @@ class Classic : public Accessory
 	    buttonZRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
 	    buttonZRight(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 	    unsigned int mapVar();
-	    void printMap(Stream& stream);
+	    void printMap(Stream& stream = Serial);
 
 	  };
 };

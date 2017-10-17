@@ -23,14 +23,14 @@ void setup() {
                                                            
   classic.addMap(new Classic::joyXLeft(D6,200,128,10)); // Servo max zero min cooldown
                                                            // cooldown: hold value for x ms.                                                           
-  classic.printMaps(Serial);
+  classic.printMaps();
 }
 
 
 void loop() {
 
 	classic.readData();   // Read inputs and update maps
-	classic.printInputs(Serial); // Print all inputs
+	classic.printInputs(); // Print all inputs
   
   delay(50);
 }
