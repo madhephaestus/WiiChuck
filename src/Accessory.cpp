@@ -273,8 +273,8 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
     delay(1);
 
     // read data
-    myWire.readBytes(_dataarray,
-                     myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+    uint8_t readBytes = myWire.readBytes(_dataarray,
+                          myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
 
     
     if(_encrypted) {
