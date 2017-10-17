@@ -125,8 +125,8 @@ protected:
 
     ControllerType identifyController();
     Mapping* firstMap;
-    void _burstRead();
-    void _burstReadWithAddress(uint8_t addr);
+    boolean _burstRead();
+    boolean _burstReadWithAddress(uint8_t addr);
     void _writeRegister(uint8_t reg, uint8_t value);
     void _burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size);
 

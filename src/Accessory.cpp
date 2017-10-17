@@ -256,12 +256,12 @@ void Accessory::begin() {
 
 }
 
-void Accessory::_burstRead() {
-    _burstReadWithAddress(0);
+boolean Accessory::_burstRead() {
+    return _burstReadWithAddress(0);
 }
 
 
-void Accessory::_burstReadWithAddress(uint8_t addr) {
+boolean Accessory::_burstReadWithAddress(uint8_t addr) {
     int readAmnt = sizeof(_dataarray);
 
     // send conversion command
@@ -280,6 +280,8 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
     if(_encrypted) {
         for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
     }
+    
+    return readBytes == sizeof(_dataarray);
     
     //Serial.print("R ");//Serial.print(addr,HEX);
     //Serial.print(" (");//Serial.print(readAmnt);
