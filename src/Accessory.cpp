@@ -88,10 +88,11 @@ ControllerType Accessory::identifyController() {
  * public function to read data
  */
 boolean Accessory::readData() {
-    boolean successFlag = _burstRead();
-    _applyMaps();
-    
-    return successFlag;
+    if(_burstRead()){
+        _applyMaps();
+        return true;
+    }
+    return false;
 }
 
 uint8_t* Accessory::getDataArray() {
