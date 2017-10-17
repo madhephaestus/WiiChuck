@@ -53,7 +53,7 @@ public:
     void printInputs(Stream& stream);
 
     void begin();
-    void readData();
+    boolean readData();
 
     void enableEncryption(bool enc);
 
