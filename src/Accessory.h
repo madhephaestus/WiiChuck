@@ -57,8 +57,10 @@ public:
 
     void enableEncryption(bool enc);
 
-
-
+    void addMultiplexer(uint8_t sw);
+    void addMultiplexer(uint8_t iic, uint8_t sw);
+    void switchMultiplexer();
+    static void switchMultiplexer(uint8_t iic, uint8_t sw);
 
     int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
                   uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
@@ -116,6 +118,8 @@ protected:
     ControllerType type;
     // allow sub classes to view the data
     uint8_t _dataarray[8];
+    uint8_t _multiplexI2C = 0;
+    uint8_t _multiplexSwitch;
 
     //uint8_t _key_table_1[16]= {0xe0,0x7d,0xe0,0x7d,0xe0,0x7d,0xe0,0x7d,0xe0,0x7d,0x38,0x54,0xbb,0x79,0x01,0x43};
     uint8_t _key_table_1[16]= {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
