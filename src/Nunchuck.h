@@ -23,8 +23,8 @@ public:
     int getJoyX();
     int getJoyY();
 
-    int getRollAngle();
-    int getPitchAngle();
+    float getRollAngle();
+    float getPitchAngle();
     int getAccelX();
     int getAccelY();
     int getAccelZ();

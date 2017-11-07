@@ -10,11 +10,11 @@ int Nunchuck::getJoyY() {
     return decodeInt(joyYBytes);
 }
 
-int Nunchuck::getRollAngle() {
-    return (int) (atan2((double) getAccelX(), (double) getAccelZ()) * 180.0 / PI);
+float Nunchuck::getRollAngle() {
+    return atan2((double) getAccelX() - 511, (double) getAccelZ() - 511) * 180.0 / PI;
 }
-int Nunchuck::getPitchAngle() {
-    return (int) (atan2((double) getAccelY(), (double) getAccelZ()) * 180.0 / PI);
+float Nunchuck::getPitchAngle() {
+    return -atan2((double) getAccelY() - 511, (double) getAccelZ() - 511) * 180.0 / PI;
 }
 int Nunchuck::getAccelX() {
     return decodeInt(accelXBytes);
