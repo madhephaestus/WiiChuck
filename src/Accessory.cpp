@@ -105,6 +105,7 @@ void Accessory::switchMultiplexer(){
 void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
     if(sw >= 8) return;
     
+    if(TWCR == 0){ myWire.begin(); } // Start I2C if it's not running
     sendMultiSwitch(iic, sw);
 }
 
