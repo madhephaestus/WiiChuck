@@ -84,8 +84,6 @@ ControllerType Accessory::identifyController() {
     return Unknown;
 }
 
-void Accessory::addMultiplexer(uint8_t sw){
-    addMultiplexer(0x70, sw);
 }
 
 void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){

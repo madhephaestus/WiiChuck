@@ -55,7 +55,6 @@ public:
 
     void enableEncryption(bool enc);
 
-    void addMultiplexer(uint8_t sw);
     void addMultiplexer(uint8_t iic, uint8_t sw);
     void switchMultiplexer();
     static void switchMultiplexer(uint8_t iic, uint8_t sw);
