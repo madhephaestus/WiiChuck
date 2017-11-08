@@ -84,6 +84,10 @@ ControllerType Accessory::identifyController() {
     return Unknown;
 }
 
+void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw){
+    myWire.beginTransmission(iic);
+    myWire.write(1 << sw);
+    myWire.endTransmission();
 }
 
 void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){
@@ -95,15 +99,13 @@ void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){
 
 void Accessory::switchMultiplexer(){
     if(_multiplexI2C == 0) return; // No multiplexer set
-    switchMultiplexer(_multiplexI2C, _multiplexSwitch);
+    sendMultiSwitch(_multiplexI2C, _multiplexSwitch);
 }
 
 void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
     if(sw >= 8) return;
     
-    myWire.beginTransmission(iic);
-    myWire.write(1 << sw);
-    myWire.endTransmission();
+    sendMultiSwitch(iic, sw);
 }
 
 /*

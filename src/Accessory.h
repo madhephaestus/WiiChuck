@@ -133,7 +133,7 @@ protected:
     void _burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size);
 
 
-
+    static void sendMultiSwitch(uint8_t iic, uint8_t sw);
 private:
 
 
