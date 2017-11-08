@@ -18,13 +18,13 @@ class Nunchuck : public Accessory
 {
 public:
     Nunchuck(uint8_t data_pin, uint8_t sclk_pin);
-    void printInputs(Stream& stream);
+    void printInputs(Stream& stream = Serial);
 
     int getJoyX();
     int getJoyY();
 
-    int getRollAngle();
-    int getPitchAngle();
+    float getRollAngle();
+    float getPitchAngle();
     int getAccelX();
     int getAccelY();
     int getAccelZ();
@@ -41,7 +41,7 @@ public:
         joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
         unsigned int  mapVar();
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         const uint16_t myMin = 0;
         const uint16_t myZero = 125;
         const uint16_t myMax = 255;
@@ -55,7 +55,7 @@ public:
         joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
         unsigned int  mapVar();
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         const uint16_t myMin = 0;
         const uint16_t myZero = 125;
         const uint16_t myMax = 255;
@@ -68,7 +68,7 @@ public:
         roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
         unsigned int  mapVar();
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         const int16_t myMin = -180;
         const int16_t myZero = 0;
         const int16_t myMax = 180;
@@ -82,7 +82,7 @@ public:
         pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
         unsigned int  mapVar();
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         const int16_t myMin = -180;
         const int16_t myZero = 0;
         const int16_t myMax = 180;
@@ -95,7 +95,7 @@ public:
         buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
         buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         unsigned int  mapVar();
     };
 
@@ -105,7 +105,7 @@ public:
         buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
         buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
 
-        void printMap(Stream& stream);
+        void printMap(Stream& stream = Serial);
         unsigned int  mapVar();
     };
 

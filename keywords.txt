@@ -2,6 +2,7 @@ WiiChuck	KEYWORD1
 
 begin	KEYWORD2
 readData	KEYWORD2
+addMultiplexer	KEYWORD2
 getJoyX	KEYWORD2
 getJoyY	KEYWORD2
 getRollAngle	KEYWORD2

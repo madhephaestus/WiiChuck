@@ -84,10 +84,35 @@ ControllerType Accessory::identifyController() {
     return Unknown;
 }
 
+void Accessory::addMultiplexer(uint8_t sw){
+    addMultiplexer(0x70, sw);
+}
+
+void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){
+    if(sw >= 8) return;
+
+    _multiplexI2C = iic;
+    _multiplexSwitch = sw;
+}
+
+void Accessory::switchMultiplexer(){
+    if(_multiplexI2C == 0) return; // No multiplexer set
+    switchMultiplexer(_multiplexI2C, _multiplexSwitch);
+}
+
+void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
+    if(sw >= 8) return;
+    
+    myWire.beginTransmission(iic);
+    myWire.write(1 << sw);
+    myWire.endTransmission();
+}
+
 /*
  * public function to read data
  */
 boolean Accessory::readData() {
+    switchMultiplexer();
     if(_burstRead()){
         _applyMaps();
         return true;
@@ -248,6 +273,8 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 
 void Accessory::begin() {
     myWire.begin();
+
+    switchMultiplexer();
 
     initBytes();
 

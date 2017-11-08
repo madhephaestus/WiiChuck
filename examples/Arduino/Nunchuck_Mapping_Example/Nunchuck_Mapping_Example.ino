@@ -23,13 +23,13 @@ void setup() {
 
 void loop() {
   nunchuck.readData();   // Read inputs and update maps
-  nunchuck.printInputs(Serial); // Print all inputs
+  nunchuck.printInputs(); // Print all inputs
   int value = nunchuck.getJoyX();
   Serial.print(" Raw value x: ");
   Serial.print(value);
   Serial.print(" y: ");
   Serial.print(nunchuck.getJoyY());
   Serial.print("\r\n ");
-  nunchuck.printMaps(Serial);  
+  nunchuck.printMaps();  
   delay(50);
 }
