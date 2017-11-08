@@ -26,7 +26,7 @@
 class Drums : public Accessory
 {
   public:
-  Drums(uint8_t data_pin, uint8_t sclk_pin);
+  Drums();
   void printInputs(Stream& stream = Serial);
   
  	int getStickX();

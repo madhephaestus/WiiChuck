@@ -1,6 +1,6 @@
 #include "Guitar.h"
-Guitar::Guitar(uint8_t data_pin, uint8_t sclk_pin) :
-    Accessory(data_pin, sclk_pin) {
+Guitar::Guitar() :
+    Accessory() {
 }
 
 

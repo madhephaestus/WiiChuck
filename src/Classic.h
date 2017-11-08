@@ -25,7 +25,7 @@
 class Classic : public Accessory
 {
     public:
-    Classic(uint8_t data_pin, uint8_t sclk_pin);
+    Classic();
     void printInputs(Stream& stream = Serial);
 
     int getJoyXLeft();

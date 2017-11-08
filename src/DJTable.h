@@ -23,7 +23,7 @@
 class DJTable : public Accessory
 {
   public:
-  DJTable(uint8_t data_pin, uint8_t sclk_pin);
+  DJTable();
   void printInputs(Stream& stream = Serial);
   
  	int getCrossfadeSlider();

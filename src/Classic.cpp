@@ -1,7 +1,7 @@
 #include "Classic.h"
 
-Classic::Classic(uint8_t data_pin, uint8_t sclk_pin) :
-    Accessory(data_pin, sclk_pin) {
+Classic::Classic() :
+    Accessory() {
 
 }
 

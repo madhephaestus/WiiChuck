@@ -1,7 +1,7 @@
 #include <WiiChuck.h>
 
-Nunchuck nunchuck1(SDA, SCL);
-Nunchuck nunchuck2(SDA, SCL);
+Nunchuck nunchuck1;
+Nunchuck nunchuck2;
 
 void setup() {
   Serial.begin(115200);

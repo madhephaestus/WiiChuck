@@ -10,7 +10,7 @@
 class Drawsome : public Accessory
 {
   public:
-  Drawsome(uint8_t data_pin, uint8_t sclk_pin);
+  Drawsome();
   void printInputs(Stream& stream = Serial);
   
  	int getPenXPosition();

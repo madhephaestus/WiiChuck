@@ -1,7 +1,7 @@
 #include "Nunchuck.h"
-Nunchuck::Nunchuck(uint8_t data_pin, uint8_t sclk_pin) :
-    Accessory(data_pin, sclk_pin) {
 
+Nunchuck::Nunchuck() :
+    Accessory() {
 }
 int Nunchuck::getJoyX() {
     return decodeInt(joyXBytes);

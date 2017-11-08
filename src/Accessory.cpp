@@ -1,22 +1,9 @@
 #include "Accessory.h"
 #include <Wire.h>
 
-#include "sWire.h"
 #include "Servo.h"
 
-//#define WiiChickUseSWiic
-
-//#ifdef WiiChickUseSWiic
-//  sWire myWire;
-//#else
-#define myWire Wire
-//#endif
-
-
-Accessory::Accessory(uint8_t data_pin, uint8_t sclk_pin) {
-//#ifdef WiiChickUseSWiic
-//  myWire.setiicpins(data_pin,sclk_pin);
-//#endif
+Accessory::Accessory() {
 
 }
 /**
@@ -85,9 +72,9 @@ ControllerType Accessory::identifyController() {
 }
 
 void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw){
-    myWire.beginTransmission(iic);
-    myWire.write(1 << sw);
-    myWire.endTransmission();
+    Wire.beginTransmission(iic);
+    Wire.write(1 << sw);
+    Wire.endTransmission();
 }
 
 void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){
@@ -105,7 +92,7 @@ void Accessory::switchMultiplexer(){
 void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
     if(sw >= 8) return;
     
-    if(TWCR == 0){ myWire.begin(); } // Start I2C if it's not running
+    if(TWCR == 0){ Wire.begin(); } // Start I2C if it's not running
     sendMultiSwitch(iic, sw);
 }
 
@@ -273,7 +260,7 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 
 
 void Accessory::begin() {
-    myWire.begin();
+    Wire.begin();
 
     switchMultiplexer();
 
@@ -295,16 +282,16 @@ boolean Accessory::_burstReadWithAddress(uint8_t addr) {
     int readAmnt = sizeof(_dataarray);
 
     // send conversion command
-    myWire.beginTransmission(I2C_ADDR);
-    myWire.write(addr);
-    myWire.endTransmission();
+    Wire.beginTransmission(I2C_ADDR);
+    Wire.write(addr);
+    Wire.endTransmission();
 
     // wait for data to be converted
     delay(1);
 
     // read data
-    uint8_t readBytes = myWire.readBytes(_dataarray,
-                          myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+    uint8_t readBytes = Wire.readBytes(_dataarray,
+                          Wire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
 
     
     if(_encrypted) {
@@ -324,10 +311,10 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
                 //Serial.print(reg,HEX);
                         //Serial.print(": ");
                                 //Serial.println(value,HEX);
-    myWire.beginTransmission(I2C_ADDR);
-    myWire.write(reg);
-    myWire.write(value);
-    myWire.endTransmission();
+    Wire.beginTransmission(I2C_ADDR);
+    Wire.write(reg);
+    Wire.write(value);
+    Wire.endTransmission();
 }
 
 void Accessory::_burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size) {
@@ -338,10 +325,10 @@ void Accessory::_burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size) {
         //}
         //Serial.println("");
         
-    myWire.beginTransmission(I2C_ADDR);
-    myWire.write(addr);
-    for (int i=0; i<size; i++) myWire.write(arr[i]);
-    myWire.endTransmission();
+    Wire.beginTransmission(I2C_ADDR);
+    Wire.write(addr);
+    for (int i=0; i<size; i++) Wire.write(arr[i]);
+    Wire.endTransmission();
 }
 
 void Accessory::enableEncryption(bool enc) {

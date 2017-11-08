@@ -17,7 +17,7 @@
 class Nunchuck : public Accessory
 {
 public:
-    Nunchuck(uint8_t data_pin, uint8_t sclk_pin);
+    Nunchuck();
     void printInputs(Stream& stream = Serial);
 
     int getJoyX();

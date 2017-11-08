@@ -3,7 +3,7 @@
 
 // This works with the Guitar Hero World Tour (Wii) Drums
 
-Nunchuck nunchuck(SDA, SCL);
+Nunchuck nunchuck;
 
 void setup() {
 

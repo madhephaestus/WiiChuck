@@ -18,7 +18,7 @@
 class Guitar : public Accessory
 {
   public:
-  Guitar(uint8_t data_pin, uint8_t sclk_pin);
+  Guitar();
   void printInputs(Stream& stream = Serial);
   
  	int getStickX();

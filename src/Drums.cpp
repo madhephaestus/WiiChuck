@@ -1,6 +1,6 @@
 #include "Drums.h"
-Drums::Drums(uint8_t data_pin, uint8_t sclk_pin) :
-    Accessory(data_pin, sclk_pin) {
+Drums::Drums() :
+    Accessory() {
 }
 
 

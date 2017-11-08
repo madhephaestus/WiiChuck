@@ -1,6 +1,6 @@
 #include "Drawsome.h"
-Drawsome::Drawsome(uint8_t data_pin, uint8_t sclk_pin) :
-    Accessory(data_pin, sclk_pin) {
+Drawsome::Drawsome() :
+    Accessory() {
     
 
 }

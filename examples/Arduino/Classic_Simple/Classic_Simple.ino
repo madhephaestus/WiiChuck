@@ -1,11 +1,6 @@
 #include <WiiChuck.h>
 
-#if defined(ARDUINO_ARCH_ESP8266)
-#define SDA D2
-#define SCL D1
-#endif
-
-Classic classic(SDA, SCL);
+Classic classic;
  
 void setup() {
   // put your setup code here, to run once:

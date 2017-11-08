@@ -43,7 +43,7 @@ typedef enum _controllertype {
 
 class Accessory {
 public:
-    Accessory(uint8_t data_pin, uint8_t sclk_pin);
+    Accessory();
 
     uint8_t* getDataArray();
     void setDataArray(uint8_t data[6]);
