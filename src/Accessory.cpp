@@ -111,11 +111,13 @@ void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
 /*
  * public function to read data
  */
-void Accessory::readData() {
+boolean Accessory::readData() {
     switchMultiplexer();
-
-    _burstRead();
-    _applyMaps();
+    if(_burstRead()){
+        _applyMaps();
+        return true;
+    }
+    return false;
 }
 
 uint8_t* Accessory::getDataArray() {
@@ -283,12 +285,12 @@ void Accessory::begin() {
 
 }
 
-void Accessory::_burstRead() {
-    _burstReadWithAddress(0);
+boolean Accessory::_burstRead() {
+    return _burstReadWithAddress(0);
 }
 
 
-void Accessory::_burstReadWithAddress(uint8_t addr) {
+boolean Accessory::_burstReadWithAddress(uint8_t addr) {
     int readAmnt = sizeof(_dataarray);
 
     // send conversion command
@@ -300,13 +302,15 @@ void Accessory::_burstReadWithAddress(uint8_t addr) {
     delay(1);
 
     // read data
-    myWire.readBytes(_dataarray,
-                     myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+    uint8_t readBytes = myWire.readBytes(_dataarray,
+                          myWire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
 
     
     if(_encrypted) {
         for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
     }
+    
+    return readBytes == sizeof(_dataarray);
     
     //Serial.print("R ");//Serial.print(addr,HEX);
     //Serial.print(" (");//Serial.print(readAmnt);
