@@ -41,14 +41,12 @@ typedef enum _controllertype {
     Turntable
 } ControllerType;
 
-#define dataSize 8
-
 class Accessory {
 public:
     Accessory(uint8_t data_pin, uint8_t sclk_pin);
 
     uint8_t* getDataArray();
-    void setDataArray(uint8_t data[dataSize]);
+    void setDataArray(uint8_t data[6]);
 
     void printInputs(Stream& stream = Serial);
 
@@ -117,7 +115,8 @@ protected:
     bool _encrypted;
     ControllerType type;
     // allow sub classes to view the data
-    uint8_t _dataarray[8];
+
+    uint8_t _dataarray[6];
     uint8_t _multiplexI2C = 0;
     uint8_t _multiplexSwitch;
 
