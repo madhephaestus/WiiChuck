@@ -281,7 +281,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
     Wire.endTransmission();
 
     // wait for data to be converted
-    delay(1);
+    delayMicroseconds(175);
 
     // read data
     uint8_t readBytes = Wire.readBytes(_dataarray,
