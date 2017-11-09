@@ -15,17 +15,16 @@ ControllerType Accessory::getControllerType(){
  
 ControllerType Accessory::identifyController() {
     //Serial.println("Reading periph bytes");
-    _burstReadWithAddress(0xfa);
+    _burstRead(0xfa);
     //printInputs(Serial);
-
-    if (_dataarray[4] == 0x01)
-        if (_dataarray[5] == 0x01)
-            return WIICLASSIC; // Classic Controller
 
     if (_dataarray[4] == 0x00)
         if (_dataarray[5] == 0x00)
             return NUNCHUCK; // nunchuck
 
+    if (_dataarray[4] == 0x01)
+        if (_dataarray[5] == 0x01)
+            return WIICLASSIC; // Classic Controller
 
     if (_dataarray[0] == 0x00)
         if (_dataarray[1] == 0x00)
@@ -260,7 +259,7 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 
 
 void Accessory::begin() {
-    Wire.begin();
+    if(TWCR == 0){ Wire.begin(); } // Start I2C if it's not running
 
     switchMultiplexer();
 
@@ -273,12 +272,7 @@ void Accessory::begin() {
 
 }
 
-boolean Accessory::_burstRead() {
-    return _burstReadWithAddress(0);
-}
-
-
-boolean Accessory::_burstReadWithAddress(uint8_t addr) {
+boolean Accessory::_burstRead(uint8_t addr) {
     int readAmnt = sizeof(_dataarray);
 
     // send conversion command

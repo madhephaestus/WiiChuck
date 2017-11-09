@@ -12,25 +12,25 @@ void Drawsome::initBytes() {
         Accessory::initBytes();
         Serial.println("Drawesome Specific init");
         
-        _burstReadWithAddress(0x20);
-        _burstReadWithAddress(0x28);
+        _burstRead(0x20);
+        _burstRead(0x28);
         delay(100);
-        _burstReadWithAddress(0x30);
-        _burstReadWithAddress(0x38);
-        delay(100);
-
-        _burstReadWithAddress(0x00);
+        _burstRead(0x30);
+        _burstRead(0x38);
         delay(100);
 
-        _burstReadWithAddress(0x00);
+        _burstRead(0x00);
+        delay(100);
+
+        _burstRead(0x00);
         delay(100);
 
         _writeRegister(0xfb,0x01);
 
-        _burstReadWithAddress(0x00);
+        _burstRead(0x00);
         delay(100);
 
-        _burstReadWithAddress(0x00);
+        _burstRead(0x00);
         delay(100);
 
 }

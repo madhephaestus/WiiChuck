@@ -4,11 +4,7 @@
 #include "Arduino.h"
 #include <Servo.h>
 
-
-
 #define I2C_ADDR		0x52
-#define I2C_ADDR_R		((I2C_ADDR << 1) + 1)
-#define I2C_ADDR_W		(I2C_ADDR << 1)
 
 #define BYTE0 0
 #define BYTE1 1
@@ -27,9 +23,6 @@
 #define BIT6 6
 #define BIT7 7
 
-//#define THIRDPARTYWII 0
-//#define OFFICIALWII 1
-//#define WIICLASSIC 2
 typedef enum _controllertype {
     Unknown,
     NUNCHUCK,
@@ -63,10 +56,10 @@ public:
                   uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
                   uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
                   
-   int decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
-                        uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-                        uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-                       uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
+    int decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
+                  uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
+                  uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
+                  uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend);
 
     bool decodeBit(uint8_t byte, uint8_t bit, bool activeLow);
 
@@ -105,11 +98,9 @@ public:
         uint8_t servoMax;
         uint8_t servoZero;
         uint8_t servoMin;
-
-
-
     };
     uint8_t addMap(Mapping* m);
+
 protected:
     bool _encrypted;
     ControllerType type;
@@ -124,27 +115,17 @@ protected:
     uint8_t decryptByte(uint8_t byte,uint8_t address);
     virtual void initBytes();
 
-
     ControllerType identifyController();
     Mapping* firstMap;
-    boolean _burstRead();
-    boolean _burstReadWithAddress(uint8_t addr);
+    boolean _burstRead(uint8_t addr = 0);
     void _writeRegister(uint8_t reg, uint8_t value);
     void _burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size);
 
 private:
     static void sendMultiSwitch(uint8_t iic, uint8_t sw);
 
-    // Controller Register Transactions
-
-
-
-
     uint8_t mapCount;
-
     void _applyMaps();
-
-
 };
 
 #endif
