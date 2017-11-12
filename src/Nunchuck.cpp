@@ -25,10 +25,10 @@ int Nunchuck::getAccelY() {
 int Nunchuck::getAccelZ() {
 	return decodeInt(accelZBytes);
 }
-boolean Nunchuck::checkButtonC() {
+boolean Nunchuck::getButtonC() {
 	return decodeBit(buttonCBits);
 }
-boolean Nunchuck::checkButtonZ() {
+boolean Nunchuck::getButtonZ() {
 	return decodeBit(buttonZBits);
 }
 
@@ -42,11 +42,11 @@ void Nunchuck::printInputs(Stream& stream) {
 
 	stream.print(st);
 
-	if (checkButtonC())
+	if (getButtonC())
 		stream.print("C");
 	else
 		stream.print("-");
-	if (checkButtonZ())
+	if (getButtonZ())
 		stream.print("Z");
 	else
 		stream.print("-");
@@ -95,7 +95,7 @@ void Nunchuck::pitch::printMap(Stream& stream) {
 
 unsigned int Nunchuck::buttonC::mapVar() {
 	Nunchuck* c = (Nunchuck*)controller;
-	return (c->checkButtonC()) ? servoMax:servoZero;
+	return (c->getButtonC()) ? servoMax:servoZero;
 }
 
 void Nunchuck::buttonC::printMap(Stream& stream) {
@@ -105,7 +105,7 @@ void Nunchuck::buttonC::printMap(Stream& stream) {
 
 unsigned int Nunchuck::buttonZ::mapVar() {
 	Nunchuck* c = (Nunchuck*)controller;
-	return (c->checkButtonZ()) ? servoMax:servoZero;
+	return (c->getButtonZ()) ? servoMax:servoZero;
 }
 
 void Nunchuck::buttonZ::printMap(Stream& stream) {

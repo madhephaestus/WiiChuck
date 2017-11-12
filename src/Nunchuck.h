@@ -28,8 +28,8 @@ public:
 	int getAccelY();
 	int getAccelZ();
 
-	boolean checkButtonC();
-	boolean checkButtonZ();
+	boolean getButtonC();
+	boolean getButtonZ();
 
 	class joyX : public Accessory::Mapping
 	{
