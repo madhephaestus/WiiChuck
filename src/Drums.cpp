@@ -176,36 +176,29 @@ void Drums::printInputs(Stream& stream) {
 	if (getSoftnessDataFlag()){
 		switch(getSoftnessDataFor()){
 			case 27:
-			{
 				stream.print("bass pedal:\t");
 				stream.print(getSoftness());
-			break;
-			}
-			case 25:{
+				break;
+			case 25:
 				stream.print("red drum:\t");
 				stream.print(getSoftness());
-			break;
-			}
-			case 17:{
+				break;
+			case 17:
 				stream.print("yellow drum:\t");
 				stream.print(getSoftness());
-			break;
-			}
-			case 15:{
+				break;
+			case 15:
 				stream.print("blue drumm:\t");
 				stream.print(getSoftness());
-			break;
-			}
-			case 14:{
+				break;
+			case 14:
 				stream.print("orange drum:\t");
 				stream.print(getSoftness());
-			break;
-			}
-			case 18:{
+				break;
+			case 18:
 				stream.print("green drum:\t");
 				stream.print(getSoftness());
-			break;
-			}
+				break;
 		}
 		if (getHighHatDataFlag()){
 			stream.print("high hat:\t");
