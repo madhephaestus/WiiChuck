@@ -1,8 +1,118 @@
+#######################################
+# Syntax Coloring Map For WiiChuck
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+# Library
 WiiChuck	KEYWORD1
 
+# Controller Types
+Nunchuck	KEYWORD1
+Classic	KEYWORD1
+Guitar	KEYWORD1
+Drums	KEYWORD1
+Drawsome	KEYWORD1
+DJTable	KEYWORD1
+
+# Mapping Classes:
+## Nunchuck
+joyX	KEYWORD1
+joyY	KEYWORD1
+roll	KEYWORD1
+pitch	KEYWORD1
+buttonC	KEYWORD1
+buttonZ	KEYWORD1
+
+## Classic Controller
+joyXLeft	KEYWORD1
+joyXRight	KEYWORD1
+joyYLeft	KEYWORD1
+joyYRight	KEYWORD1
+triggerLeft	KEYWORD1
+triggerRight	KEYWORD1
+padRight	KEYWORD1
+padDown	KEYWORD1
+padUp	KEYWORD1
+padLeft	KEYWORD1
+buttonX	KEYWORD1
+buttonY	KEYWORD1
+buttonA	KEYWORD1
+buttonB	KEYWORD1
+buttonMinus	KEYWORD1
+buttonHome	KEYWORD1
+buttonPlus	KEYWORD1
+buttonZLeft	KEYWORD1
+buttonZRight	KEYWORD1
+
+## DJ Table
+crossfadeSlider	KEYWORD1
+effectDial	KEYWORD1
+stickX	KEYWORD1
+stickY	KEYWORD1
+rightDJTable	KEYWORD1
+leftDJTable	KEYWORD1
+euphoriaButton	KEYWORD1
+plusButton	KEYWORD1
+minusButton	KEYWORD1
+leftGreenButton	KEYWORD1
+leftRedButton	KEYWORD1
+leftBlueButton	KEYWORD1
+rightGreenButton	KEYWORD1
+rightRedButton	KEYWORD1
+rightBlueButton	KEYWORD1
+
+## Drawsome
+penXPosition	KEYWORD1
+penYPosition	KEYWORD1
+penPressure	KEYWORD1
+penContact	KEYWORD1
+
+## Drums
+stickX	KEYWORD1
+stickY	KEYWORD1
+minusButton	KEYWORD1
+plusButton	KEYWORD1
+orangeDrum	KEYWORD1
+redDrum	KEYWORD1
+yellowDrum	KEYWORD1
+greenDrum	KEYWORD1
+blueDrumm	KEYWORD1
+bassPedal	KEYWORD1
+
+## Guitar
+stickX	KEYWORD1
+stickY	KEYWORD1
+whammyBar	KEYWORD1
+plusButton	KEYWORD1
+minusButton	KEYWORD1
+greenButton	KEYWORD1
+redButton	KEYWORD1
+yellowButton	KEYWORD1
+blueButton	KEYWORD1
+orangeButton	KEYWORD1
+strumUp	KEYWORD1
+strumDown	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+# All Controllers
 begin	KEYWORD2
 readData	KEYWORD2
+printInputs	KEYWORD2
 addMultiplexer	KEYWORD2
+switchMultiplexer	KEYWORD2
+
+# Mapping
+addMap	KEYWORD2
+printMap	KEYWORD2
+printMaps	KEYWORD2
+
+# Nunchuck
 getJoyX	KEYWORD2
 getJoyY	KEYWORD2
 getRollAngle	KEYWORD2
@@ -10,18 +120,95 @@ getPitchAngle	KEYWORD2
 getAccelX	KEYWORD2
 getAccelY	KEYWORD2
 getAccelZ	KEYWORD2
-checkButtonC	KEYWORD2
-checkButtonZ	KEYWORD2
+getButtonC	KEYWORD2
+getButtonZ	KEYWORD2
 
-SDA	LITERAL1
-SCL	LITERAL1
-SDA1	LITERAL1
-SCL1	LITERAL1
+# Classic Controller
+getJoyXLeft	KEYWORD2
+getJoyXRight	KEYWORD2
+getJoyYLeft	KEYWORD2
+getJoyYRight	KEYWORD2
+getTriggerLeft	KEYWORD2
+getTriggerRight	KEYWORD2
+getPadRight	KEYWORD2
+getPadDown	KEYWORD2
+getPadUp	KEYWORD2
+getPadLeft	KEYWORD2
+getButtonX	KEYWORD2
+getButtonY	KEYWORD2
+getButtonA	KEYWORD2
+getButtonB	KEYWORD2
+getButtonMinus	KEYWORD2
+getButtonHome	KEYWORD2
+getButtonPlus	KEYWORD2
+getButtonZLeft	KEYWORD2
+getButtonZRight	KEYWORD2
 
-NUNCHUCK	LITERAL2
-WIICLASSIC	LITERAL2
-GuitarHeroController	LITERAL2
-GuitarHeroWorldTourDrums	LITERAL2
-DrumController	LITERAL2
-DrawsomeTablet	LITERAL2
-Mystery	LITERAL2
+# DJ Table
+getCrossfadeSlider	KEYWORD2
+getEffectDial	KEYWORD2
+getStickX	KEYWORD2
+getStickY	KEYWORD2
+getRightDJTable	KEYWORD2
+getLeftDJTable	KEYWORD2
+getEuphoriaButton	KEYWORD2
+getPlusButton	KEYWORD2
+getMinusButton	KEYWORD2
+getLeftGreenButton	KEYWORD2
+getLeftRedButton	KEYWORD2
+getLeftBlueButton	KEYWORD2
+getRightGreenButton	KEYWORD2
+getRightRedButton	KEYWORD2
+getRightBlueButton	KEYWORD2
+
+# Drawsome
+getPenXPosition	KEYWORD2
+getPenYPosition	KEYWORD2
+getPenPressure	KEYWORD2
+getPenContact	KEYWORD2
+
+# Drums
+getStickX	KEYWORD2
+getStickY	KEYWORD2
+getSoftnessDataFor	KEYWORD2
+getSoftness	KEYWORD2
+getHighHatDataFlag	KEYWORD2
+getSoftnessDataFlag	KEYWORD2
+getMinusButton	KEYWORD2
+getPlusButton	KEYWORD2
+getOrangeDrum	KEYWORD2
+getRedDrum	KEYWORD2
+getYellowDrum	KEYWORD2
+getGreenDrum	KEYWORD2
+getBlueDrumm	KEYWORD2
+getBassPedal	KEYWORD2
+
+# Guitar
+getStickX	KEYWORD2
+getStickY	KEYWORD2
+getWhammyBar	KEYWORD2
+getPlusButton	KEYWORD2
+getMinusButton	KEYWORD2
+getGreenButton	KEYWORD2
+getRedButton	KEYWORD2
+getYellowButton	KEYWORD2
+getBlueButton	KEYWORD2
+getOrangeButton	KEYWORD2
+getStrumUp	KEYWORD2
+getStrumDown	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+NUNCHUCK	LITERAL1
+WIICLASSIC	LITERAL1
+GuitarHeroController	LITERAL1
+GuitarHeroWorldTourDrums	LITERAL1
+DrumController	LITERAL1
+DrawsomeTablet	LITERAL1
+Unknown	LITERAL1
