@@ -16,7 +16,7 @@ void setup() {
 
 void loop() {
   Serial.println("-------------------------------------------");
-  nunchuck1.readData();    // Read inputs and update maps
+  nunchuck1.readData();   // Read inputs and update maps
   nunchuck2.readData();
 
   nunchuck1.printInputs(); // Print all inputs
