@@ -1,8 +1,6 @@
 #include "Accessory.h"
 #include <Wire.h>
 
-#include "Servo.h"
-
 Accessory::Accessory() {
 
 }

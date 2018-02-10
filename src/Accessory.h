@@ -2,7 +2,13 @@
 #define Accessory_h
 
 #include "Arduino.h"
-#include <Servo.h>
+
+#if defined(ARDUINO_ARCH_ESP32)
+	#include "ESP32Servo.h"
+	#define TWCR 0			//needs to be fixed
+#else
+	#include <Servo.h>
+#endif
 
 #define I2C_ADDR		0x52
 
