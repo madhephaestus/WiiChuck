@@ -3,10 +3,10 @@
 
 #include "Accessory.h"
 
-#define penYPositionBytes	UNUSED, 0, 0, BYTE3, BIT0, BIT5, BYTE2, BIT0, BIT5
-#define penXPositionBytes	UNUSED, 0, 0, BYTE1, BIT0, BIT5  , BYTE0, BIT0, BIT5
-#define penPressureBytes	UNUSED, 0, 0, BYTE5, BIT0, BIT3 ,BYTE4   , 0   , 5
-#define penContactBytes	BYTE5,BIT7,true
+#define penYPositionBytes	WII_UNUSED, 0, 0, WII_BYTE3, WII_BIT0, WII_BIT5, WII_BYTE2, WII_BIT0, WII_BIT5
+#define penXPositionBytes	WII_UNUSED, 0, 0, WII_BYTE1, WII_BIT0, WII_BIT5  , WII_BYTE0, WII_BIT0, WII_BIT5
+#define penPressureBytes	WII_UNUSED, 0, 0, WII_BYTE5, WII_BIT0, WII_BIT3 ,WII_BYTE4   , 0   , 5
+#define penContactBytes	WII_BYTE5,WII_BIT7,true
 
 class Drawsome : public Accessory
 {

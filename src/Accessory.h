@@ -10,24 +10,24 @@
 	#include <Servo.h>
 #endif
 
-#define I2C_ADDR		0x52
+#define WII_I2C_ADDR		0x52
 
-#define BYTE0 0
-#define BYTE1 1
-#define BYTE2 2
-#define BYTE3 3
-#define BYTE4 4
-#define BYTE5 5
-#define UNUSED 255
+#define WII_BYTE0 0
+#define WII_BYTE1 1
+#define WII_BYTE2 2
+#define WII_BYTE3 3
+#define WII_BYTE4 4
+#define WII_BYTE5 5
+#define WII_UNUSED 255
 
-#define BIT0 0
-#define BIT1 1
-#define BIT2 2
-#define BIT3 3
-#define BIT4 4
-#define BIT5 5
-#define BIT6 6
-#define BIT7 7
+#define WII_BIT0 0
+#define WII_BIT1 1
+#define WII_BIT2 2
+#define WII_BIT3 3
+#define WII_BIT4 4
+#define WII_BIT5 5
+#define WII_BIT6 6
+#define WII_BIT7 7
 
 typedef enum _controllertype {
 	Unknown,

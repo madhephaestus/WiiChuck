@@ -261,10 +261,10 @@ void Accessory::begin() {
 }
 
 boolean Accessory::_burstRead(uint8_t addr) {
-	int readAmnt = sizeof(_dataarray);
+	//int readAmnt = sizeof(_dataarray);
 
 	// send conversion command
-	Wire.beginTransmission(I2C_ADDR);
+	Wire.beginTransmission(WII_I2C_ADDR);
 	Wire.write(addr);
 	Wire.endTransmission();
 
@@ -273,7 +273,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 
 	// read data
 	uint8_t readBytes = Wire.readBytes(_dataarray,
-                          Wire.requestFrom(I2C_ADDR, sizeof(_dataarray)));
+                          Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
 
 	if(_encrypted) {
 		for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
@@ -293,7 +293,7 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 	//Serial.print(": ");
 	//Serial.println(value,HEX);
 
-	Wire.beginTransmission(I2C_ADDR);
+	Wire.beginTransmission(WII_I2C_ADDR);
 	Wire.write(reg);
 	Wire.write(value);
 	Wire.endTransmission();
@@ -307,7 +307,7 @@ void Accessory::_burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size) {
 	//}
 	//Serial.println("");
 
-	Wire.beginTransmission(I2C_ADDR);
+	Wire.beginTransmission(WII_I2C_ADDR);
 	Wire.write(addr);
 	for (int i=0; i<size; i++) Wire.write(arr[i]);
 	Wire.endTransmission();
@@ -420,7 +420,7 @@ void Accessory::Mapping::update() {
 }
 
 void Accessory::Mapping::addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) {
-	servo;
+	//servo;
 	servo.attach(chan);
 	channel=chan;
 	servoMin=min;

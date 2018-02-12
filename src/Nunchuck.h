@@ -4,14 +4,14 @@
 #include "Accessory.h"
 
 // see http://wiibrew.org/wiki/Wiimote/Extension_Nunchuck
-#define joyXBytes     UNUSED, 0, 0, UNUSED ,0   , 0   , BYTE0, BIT0, BIT7
-#define joyYBytes     UNUSED, 0, 0, UNUSED ,0   , 0   , BYTE1, BIT0, BIT7
-#define accelXBytes   UNUSED, 0, 0, BYTE2  ,BIT0, BIT7, BYTE5, BIT2, BIT3
-#define accelYBytes   UNUSED, 0, 0, BYTE3  ,BIT0, BIT7, BYTE5, BIT4, BIT5
-#define accelZBytes   UNUSED, 0, 0, BYTE4  ,BIT0, BIT7, BYTE5, BIT6, BIT7
+#define joyXBytes     WII_UNUSED, 0, 0, WII_UNUSED ,0   , 0   , WII_BYTE0, WII_BIT0, WII_BIT7
+#define joyYBytes     WII_UNUSED, 0, 0, WII_UNUSED ,0   , 0   , WII_BYTE1, WII_BIT0, WII_BIT7
+#define accelXBytes   WII_UNUSED, 0, 0, WII_BYTE2  ,WII_BIT0, WII_BIT7, WII_BYTE5, WII_BIT2, WII_BIT3
+#define accelYBytes   WII_UNUSED, 0, 0, WII_BYTE3  ,WII_BIT0, WII_BIT7, WII_BYTE5, WII_BIT4, WII_BIT5
+#define accelZBytes   WII_UNUSED, 0, 0, WII_BYTE4  ,WII_BIT0, WII_BIT7, WII_BYTE5, WII_BIT6, WII_BIT7
 
-#define buttonCBits   BYTE5,BIT1,true
-#define buttonZBits   BYTE5,BIT0,true
+#define buttonCBits   WII_BYTE5,WII_BIT1,true
+#define buttonZBits   WII_BYTE5,WII_BIT0,true
 
 class Nunchuck : public Accessory
 {

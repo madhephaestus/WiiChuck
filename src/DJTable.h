@@ -3,25 +3,25 @@
 
 #include "Accessory.h"
 
-#define crossfadeSliderBytes	UNUSED,	 0,	 0,   UNUSED,		0,	 0, BYTE2,  BIT1, BIT4
-#define effectDialBytes	UNUSED,	 0,	 0,   BYTE2 ,		5,	 6, BYTE3,  BIT5, BIT7
+#define crossfadeSliderBytes	WII_UNUSED,	 0,	 0,   WII_UNUSED,		0,	 0, WII_BYTE2,  WII_BIT1, WII_BIT4
+#define effectDialBytes	WII_UNUSED,	 0,	 0,   WII_BYTE2 ,		5,	 6, WII_BYTE3,  WII_BIT5, WII_BIT7
 
-#define stickXBytes	UNUSED,	 0,	 0,   UNUSED,		0,	 0, BYTE0,  BIT0, BIT5
-#define stickYBytes	UNUSED,	 0,	 0,   UNUSED,		0,	 0, BYTE1,  BIT0, BIT5
+#define stickXBytes	WII_UNUSED,	 0,	 0,   WII_UNUSED,		0,	 0, WII_BYTE0,  WII_BIT0, WII_BIT5
+#define stickYBytes	WII_UNUSED,	 0,	 0,   WII_UNUSED,		0,	 0, WII_BYTE1,  WII_BIT0, WII_BIT5
 
-#define rightDJTableBytes	2,0,0,BYTE0,	 6,	 7,	BYTE1,		6,	 7, BYTE2,  BIT7, BIT7
-#define leftDJTableBytes	UNUSED,	 0,	 0,	BYTE4,		0,	 0, BYTE3,  BIT0, BIT4
+#define rightDJTableBytes	2,0,0,WII_BYTE0,	 6,	 7,	WII_BYTE1,		6,	 7, WII_BYTE2,  WII_BIT7, WII_BIT7
+#define leftDJTableBytes	WII_UNUSED,	 0,	 0,	WII_BYTE4,		0,	 0, WII_BYTE3,  WII_BIT0, WII_BIT4
 
-#define euphoriaButtonBytes	BYTE5,BIT4,true
-#define plusButtonBytes	BYTE4,BIT2,true
-#define minusButtonBytes	BYTE4,BIT4,true
+#define euphoriaButtonBytes	WII_BYTE5,WII_BIT4,true
+#define plusButtonBytes	WII_BYTE4,WII_BIT2,true
+#define minusButtonBytes	WII_BYTE4,WII_BIT4,true
 
-#define leftGreenButtonBytes	BYTE5,BIT3,true
-#define leftRedButtonBytes	BYTE4,BIT5,true
-#define leftBlueButtonBytes	BYTE5,BIT7,true
-#define rightGreenButtonBytes	BYTE5,BIT5,true
-#define rightRedButtonBytes	BYTE4,BIT1,true
-#define rightBlueButtonBytes	BYTE5,BIT2,true
+#define leftGreenButtonBytes	WII_BYTE5,WII_BIT3,true
+#define leftRedButtonBytes	WII_BYTE4,WII_BIT5,true
+#define leftBlueButtonBytes	WII_BYTE5,WII_BIT7,true
+#define rightGreenButtonBytes	WII_BYTE5,WII_BIT5,true
+#define rightRedButtonBytes	WII_BYTE4,WII_BIT1,true
+#define rightBlueButtonBytes	WII_BYTE5,WII_BIT2,true
 
 class DJTable : public Accessory
 {

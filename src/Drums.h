@@ -3,23 +3,23 @@
 
 #include "Accessory.h"
 
-#define stickXBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
-#define stickYBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
+#define stickXBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE0,  WII_BIT0, WII_BIT5
+#define stickYBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE1,  WII_BIT0, WII_BIT5
 
-#define softnessDataForBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE2,  BIT1, BIT5
-#define softnessBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT5, BIT7
-#define highHatDataFlagBytes	BYTE2,BIT7,true
-#define softnessDataFlagBytes	BYTE2,BIT6,true
+#define softnessDataForBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE2,  WII_BIT1, WII_BIT5
+#define softnessBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE3,  WII_BIT5, WII_BIT7
+#define highHatDataFlagBytes	WII_BYTE2,WII_BIT7,true
+#define softnessDataFlagBytes	WII_BYTE2,WII_BIT6,true
 
-#define minusButtonBytes	BYTE4,BIT4,true
-#define plusButtonBytes	BYTE4,BIT2,true
+#define minusButtonBytes	WII_BYTE4,WII_BIT4,true
+#define plusButtonBytes	WII_BYTE4,WII_BIT2,true
 
-#define orangeDrumBytes	BYTE5,BIT7,true
-#define redDrumBytes	BYTE5,BIT6,true
-#define yellowDrumBytes	BYTE5,BIT5,true
-#define greenDrumBytes	BYTE5,BIT4,true
-#define blueDrummBytes	BYTE5,BIT3,true
-#define bassPedalBytes	BYTE5,BIT2,true
+#define orangeDrumBytes	WII_BYTE5,WII_BIT7,true
+#define redDrumBytes	WII_BYTE5,WII_BIT6,true
+#define yellowDrumBytes	WII_BYTE5,WII_BIT5,true
+#define greenDrumBytes	WII_BYTE5,WII_BIT4,true
+#define blueDrummBytes	WII_BYTE5,WII_BIT3,true
+#define bassPedalBytes	WII_BYTE5,WII_BIT2,true
 
 #define bassID   27
 #define redID    25

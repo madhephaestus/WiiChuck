@@ -3,21 +3,21 @@
 
 #include "Accessory.h"
 
-#define stickXBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE0,  BIT0, BIT5
-#define stickYBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE1,  BIT0, BIT5
-#define whammyBarBytes	UNUSED,     0,     0,   UNUSED,        0,     0, BYTE3,  BIT0, BIT4
+#define stickXBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE0,  WII_BIT0, WII_BIT5
+#define stickYBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE1,  WII_BIT0, WII_BIT5
+#define whammyBarBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE3,  WII_BIT0, WII_BIT4
 
-#define plusButtonBytes	 BYTE4,BIT2,true
-#define minusButtonBytes	 BYTE4,BIT4,true
+#define plusButtonBytes	 WII_BYTE4,WII_BIT2,true
+#define minusButtonBytes	 WII_BYTE4,WII_BIT4,true
 
-#define greenButtonBytes	 BYTE5,BIT4,true
-#define redButtonBytes	 BYTE5,BIT6,true
-#define yellowButtonBytes	 BYTE5,BIT3,true
-#define blueButtonBytes	 BYTE5,BIT5,true
-#define orangeButtonBytes	 BYTE5,BIT7,true
+#define greenButtonBytes	 WII_BYTE5,WII_BIT4,true
+#define redButtonBytes	 WII_BYTE5,WII_BIT6,true
+#define yellowButtonBytes	 WII_BYTE5,WII_BIT3,true
+#define blueButtonBytes	 WII_BYTE5,WII_BIT5,true
+#define orangeButtonBytes	 WII_BYTE5,WII_BIT7,true
 
-#define strumUpBytes	 BYTE5,BIT0,true
-#define strumDownBytes	 BYTE4,BIT6,true
+#define strumUpBytes	 WII_BYTE5,WII_BIT0,true
+#define strumDownBytes	 WII_BYTE4,WII_BIT6,true
 
 class Guitar : public Accessory
 {
