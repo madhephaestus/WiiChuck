@@ -262,29 +262,30 @@ void Accessory::begin() {
 
 boolean Accessory::_burstRead(uint8_t addr) {
 	//int readAmnt = sizeof(_dataarray);
+	uint8_t err=0;
+	int i=0;
+	for(;i<10;i++){
+		Wire.beginTransmission(WII_I2C_ADDR);
+		Wire.write(addr);
+		err=Wire.endTransmission();
+		if(err==0){
+			// wait for data to be converted
+			delayMicroseconds(175);
 
-	// send conversion command
-	Wire.beginTransmission(WII_I2C_ADDR);
-	Wire.write(addr);
-	Wire.endTransmission();
+			// read data
+			uint8_t readBytes = Wire.readBytes(_dataarray,
+		                          Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
 
-	// wait for data to be converted
-	delayMicroseconds(175);
+			if(_encrypted) {
+				for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
+			}
 
-	// read data
-	uint8_t readBytes = Wire.readBytes(_dataarray,
-                          Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
-
-	if(_encrypted) {
-		for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
+			return readBytes == sizeof(_dataarray);
+		}
+		Serial.println("Resetting because of "+String(err));
+		Wire.reset();
 	}
-
-	return readBytes == sizeof(_dataarray);
-
-	//Serial.print("R ");//Serial.print(addr,HEX);
-	//Serial.print(" (");//Serial.print(readAmnt);
-	//Serial.print("):\t");
-	//printInputs(Serial);
+	return false;
 }
 
 void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
