@@ -29,6 +29,7 @@
  * Base on lib for stm32f4 (d2a4a47): https://github.com/arduino-libraries/Servo/blob/master/src/stm32f4/ServoTimers.h
  * 2017 Jul 5: Edited by Jaroslav Páral (jarekparal) - paral@robotikabrno.cz
  */
+#if defined(ARDUINO_ARCH_ESP32)
 
 #pragma once
 
@@ -184,3 +185,5 @@ private:
     int _minPulseWidth, _maxPulseWidth;
     int _minAngle, _maxAngle;
 };
+
+#endif

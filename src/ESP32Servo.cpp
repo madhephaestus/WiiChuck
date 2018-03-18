@@ -29,8 +29,11 @@
  * Base on lib for stm32f4 (d2a4a47): https://github.com/arduino-libraries/Servo/blob/master/src/stm32f4/ServoTimers.h
  * 2017 Jul 5: Edited by Jaroslav Páral (jarekparal) - paral@robotikabrno.cz
  */
-
 #include "ESP32Servo.h"
+
+#if defined(ARDUINO_ARCH_ESP32)
+
+
 
 int Servo::channel_next_free = 0;
 
@@ -119,3 +122,4 @@ void Servo::_resetFields(void) {
     _minPulseWidth = MIN_PULSE_WIDTH;
     _maxPulseWidth = MAX_PULSE_WIDTH;
 }
+#endif

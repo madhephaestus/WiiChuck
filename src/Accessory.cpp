@@ -7,10 +7,10 @@ Accessory::Accessory() {
 /**
  * Reads the device type from the controller
  */
-ControllerType Accessory::getControllerType(){
-  return type;
-}  
- 
+ControllerType Accessory::getControllerType() {
+	return type;
+}
+
 ControllerType Accessory::identifyController() {
 	//Serial.println("Reading periph bytes");
 	_burstRead(0xfa);
@@ -67,28 +67,44 @@ ControllerType Accessory::identifyController() {
 	return Unknown;
 }
 
-void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw){
-	Wire.beginTransmission(iic);
-	Wire.write(1 << sw);
-	Wire.endTransmission();
+void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw) {
+	uint8_t err = 0;
+	int i = 0;
+	for (; i < 10; i++) {
+		Wire.beginTransmission(iic);
+		Wire.write(1 << sw);
+		Wire.endTransmission();
+		err = Wire.endTransmission();
+		if (err != 0) {
+			Serial.println("sendMultiSwitch Resetting because of " + String(err));
+			reset();
+		}else
+			return;
+	}
+
 }
 
-void Accessory::addMultiplexer(uint8_t iic, uint8_t sw){
-	if(sw >= 8) return;
+void Accessory::addMultiplexer(uint8_t iic, uint8_t sw) {
+	if (sw >= 8)
+		return;
 
 	_multiplexI2C = iic;
 	_multiplexSwitch = sw;
 }
 
-void Accessory::switchMultiplexer(){
-	if(_multiplexI2C == 0) return; // No multiplexer set
+void Accessory::switchMultiplexer() {
+	if (_multiplexI2C == 0)
+		return; // No multiplexer set
 	sendMultiSwitch(_multiplexI2C, _multiplexSwitch);
 }
 
-void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
-	if(sw >= 8) return;
+void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw) {
+	if (sw >= 8)
+		return;
 
-	if(TWCR == 0){ Wire.begin(); } // Start I2C if it's not running
+	if (TWCR == 0) {
+		Wire.begin();
+	} // Start I2C if it's not running
 	sendMultiSwitch(iic, sw);
 }
 
@@ -98,7 +114,7 @@ void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw){
 boolean Accessory::readData() {
 	switchMultiplexer();
 
-	if(_burstRead()){
+	if (_burstRead()) {
 		_applyMaps();
 		return true;
 	}
@@ -114,7 +130,7 @@ void Accessory::initBytes() {
 	_writeRegister(0xF0, 0x55);
 	_writeRegister(0xFB, 0x00);
 	delay(100);
-	
+
 	type = identifyController();
 	delay(100);
 
@@ -126,8 +142,8 @@ void Accessory::initBytes() {
 		_writeRegister(0xF0, 0xAA); // enable enc mode?
 		delay(90);
 
-		Accessory::_burstWriteWithAddress(0x40,_key_table_1,8);
-		Accessory::_burstWriteWithAddress(0x48,_key_table_1+0x8,8);
+		Accessory::_burstWriteWithAddress(0x40, _key_table_1, 8);
+		Accessory::_burstWriteWithAddress(0x48, _key_table_1 + 0x8, 8);
 		delay(100);
 
 		//_writeRegister(0x40, 0x00);
@@ -152,46 +168,48 @@ void Accessory::printInputs(Stream& stream) {
 }
 
 int Accessory::decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
-                         uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-                         uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-                         uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend) {
+		uint8_t msbbyte, uint8_t msbstart, uint8_t msbend, uint8_t csbbyte,
+		uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte, uint8_t lsbstart,
+		uint8_t lsbend) {
 // 6 bit int split across 3 bytes in 4 parts.... :(
-	bool msbflag=false,csbflag=false,lsbflag=false,mmsbflag=false;
+	bool msbflag = false, csbflag = false, lsbflag = false, mmsbflag = false;
 	if (msbbyte > 5)
-		msbflag=true;
+		msbflag = true;
 	if (csbbyte > 5)
-		csbflag=true;
+		csbflag = true;
 	if (lsbbyte > 5)
-		lsbflag=true;
+		lsbflag = true;
 	if (mmsbbyte > 5)
-		mmsbflag=true;
+		mmsbflag = true;
 
 	uint32_t analog = 0;
-	uint32_t lpart=0;
-	lpart = (lsbflag)?0:_dataarray[lsbbyte];
+	uint32_t lpart = 0;
+	lpart = (lsbflag) ? 0 : _dataarray[lsbbyte];
 	lpart = lpart >> lsbstart;
 	lpart = lpart & (0xFF >> (7 - (lsbend - lsbstart)));
 
-	uint32_t cpart=0;
-	cpart = (csbflag)?0:_dataarray[csbbyte];
+	uint32_t cpart = 0;
+	cpart = (csbflag) ? 0 : _dataarray[csbbyte];
 	cpart = cpart >> csbstart;
 	cpart = cpart & (0xFF >> (7 - (csbend - csbstart)));
 
 	cpart = cpart << ((lsbend - lsbstart) + 1);
 
-	uint32_t mpart=0;
-	mpart = (msbflag)?0:_dataarray[msbbyte];
+	uint32_t mpart = 0;
+	mpart = (msbflag) ? 0 : _dataarray[msbbyte];
 	mpart = mpart >> msbstart;
 	mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
 
 	mpart = mpart << (((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1));
-	
-	uint32_t mmpart=0;
-	mmpart = (mmsbflag)?0:_dataarray[mmsbbyte];
+
+	uint32_t mmpart = 0;
+	mmpart = (mmsbflag) ? 0 : _dataarray[mmsbbyte];
 	mmpart = mmpart >> mmsbstart;
 	mmpart = mmpart & (0xFF >> (7 - (mmsbend - mmsbstart)));
 
-	mmpart = mmpart << ( ((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1) + ((msbend - msbstart) + 1));
+	mmpart = mmpart
+			<< (((lsbend - lsbstart) + 1) + ((csbend - csbstart) + 1)
+					+ ((msbend - msbstart) + 1));
 
 	analog = lpart | cpart | mpart | mmpart;
 	//analog = analog + offset;
@@ -201,32 +219,32 @@ int Accessory::decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
 }
 
 int Accessory::decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
-                         uint8_t csbbyte, uint8_t csbstart, uint8_t csbend,
-                         uint8_t lsbbyte,uint8_t lsbstart, uint8_t lsbend) {
+		uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
+		uint8_t lsbstart, uint8_t lsbend) {
 // 5 bit int split across 3 bytes. what... the... fuck... nintendo...
-	bool msbflag=false,csbflag=false,lsbflag=false;
+	bool msbflag = false, csbflag = false, lsbflag = false;
 	if (msbbyte > 5)
-		msbflag=true;
+		msbflag = true;
 	if (csbbyte > 5)
-		csbflag=true;
+		csbflag = true;
 	if (lsbbyte > 5)
-		lsbflag=true;
+		lsbflag = true;
 
 	uint32_t analog = 0;
-	uint16_t lpart=0;
-	lpart = (lsbflag)?0:_dataarray[lsbbyte];
+	uint16_t lpart = 0;
+	lpart = (lsbflag) ? 0 : _dataarray[lsbbyte];
 	lpart = lpart >> lsbstart;
 	lpart = lpart & (0xFF >> (7 - (lsbend - lsbstart)));
 
-	uint16_t cpart=0;
-	cpart = (csbflag)?0:_dataarray[csbbyte];
+	uint16_t cpart = 0;
+	cpart = (csbflag) ? 0 : _dataarray[csbbyte];
 	cpart = cpart >> csbstart;
 	cpart = cpart & (0xFF >> (7 - (csbend - csbstart)));
 
 	cpart = cpart << ((lsbend - lsbstart) + 1);
 
-	uint16_t mpart=0;
-	mpart = (msbflag)?0:_dataarray[msbbyte];
+	uint16_t mpart = 0;
+	mpart = (msbflag) ? 0 : _dataarray[msbbyte];
 	mpart = mpart >> msbstart;
 	mpart = mpart & (0xFF >> (7 - (msbend - msbstart)));
 
@@ -248,7 +266,9 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 }
 
 void Accessory::begin() {
-	if(TWCR == 0){ Wire.begin(); } // Start I2C if it's not running
+	if (TWCR == 0) {
+		Wire.begin();
+	} // Start I2C if it's not running
 
 	switchMultiplexer();
 
@@ -262,29 +282,33 @@ void Accessory::begin() {
 
 boolean Accessory::_burstRead(uint8_t addr) {
 	//int readAmnt = sizeof(_dataarray);
-	uint8_t err=0;
-	int i=0;
-	for(;i<10;i++){
+	uint8_t err = 0;
+	int i = 0;
+	for (; i < 10; i++) {
 		Wire.beginTransmission(WII_I2C_ADDR);
 		Wire.write(addr);
-		err=Wire.endTransmission();
-		if(err==0){
-			// wait for data to be converted
+		err = Wire.endTransmission();
+		if (err == 0) {			// wait for data to be converted
 			delayMicroseconds(175);
 
 			// read data
 			uint8_t readBytes = Wire.readBytes(_dataarray,
-		                          Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
 
-			if(_encrypted) {
-				for (int i=0; i<sizeof(_dataarray); i++) _dataarray[i] = decryptByte(_dataarray[i],addr+i);
+					Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
+
+			if (_encrypted) {
+				for (int i = 0; i < sizeof(_dataarray); i++)
+					_dataarray[i] = decryptByte(_dataarray[i], addr + i);
+
 			}
 
 			return readBytes == sizeof(_dataarray);
 		}
-		Serial.println("Resetting because of "+String(err));
-		Wire.reset();
+		if(i>5)
+			Serial.println("_burstRead Resetting because of " + String(err)+" repeted: "+String(i));
+		reset();
 	}
+
 	return false;
 }
 
@@ -293,25 +317,51 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 	//Serial.print(reg,HEX);
 	//Serial.print(": ");
 	//Serial.println(value,HEX);
+	uint8_t err = 0;
+	int i = 0;
+	for (; i < 10; i++) {
+		Wire.beginTransmission(WII_I2C_ADDR);
+		Wire.write(reg);
+		Wire.write(value);
+		err = Wire.endTransmission();
+		if (err != 0) {
+			Serial.println("_writeRegister Resetting because of " + String(err)+" repeted: "+String(i));
+			reset();
+		}else
+			return;
+	}
 
-	Wire.beginTransmission(WII_I2C_ADDR);
-	Wire.write(reg);
-	Wire.write(value);
-	Wire.endTransmission();
 }
 
-void Accessory::_burstWriteWithAddress(uint8_t addr,uint8_t* arr,uint8_t size) {
+void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
+		uint8_t size) {
 	//Serial.print("W ");
 	//Serial.print(addr,HEX);
 	//Serial.print(": ");
 	//for (int i=0; i<size; i++) {//Serial.print(arr[i],HEX);//Serial.print(" ");
 	//}
 	//Serial.println("");
+	uint8_t err = 0;
+	int i = 0;
+	for (; i < 3; i++) {
+		Wire.beginTransmission(WII_I2C_ADDR);
+		Wire.write(addr);
+		for (int i = 0; i < size; i++)
+			Wire.write(arr[i]);
+		err = Wire.endTransmission();
+		if (err != 0) {
+			Serial.println("_burstWriteWithAddress Resetting because of " + String(err)+" repeted: "+String(i));
+			reset();
+		}else
+			return;
+	}
 
-	Wire.beginTransmission(WII_I2C_ADDR);
-	Wire.write(addr);
-	for (int i=0; i<size; i++) Wire.write(arr[i]);
-	Wire.endTransmission();
+}
+
+void Accessory::reset(){
+#if defined(ARDUINO_ARCH_ESP32)
+	Wire.reset();
+#endif
 }
 
 void Accessory::enableEncryption(bool enc) {
@@ -320,77 +370,82 @@ void Accessory::enableEncryption(bool enc) {
 
 void Accessory::printMaps(Stream& stream) {
 	stream.println("Listing all mappings");
-	if (firstMap==0) {
+	if (firstMap == 0) {
 		stream.println("\tNo Maps");
 		return;
 	}
-	Mapping* c=firstMap;
+	Mapping* c = firstMap;
 	do {
 		stream.print("\t");
 		c->printMap(stream);
-		c=c->next;
-		//Serial.println((uint32_t)c);
-	} while (c!=0);
+		c = c->next;
+//Serial.println((uint32_t)c);
+	} while (c != 0);
 }
 
 void Accessory::_applyMaps() {
-	if (firstMap==0) return;
+	if (firstMap == 0)
+		return;
 
-	Mapping* c=firstMap;
+	Mapping* c = firstMap;
 
 	do {
 		c->update();
-		c=c->next;
-	} while (c!=0);
+		c = c->next;
+	} while (c != 0);
 }
 
-int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin, int16_t sMax, int16_t sZero, int16_t sMin) {
-	int mapv=sZero;
-	if (val>aMid) {
-		mapv= map(val,aMid,aMax,sZero,sMax);
-	} else if (val<aMid) {
-		mapv = map(val,aMin,aMid,sMin,sZero);
+int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
+		int16_t sMax, int16_t sZero, int16_t sMin) {
+	int mapv = sZero;
+	if (val > aMid) {
+		mapv = map(val, aMid, aMax, sZero, sMax);
+	} else if (val < aMid) {
+		mapv = map(val, aMin, aMid, sMin, sZero);
 	}
-	//Serial.print(val);Serial.print(" ");Serial.println(mapv);
-	
+//Serial.print(val);Serial.print(" ");Serial.println(mapv);
+
 	return mapv;
 }
 
 uint8_t Accessory::addMap(Mapping* m) {
-	if (m==0) return 255;
+	if (m == 0)
+		return 255;
 	m->controller = this;
 	m->next = 0;
-	if (firstMap==0) {
+	if (firstMap == 0) {
 		firstMap = m; // its the first one.
 		return 0;
 	} else { // walk to end of list
-		Mapping* c=firstMap;
-		int count=0;
-		while(c->next != 0) {
+		Mapping* c = firstMap;
+		int count = 0;
+		while (c->next != 0) {
 			c = c->next;
 			count++;
 		}
-		// c is end of list
+// c is end of list
 		c->next = m;
 		return count;
 	}
 }
 
 uint8_t Accessory::decryptByte(uint8_t byte, uint8_t address) {
-	//return (byte ^ _key_table_1[address % 8]) + _key_table_1[(address % 8)+0x08];
+//return (byte ^ _key_table_1[address % 8]) + _key_table_1[(address % 8)+0x08];
 	return (byte ^ 0x97) + 0x97;
 }
 
 Accessory::Mapping::Mapping() {
 }
 
-Accessory::Mapping::Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) {
-	addServo(chan,max,zero,min);
+Accessory::Mapping::Mapping(uint8_t chan, uint8_t max, uint8_t zero,
+		uint8_t min) {
+	addServo(chan, max, zero, min);
 }
 
-Accessory::Mapping::Mapping(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min,uint16_t cooldown) {
-	addServo(chan,max,zero,min);
-	_cooldown=cooldown;
+Accessory::Mapping::Mapping(uint8_t chan, uint8_t max, uint8_t zero,
+		uint8_t min, uint16_t cooldown) {
+	addServo(chan, max, zero, min);
+	_cooldown = cooldown;
 }
 
 void Accessory::Mapping::printMap(Stream& stream) {
@@ -412,19 +467,21 @@ unsigned int Accessory::Mapping::mapVar() {
 void Accessory::Mapping::update() {
 	int var = mapVar();
 
-	if (_cooldown && var!=servoZero){
-		_cooldownCount=_cooldown+millis();
+	if (_cooldown && var != servoZero) {
+		_cooldownCount = _cooldown + millis();
 		servo.write(var);
 	}
 
-	if (_cooldownCount < millis()) servo.write(mapVar());
+	if (_cooldownCount < millis())
+		servo.write(mapVar());
 }
 
-void Accessory::Mapping::addServo(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) {
-	//servo;
+void Accessory::Mapping::addServo(uint8_t chan, uint8_t max, uint8_t zero,
+		uint8_t min) {
+//servo;
 	servo.attach(chan);
-	channel=chan;
-	servoMin=min;
-	servoMax=max;
-	servoZero=zero;
+	channel = chan;
+	servoMin = min;
+	servoMax = max;
+	servoZero = zero;
 }
