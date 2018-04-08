@@ -13,89 +13,25 @@
 #define buttonCBits   WII_BYTE5,WII_BIT1,true
 #define buttonZBits   WII_BYTE5,WII_BIT0,true
 
-class Nunchuck : public Accessory
+class Nunchuck
 {
 public:
-	Nunchuck();
-	void printInputs(Stream& stream = Serial);
+	//Nunchuck();
+	virtual void printInputsNunchuck(Stream& stream = Serial);
+	virtual void getValuesNunchuck(uint8_t * values);
 
-	int getJoyX();
-	int getJoyY();
+	virtual int getJoyX();
+	virtual int getJoyY();
 
-	float getRollAngle();
-	float getPitchAngle();
-	int getAccelX();
-	int getAccelY();
-	int getAccelZ();
+	virtual float getRollAngle();
+	virtual float getPitchAngle();
+	virtual int getAccelX();
+	virtual int getAccelY();
+	virtual int getAccelZ();
 
-	boolean getButtonC();
-	boolean getButtonZ();
+	virtual boolean getButtonC();
+	virtual boolean getButtonZ();
 
-	class joyX : public Accessory::Mapping
-	{
-		public:
-		joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		joyX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const uint16_t myMin = 0;
-		const uint16_t myZero = 125;
-		const uint16_t myMax = 255;
-	};
-
-	class joyY : public Accessory::Mapping
-	{
-		public:
-		joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		joyY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const uint16_t myMin = 0;
-		const uint16_t myZero = 125;
-		const uint16_t myMax = 255;
-	};
-
-	class roll : public Accessory::Mapping
-	{
-		public:
-		roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		roll(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const int16_t myMin = -180;
-		const int16_t myZero = 0;
-		const int16_t myMax = 180;
-	};
-
-	class pitch : public Accessory::Mapping
-	{
-		public:
-		pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		pitch(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const int16_t myMin = -180;
-		const int16_t myZero = 0;
-		const int16_t myMax = 180;
-	};
-
-	class buttonC : public Accessory::Mapping
-	{
-		public:
-		buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		buttonC(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		void printMap(Stream& stream = Serial);
-		unsigned int  mapVar();
-	};
-
-	class buttonZ : public Accessory::Mapping
-	{
-		public:
-		buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		buttonZ(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min, cooldown) {};
-		void printMap(Stream& stream = Serial);
-		unsigned int  mapVar();
-	};
 };
 
 #endif

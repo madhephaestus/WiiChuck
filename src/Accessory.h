@@ -3,11 +3,21 @@
 
 #include "Arduino.h"
 
+//
+
+#include <Classic.h>
+#include <DJTable.h>
+#include <Nunchuck.h>
+
+#include <Drawsome.h>
+#include <Guitar.h>
+#include <Drums.h>
+
 #if defined(ARDUINO_ARCH_ESP32)
-#include "ESP32Servo.h"
+//#include "ESP32Servo.h"
 #define TWCR 0			//needs to be fixed
 #else
-#include <Servo.h>
+//#include <Servo.h>
 #endif
 
 #define WII_I2C_ADDR		0x52
@@ -29,6 +39,8 @@
 #define WII_BIT6 6
 #define WII_BIT7 7
 
+#define WII_VALUES_ARRAY_SIZE 19
+
 typedef enum _controllertype {
 	Unknown,
 	NUNCHUCK,
@@ -40,11 +52,16 @@ typedef enum _controllertype {
 	Turntable
 } ControllerType;
 
-class Accessory {
+class Accessory: public Classic,
+		public DJTable,
+		public Nunchuck,
+		public Drawsome,
+		public Drums,
+		public Guitar {
 public:
 	Accessory();
 	static void reset();
-
+	ControllerType type;
 
 	uint8_t* getDataArray();
 	void setDataArray(uint8_t data[6]);
@@ -79,40 +96,125 @@ public:
 
 	static int smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
 			int16_t sMax, int16_t sZero, int16_t sMin);
+	uint8_t values[WII_VALUES_ARRAY_SIZE];
+	uint8_t * getValues();
+	//Classic Functions
+	int getJoyXLeft();
+	int getJoyXRight();
+	int getJoyYLeft();
+	int getJoyYRight();
 
-	class Mapping {
-	public:
-		Mapping();
-		Mapping(uint8_t chan, uint8_t max, uint8_t zero, uint8_t min);
-		Mapping(uint8_t chan, uint8_t max, uint8_t zero, uint8_t min,
-				uint16_t cooldown);
-		virtual unsigned int mapVar();
-		virtual void printMap(Stream& stream = Serial);
-		// Data Parsing
+	int getTriggerLeft();
+	int getTriggerRight();
 
-		Mapping* next;
-		Accessory* controller;
+	int getPadRight();
+	int getPadDown();
+	int getPadUp();
+	int getPadLeft();
+	int getButtonX();
+	int getButtonY();
+	int getButtonA();
+	int getButtonB();
 
-		void addServo(uint8_t chan, uint8_t max, uint8_t zero, uint8_t min);
-		void update();
+	int getButtonMinus();
+	int getButtonHome();
+	int getButtonPlus();
 
-		ControllerType getControllerType();
-	protected:
-		bool _encrypted = false;
-		Servo servo;
-		uint8_t channel;
-		uint32_t _cooldown = 0;
-		uint32_t _cooldownCount = 0;
+	int getButtonZLeft();
+	int getButtonZRight();
+	void printInputsClassic(Stream& stream = Serial);
+	void getValuesClassic(uint8_t *values);
+	//DJ table
+	void printInputsDj(Stream& stream = Serial);
+	void getValuesDj(uint8_t * values);
 
-		uint8_t servoMax;
-		uint8_t servoZero;
-		uint8_t servoMin;
-	};
-	uint8_t addMap(Mapping* m);
+	int getCrossfadeSlider();
+	int getEffectDial();
+
+	int getStickX();
+	int getStickY();
+
+	int getRightDJTable();
+	int getLeftDJTable();
+
+	int getEuphoriaButton();
+	int getPlusButton();
+	int getMinusButton();
+
+	int getLeftGreenButton();
+	int getLeftRedButton();
+	int getLeftBlueButton();
+	int getRightGreenButton();
+	int getRightRedButton();
+	int getRightBlueButton();
+	//Nunchuck functions
+	void printInputsNunchuck(Stream& stream = Serial);
+	void getValuesNunchuck(uint8_t * values);
+
+	int getJoyX();
+	int getJoyY();
+
+	float getRollAngle();
+	float getPitchAngle();
+	int getAccelX();
+	int getAccelY();
+	int getAccelZ();
+
+	boolean getButtonC();
+	boolean getButtonZ();
+	//Gutar functions
+	void printInputsGuitar(Stream& stream = Serial);
+	void getValuesGuitar(uint8_t * values);
+
+	int getStickXGuitar();
+	int getStickYGuitar();
+	int getWhammyBar();
+
+	int getPlusButtonGuitar();
+	int getMinusButtonGuitar();
+
+	int getGreenButton();
+	int getRedButton();
+	int getYellowButton();
+	int getBlueButton();
+	int getOrangeButton();
+
+	int getStrumUp();
+	int getStrumDown();
+	//drums functions
+	void printInputsDrums(Stream& stream = Serial);
+	void getValuesDrums(uint8_t * values);
+
+	int getStickXDrums();
+	int getStickYDrums();
+
+	int getSoftnessDataFor();
+	int getSoftness();
+	int getHighHatDataFlag();
+	int getSoftnessDataFlag();
+
+	int getMinusButtonDrums();
+	int getPlusButtonDrums();
+
+	int getOrangeDrum();
+	int getRedDrum();
+	int getYellowDrum();
+	int getGreenDrum();
+	int getBlueDrumm();
+	int getBassPedal();
+	//drawsome
+	void printInputsDrawsome(Stream& stream = Serial);
+	void getValuesDrawsome(uint8_t * values);
+
+	int getPenXPosition();
+	int getPenYPosition();
+	int getPenPressure();
+	int getPenContact();
+
+	void initBytesDrawsome();
 
 protected:
 	bool _encrypted;
-	ControllerType type;
 	// allow sub classes to view the data
 
 	uint8_t _dataarray[6];
@@ -123,10 +225,9 @@ protected:
 	uint8_t _key_table_1[16] =
 			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	uint8_t decryptByte(uint8_t byte, uint8_t address);
-	virtual void initBytes();
+	void initBytes();
 
 	ControllerType identifyController();
-	Mapping* firstMap;
 	boolean _burstRead(uint8_t addr = 0);
 	void _writeRegister(uint8_t reg, uint8_t value);
 	void _burstWriteWithAddress(uint8_t addr, uint8_t* arr, uint8_t size);
@@ -135,7 +236,6 @@ private:
 	static void sendMultiSwitch(uint8_t iic, uint8_t sw);
 
 	uint8_t mapCount;
-	void _applyMaps();
 };
 
 #endif

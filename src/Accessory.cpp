@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 Accessory::Accessory() {
-
+	type=NUNCHUCK;
 }
 /**
  * Reads the device type from the controller
@@ -115,7 +115,6 @@ boolean Accessory::readData() {
 	switchMultiplexer();
 
 	if (_burstRead()) {
-		_applyMaps();
 		return true;
 	}
 	return false;
@@ -155,17 +154,7 @@ void Accessory::setDataArray(uint8_t data[6]) {
 		_dataarray[i] = data[i];
 }
 
-void Accessory::printInputs(Stream& stream) {
-	stream.print("Accessory Bytes:\t");
-	for (int i = 0; i < 6; i++) {
-		if (_dataarray[i] < 0x10) {
-			stream.print("0");
-		}
-		stream.print(_dataarray[i], HEX);
-		stream.print(" ");
-	}
-	stream.println("");
-}
+
 
 int Accessory::decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
 		uint8_t msbbyte, uint8_t msbstart, uint8_t msbend, uint8_t csbbyte,
@@ -273,7 +262,10 @@ void Accessory::begin() {
 	switchMultiplexer();
 
 	initBytes();
-
+	identifyController();
+	if(getControllerType()==DrawsomeTablet){
+		initBytesDrawsome();
+	}
 	delay(100);
 	_burstRead();
 	delay(100);
@@ -301,7 +293,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 					_dataarray[i] = decryptByte(_dataarray[i], addr + i);
 
 			}
-
+			getValues();//parse the data into readable data
 			return readBytes == sizeof(_dataarray);
 		}
 		if(i>5)
@@ -368,32 +360,7 @@ void Accessory::enableEncryption(bool enc) {
 	_encrypted = enc;
 }
 
-void Accessory::printMaps(Stream& stream) {
-	stream.println("Listing all mappings");
-	if (firstMap == 0) {
-		stream.println("\tNo Maps");
-		return;
-	}
-	Mapping* c = firstMap;
-	do {
-		stream.print("\t");
-		c->printMap(stream);
-		c = c->next;
-//Serial.println((uint32_t)c);
-	} while (c != 0);
-}
 
-void Accessory::_applyMaps() {
-	if (firstMap == 0)
-		return;
-
-	Mapping* c = firstMap;
-
-	do {
-		c->update();
-		c = c->next;
-	} while (c != 0);
-}
 
 int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
 		int16_t sMax, int16_t sZero, int16_t sMin) {
@@ -408,80 +375,69 @@ int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
 	return mapv;
 }
 
-uint8_t Accessory::addMap(Mapping* m) {
-	if (m == 0)
-		return 255;
-	m->controller = this;
-	m->next = 0;
-	if (firstMap == 0) {
-		firstMap = m; // its the first one.
-		return 0;
-	} else { // walk to end of list
-		Mapping* c = firstMap;
-		int count = 0;
-		while (c->next != 0) {
-			c = c->next;
-			count++;
-		}
-// c is end of list
-		c->next = m;
-		return count;
-	}
-}
+
 
 uint8_t Accessory::decryptByte(uint8_t byte, uint8_t address) {
 //return (byte ^ _key_table_1[address % 8]) + _key_table_1[(address % 8)+0x08];
 	return (byte ^ 0x97) + 0x97;
 }
 
-Accessory::Mapping::Mapping() {
-}
+void Accessory::printInputs(Stream& stream) {
+	switch(getControllerType()){
+	case WIICLASSIC:
+		printInputsClassic(stream);
+		break;
+	case GuitarHeroController:
+		printInputsGuitar(stream);
+		break;
+	case GuitarHeroWorldTourDrums:
+		printInputsDrums(stream);
+		break;
+	case DrumController:
+		printInputsDrums(stream);
+		break;
+	case DrawsomeTablet:
+		printInputsDrawsome(stream);
+		break;
+	case Turntable:
+		printInputsDj(stream);
+		break;
+	case NUNCHUCK:
+		printInputsNunchuck(stream);
+		break;
+	default:
+		stream.println("Unknown controller!");
+		break;
 
-Accessory::Mapping::Mapping(uint8_t chan, uint8_t max, uint8_t zero,
-		uint8_t min) {
-	addServo(chan, max, zero, min);
-}
-
-Accessory::Mapping::Mapping(uint8_t chan, uint8_t max, uint8_t zero,
-		uint8_t min, uint16_t cooldown) {
-	addServo(chan, max, zero, min);
-	_cooldown = cooldown;
-}
-
-void Accessory::Mapping::printMap(Stream& stream) {
-	stream.print("\t[");
-	stream.print(channel);
-	stream.print("] \t(");
-	stream.print(servoMax);
-	stream.print(" *");
-	stream.print(servoZero);
-	stream.print("* ");
-	stream.print(servoMin);
-	stream.println(" )");
-}
-
-unsigned int Accessory::Mapping::mapVar() {
-	return 0;
-}
-
-void Accessory::Mapping::update() {
-	int var = mapVar();
-
-	if (_cooldown && var != servoZero) {
-		_cooldownCount = _cooldown + millis();
-		servo.write(var);
 	}
-
-	if (_cooldownCount < millis())
-		servo.write(mapVar());
 }
 
-void Accessory::Mapping::addServo(uint8_t chan, uint8_t max, uint8_t zero,
-		uint8_t min) {
-//servo;
-	servo.attach(chan);
-	channel = chan;
-	servoMin = min;
-	servoMax = max;
-	servoZero = zero;
-}
+uint8_t * Accessory::getValues(){
+	switch(getControllerType()){
+	case WIICLASSIC:
+		getValuesClassic(values);
+		break;
+	case GuitarHeroController:
+		getValuesGuitar(values);
+		break;
+	case GuitarHeroWorldTourDrums:
+		getValuesDrums(values);
+		break;
+	case DrumController:
+		getValuesDrums(values);
+		break;
+	case DrawsomeTablet:
+		getValuesDrawsome(values);
+		break;
+	case Turntable:
+		getValuesDj(values);
+		break;
+	case NUNCHUCK:
+	default:
+		getValuesNunchuck(values);
+		break;
+
+	}
+	return values;
+};
+

@@ -1,175 +1,105 @@
-#include "Drums.h"
+#include "Accessory.h"
 
-Drums::Drums() :
-	Accessory() {
-}
 
-unsigned int Drums::stickX::mapVar(){
-	Drums* c = (Drums*)controller;
-	return smap(c->getStickX(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
 
-void Drums::stickX::printMap(Stream& stream){
-	stream.print("Drums::stickX -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getStickX() {
+int Accessory::getStickXDrums() {
 	return decodeInt(stickXBytes); 
 }
 
-unsigned int Drums::stickY::mapVar(){
-	Drums* c = (Drums*)controller;
-	return smap(c->getStickY(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
 
-void Drums::stickY::printMap(Stream& stream){
-	stream.print("Drums::stickY -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getStickY() {
+int Accessory::getStickYDrums() {
 	return decodeInt(stickYBytes); 
 }
 
-int Drums::getSoftnessDataFor() {
+int Accessory::getSoftnessDataFor() {
 	return decodeInt(softnessDataForBytes); 
 }
 
-int Drums::getSoftness() {
+int Accessory::getSoftness() {
 	return decodeInt(softnessBytes); 
 }
 
-int Drums::getHighHatDataFlag() {
+int Accessory::getHighHatDataFlag() {
 	return decodeBit(highHatDataFlagBytes); 
 }
 
-int Drums::getSoftnessDataFlag() {
+int Accessory::getSoftnessDataFlag() {
 	return decodeBit(softnessDataFlagBytes); 
 }
 
-unsigned int Drums::minusButton::mapVar(){
-	Drums* c = (Drums*)controller;
-	return c->getMinusButton() ? servoMax:servoZero;
-}
 
-void Drums::minusButton::printMap(Stream& stream){
-	stream.print("Drums::minusButton -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getMinusButton() {
+int Accessory::getMinusButtonDrums() {
 	return decodeBit(minusButtonBytes); 
 }
 
-unsigned int Drums::plusButton::mapVar(){
-	Drums* c = (Drums*)controller;
-	return c->getPlusButton() ? servoMax:servoZero;
-}
 
-void Drums::plusButton::printMap(Stream& stream){
-	stream.print("Drums::plusButton -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getPlusButton() {
+int Accessory::getPlusButtonDrums() {
 	return decodeBit(plusButtonBytes); 
 }
 
-unsigned int Drums::orangeDrum::mapVar(){
-	Drums* c = (Drums*)controller;
-	// Is this event for us?
-	if (c->getSoftnessDataFor()==orangeID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
 
-void Drums::orangeDrum::printMap(Stream& stream){
-	stream.print("Drums::orangeDrum -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getOrangeDrum() {
+int Accessory::getOrangeDrum() {
 	return decodeBit(orangeDrumBytes); 
 }
 
-unsigned int Drums::redDrum::mapVar(){
-	Drums* c = (Drums*)controller;
-	if (c->getSoftnessDataFor()==redID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
 
-void Drums::redDrum::printMap(Stream& stream){
-	stream.print("Drums::redDrum -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getRedDrum() {
+int Accessory::getRedDrum() {
 	return decodeBit(redDrumBytes); 
 }
 
-unsigned int Drums::yellowDrum::mapVar(){
-	Drums* c = (Drums*)controller;
-	if (c->getSoftnessDataFor()==yellowID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
 
-void Drums::yellowDrum::printMap(Stream& stream){
-	stream.print("Drums::yellowDrum -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getYellowDrum() {
+int Accessory::getYellowDrum() {
 	return decodeBit(yellowDrumBytes); 
 }
 
-unsigned int Drums::greenDrum::mapVar(){
-	Drums* c = (Drums*)controller;
-	if (c->getSoftnessDataFor()==greenID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
 
-void Drums::greenDrum::printMap(Stream& stream){
-	stream.print("Drums::greenDrum -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getGreenDrum() {
+int Accessory::getGreenDrum() {
 	return decodeBit(greenDrumBytes); 
 }
 
-unsigned int Drums::blueDrumm::mapVar(){
-	Drums* c = (Drums*)controller;
-	if (c->getSoftnessDataFor()==blueID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
 
-void Drums::blueDrumm::printMap(Stream& stream){
-	stream.print("Drums::blueDrumm -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getBlueDrumm() {
+int Accessory::getBlueDrumm() {
 	return decodeBit(blueDrummBytes); 
 }
 
-unsigned int Drums::bassPedal::mapVar(){
-	Drums* c = (Drums*)controller;
-	if (c->getSoftnessDataFor()==bassID) return smap(0x7-(c->getSoftness()),7,0,0,servoMax,servoZero,servoMin);
-	else return servoZero;
-}
-
-void Drums::bassPedal::printMap(Stream& stream){
-	stream.print("Drums::bassPedal -> ");
-	Mapping::printMap(stream);
-}
-
-int Drums::getBassPedal() {
+int Accessory::getBassPedal() {
 	return decodeBit(bassPedalBytes); 
 }
 
-void Drums::printInputs(Stream& stream) {
+void Accessory::getValuesDrums(uint8_t * values){
+	values[0]=map(getCrossfadeSlider(),0,255,0,256);
+	values[1]=map(getEffectDial(),0,255,0,256);
+	values[2]=map(getStickXGuitar(),0,255,0,256);
+	values[3]=map(getStickYGuitar(),0,255,0,256);
+	values[4]=map(getRightDJTable(),0,255,0,256);
+	values[5]=map(getLeftDJTable(),0,255,0,256);
+
+	values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
+	values[7]=getEuphoriaButton()?255:0;
+	values[8]=0;
+	values[9]=0;
+	values[10]=getRightBlueButton()?255:0;
+	values[11]=getRightRedButton()?255:0;
+	values[12]=getRightGreenButton()?255:0;
+	values[13]=getLeftBlueButton()?255:0;
+
+	values[14]=getLeftRedButton()?255:0;
+	values[15]=getLeftGreenButton()?255:0;
+	values[16]=getButtonPlus()?255:0;
+
+	values[17]=getButtonZLeft()?255:0;
+	values[18]=getButtonZRight()?255:0;
+	for(int i=0;i<WII_VALUES_ARRAY_SIZE;i++){
+		if(values[i]>247){
+			values[i]=255;
+		}
+	}
+}
+
+
+void Accessory::printInputsDrums(Stream& stream) {
 	char st[100];
-	sprintf(st," stick x: %4d | stick y: %4d | ",getStickX(),getStickY());  
+	sprintf(st," stick x: %4d | stick y: %4d | ",getStickXDrums(),getStickYDrums());
 
 	stream.print(st);
 
@@ -206,10 +136,10 @@ void Drums::printInputs(Stream& stream) {
 		}
 	}
 
-	if (getMinusButton())
+	if (getMinusButtonDrums())
 		stream.print("minus button");
 
-	if (getPlusButton())
+	if (getPlusButtonDrums())
 		stream.print("plus button");
 
 	stream.println("");

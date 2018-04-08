@@ -28,125 +28,30 @@
 #define orangeID 14
 #define greenID  18
   
-class Drums : public Accessory
+class Drums
 {
 	public:
-	Drums();
-	void printInputs(Stream& stream = Serial);
+	virtual void printInputsDrums(Stream& stream = Serial);
+	virtual void getValuesDrums(uint8_t * values);
 
-	int getStickX();
-	int getStickY();
+	virtual int getStickXDrums();
+	virtual int getStickYDrums();
 
-	int getSoftnessDataFor();
-	int getSoftness();
-	int getHighHatDataFlag();
-	int getSoftnessDataFlag();
+	virtual int getSoftnessDataFor();
+	virtual int getSoftness();
+	virtual int getHighHatDataFlag();
+	virtual int getSoftnessDataFlag();
 
-	int getMinusButton();
-	int getPlusButton();
+	virtual int getMinusButtonDrums();
+	virtual int getPlusButtonDrums();
 
-	int getOrangeDrum();
-	int getRedDrum();
-	int getYellowDrum();
-	int getGreenDrum();
-	int getBlueDrumm();
-	int getBassPedal(); 
+	virtual int getOrangeDrum();
+	virtual int getRedDrum();
+	virtual int getYellowDrum();
+	virtual int getGreenDrum();
+	virtual int getBlueDrumm();
+	virtual int getBassPedal();
 
-	class stickX : public Accessory::Mapping
-	{
-		public:
-		stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		stickX(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const uint16_t myMin = 0;
-		const uint16_t myZero = 125;
-		const uint16_t myMax = 255;
-	};
-
-	class stickY : public Accessory::Mapping
-	{
-		public:
-		stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		stickY(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-		const uint16_t myMin = 0;
-		const uint16_t myZero = 125;
-		const uint16_t myMax = 255;
-	};
-
-	class minusButton : public Accessory::Mapping
-	{
-		public:
-		minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		minusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class plusButton : public Accessory::Mapping
-	{
-		public:
-		plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		plusButton(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class orangeDrum : public Accessory::Mapping
-	{
-		public:
-		orangeDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		orangeDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class redDrum : public Accessory::Mapping
-	{
-		public:
-		redDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		redDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class yellowDrum : public Accessory::Mapping
-	{
-		public:
-		yellowDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		yellowDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class greenDrum : public Accessory::Mapping
-	{
-		public:
-		greenDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		greenDrum(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class blueDrumm : public Accessory::Mapping
-	{
-		public:
-		blueDrumm(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		blueDrumm(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
-
-	class bassPedal : public Accessory::Mapping
-	{
-		public:
-		bassPedal(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min, uint16_t cooldown) : Mapping( chan, max, zero, min,cooldown) {};
-		bassPedal(uint8_t chan,uint8_t max,uint8_t zero,uint8_t min) : Mapping( chan, max, zero, min) {};
-		unsigned int  mapVar();
-		void printMap(Stream& stream = Serial);
-	};
 };
 
 #endif

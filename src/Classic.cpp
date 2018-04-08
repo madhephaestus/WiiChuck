@@ -1,272 +1,116 @@
-#include "Classic.h"
+#include "Accessory.h"
 
-Classic::Classic() :
-	Accessory() {
-}
-
-unsigned int Classic::joyXLeft::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getJoyXLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Classic::joyXLeft::printMap(Stream& stream) {
-	stream.print("Classic::joyXLeft -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getJoyXLeft() {
+int Accessory::getJoyXLeft() {
 	return decodeInt(joyXLeftBytes);
 }
 
-unsigned int Classic::joyXRight::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getJoyXRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
 
-void Classic::joyXRight::printMap(Stream& stream) {
-	stream.print("Classic::joyXRight -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getJoyXRight() {
+int Accessory::getJoyXRight() {
 	return decodeInt(joyXRightBytes);
 }
 
-unsigned int Classic::joyYLeft::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getJoyYLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Classic::joyYLeft::printMap(Stream& stream) {
-	stream.print("Classic::joyYLeft -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getJoyYLeft() {
+int Accessory::getJoyYLeft() {
 	return decodeInt(joyYLeftBytes);
 }
 
-unsigned int Classic::joyYRight::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getJoyYRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Classic::joyYRight::printMap(Stream& stream) {
-	stream.print("Classic::joyYRight -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getJoyYRight() {
+int Accessory::getJoyYRight() {
 	return decodeInt(joyYRightBytes);
 }
 
-unsigned int Classic::triggerLeft::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getTriggerLeft(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Classic::triggerLeft::printMap(Stream& stream) {
-	stream.print("Classic::triggerLeft -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getTriggerLeft() {
+int Accessory::getTriggerLeft() {
 	return decodeInt(triggerLeftBytes);
 }
 
-unsigned int Classic::triggerRight::mapVar() {
-	Classic* c = (Classic*)controller;
-	return smap(c->getTriggerRight(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Classic::triggerRight::printMap(Stream& stream) {
-	stream.print("Classic::triggerRight -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getTriggerRight() {
+int Accessory::getTriggerRight() {
 	return decodeInt(triggerRightBytes);
 }
-void Classic::padRight::printMap(Stream& stream) {
-	stream.print("Classic::padRight -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getPadRight() {
+int Accessory::getPadRight() {
 	return decodeBit(padRightBytes);
 }
 
-unsigned int Classic::padDown::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getPadDown() ? servoMax:servoZero;
-}
-
-void Classic::padDown::printMap(Stream& stream) {
-	stream.print("Classic::padDown -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getPadDown() {
+int Accessory::getPadDown() {
 	return decodeBit(padDownBytes);
 }
 
-unsigned int Classic::padUp::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getPadUp() ? servoMax:servoZero;
-}
-
-void Classic::padUp::printMap(Stream& stream) {
-	stream.print("Classic::padUp -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getPadUp() {
+int Accessory::getPadUp() {
 	return decodeBit(padUpBytes);
 }
 
-unsigned int Classic::padLeft::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getPadLeft() ? servoMax:servoZero;
-}
-
-void Classic::padLeft::printMap(Stream& stream) {
-	stream.print("Classic::padLeft -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getPadLeft() {
+int Accessory::getPadLeft() {
 	return decodeBit(padLeftBytes);
 }
-
-unsigned int Classic::buttonX::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonX() ? servoMax:servoZero;
-}
-
-void Classic::buttonX::printMap(Stream& stream) {
-	stream.print("Classic::buttonX -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonX() {
+int Accessory::getButtonX() {
 	return decodeBit(buttonXBytes);
 }
 
-unsigned int Classic::buttonY::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonY() ? servoMax:servoZero;
-}
-
-void Classic::buttonY::printMap(Stream& stream) {
-	stream.print("Classic::buttonY -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonY() {
+int Accessory::getButtonY() {
 	return decodeBit(buttonYBytes);
 }
 
-unsigned int Classic::buttonA::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonA() ? servoMax:servoZero;
-}
-
-void Classic::buttonA::printMap(Stream& stream) {
-	stream.print("Classic::buttonA -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonA() {
+int Accessory::getButtonA() {
 	return decodeBit(buttonABytes);
 }
 
-unsigned int Classic::buttonB::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonB() ? servoMax:servoZero;
-}
-
-void Classic::buttonB::printMap(Stream& stream) {
-	stream.print("Classic::buttonB -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonB() {
+int Accessory::getButtonB() {
 	return decodeBit(buttonBBytes);
 }
 
-unsigned int Classic::buttonMinus::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonMinus() ? servoMax:servoZero;
-}
 
-void Classic::buttonMinus::printMap(Stream& stream) {
-	stream.print("Classic::buttonMinus -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonMinus() {
+int Accessory::getButtonMinus() {
 	return decodeBit(buttonMinusBytes);
 }
 
-unsigned int Classic::buttonHome::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonHome() ? servoMax:servoZero;
-}
-
-void Classic::buttonHome::printMap(Stream& stream) {
-	stream.print("Classic::buttonHome -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonHome() {
+int Accessory::getButtonHome() {
 	return decodeBit(buttonHomeBytes);
 }
 
-unsigned int Classic::buttonPlus::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonPlus() ? servoMax:servoZero;
-}
-
-void Classic::buttonPlus::printMap(Stream& stream) {
-	stream.print("Classic::buttonPlus -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonPlus() {
+int Accessory::getButtonPlus() {
 	return decodeBit(buttonPlusBytes);
 }
 
-unsigned int Classic::buttonZLeft::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonZLeft() ? servoMax:servoZero;
-}
 
-void Classic::buttonZLeft::printMap(Stream& stream) {
-	stream.print("Classic::buttonZLeft -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonZLeft() {
+int Accessory::getButtonZLeft() {
 	return decodeBit(buttonZLBytes);
 }
 
-unsigned int Classic::buttonZRight::mapVar() {
-	Classic* c = (Classic*)controller;
-	return c->getButtonZRight() ? servoMax:servoZero;
-}
-
-void Classic::buttonZRight::printMap(Stream& stream) {
-	stream.print("Classic::buttonZRight -> ");
-	Mapping::printMap(stream);
-}
-
-int Classic::getButtonZRight() {
+int Accessory::getButtonZRight() {
 	return decodeBit(buttonZRBytes);
 }
 
-void Classic::printInputs(Stream& stream) {
+void  Accessory::getValuesClassic( uint8_t * values){
+	values[0]=map(getJoyXLeft(),0,64,0,256);
+	values[1]=map(getJoyYLeft(),0,64,0,256);
+	values[2]=map(getJoyXRight(),0,32,0,256);
+	values[3]=map(getJoyYRight(),0,32,0,256);
+	values[4]=map(getTriggerLeft(),0,32,0,256);
+	values[5]=map(getTriggerRight(),0,32,0,256);
+
+	values[6]=getPadRight()?255:(getPadLeft()?0:128);
+	values[7]=getPadDown()?0:(getPadUp()?255:128);
+	values[8]=0;
+	values[9]=0;
+	values[10]=getButtonX()?255:0;
+	values[11]=getButtonY()?255:0;
+	values[12]=getButtonA()?255:0;
+	values[13]=getButtonB()?255:0;
+
+	values[14]=getButtonMinus()?0:(getButtonPlus()?255:128);
+	values[15]=getButtonHome()?255:0;
+	values[16]=0;
+
+	values[17]=getButtonZLeft()?255:0;
+	values[18]=getButtonZRight()?255:0;
+	for(int i=0;i<WII_VALUES_ARRAY_SIZE;i++){
+		if(values[i]>247){
+			values[i]=255;
+		}
+	}
+}
+
+
+void Accessory::printInputsClassic(Stream& stream) {
 	char st[100];
-	sprintf(st," jxL: %4d | jxR: %4d | jyL: %4d | jyR: %4d | trigL: %4d | trigR: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());
+	sprintf(st,"Classic jxL: %4d | jxR: %4d | jyL: %4d | jyR: %4d | trigL: %4d | trigR: %4d |",getJoyXLeft(),getJoyXRight(),getJoyYLeft(),getJoyYRight(),getTriggerLeft(),getTriggerRight());
 	stream.print(st);
 
 	if (getPadRight())
@@ -310,3 +154,4 @@ void Classic::printInputs(Stream& stream) {
 
 	stream.println("");
 }
+

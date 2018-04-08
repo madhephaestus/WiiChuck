@@ -1,16 +1,12 @@
-#include "Drawsome.h"
+#include "Accessory.h"
 
-Drawsome::Drawsome() :
-	Accessory() {
-}
 
-void Drawsome::initBytes() {
+void Accessory::initBytesDrawsome() {
 	Serial.println("Drawesome Init");
 
 	// Enable Encrypted Mode.
 	//enableEncryption(true);
 
-	Accessory::initBytes();
 	Serial.println("Drawesome Specific init");
 
 	_burstRead(0x20);
@@ -36,9 +32,40 @@ void Drawsome::initBytes() {
 	delay(100);
 }
 
-void Drawsome::printInputs(Stream& stream) {
+ void Accessory::getValuesDrawsome(uint8_t * values){
+		values[0]=map(getPenXPosition(),0,64,0,256);
+		values[1]=map(getPenYPosition(),0,64,0,256);
+		values[2]=map(getPenPressure(),0,32,0,256);
+		values[3]=0;
+		values[4]=0;
+		values[5]=0;
+
+		values[6]=0;
+		values[7]=0;
+		values[8]=0;
+		values[9]=0;
+		values[10]=getPenContact()?255:0;
+		values[11]=0;
+		values[12]=0;
+		values[13]=0;
+
+		values[14]=0;
+		values[15]=0;
+		values[16]=0;
+
+		values[17]=0;
+		values[18]=0;
+		for(int i=0;i<WII_VALUES_ARRAY_SIZE;i++){
+			if(values[i]>247){
+				values[i]=255;
+			}
+		}
+}
+
+
+void Accessory::printInputsDrawsome(Stream& stream) {
 	char st[100];
-	stream.print("NUNCHUCK ");
+	stream.print("Drawsome ");
 	sprintf(st,
 	        "  PenX: %4d  | PenY: %4d | Force: %4d | pen?: ",
 	        getPenXPosition(), getPenYPosition(), getPenPressure());
@@ -57,61 +84,20 @@ void Drawsome::printInputs(Stream& stream) {
 			Serial.print('0');
 	}
 	Serial.print(' ');
-	Accessory::printInputs(stream);
 }
 
-unsigned int Drawsome::penXPosition::mapVar(){
-	Drawsome* c = (Drawsome*)controller;
-	return smap(c->getPenXPosition(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Drawsome::penXPosition::printMap(Stream& stream){
-	stream.print("Drawsome::penXPosition -> ");
-	Mapping::printMap(stream);
-}
-
-int Drawsome::getPenXPosition() {
+int Accessory::getPenXPosition() {
 	return decodeInt(penXPositionBytes); 
 }
 
-unsigned int Drawsome::penYPosition::mapVar(){
-	Drawsome* c = (Drawsome*)controller;
-	return smap(c->getPenYPosition(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Drawsome::penYPosition::printMap(Stream& stream){
-	stream.print("Drawsome::penYPosition -> ");
-	Mapping::printMap(stream);
-}
-
-int Drawsome::getPenYPosition() {
+int Accessory::getPenYPosition() {
 	return decodeInt(penYPositionBytes); 
 }
 
-unsigned int Drawsome::penPressure::mapVar(){
-	Drawsome* c = (Drawsome*)controller;
-	return smap(c->getPenPressure(),myMax,myZero,myMin,servoMax,servoZero,servoMin);
-}
-
-void Drawsome::penPressure::printMap(Stream& stream){
-	stream.print("Drawsome::penPressure -> ");
-	Mapping::printMap(stream);
-}
-
-int Drawsome::getPenPressure() {
+int Accessory::getPenPressure() {
 	return decodeInt(penPressureBytes); 
 }
 
-unsigned int Drawsome::penContact::mapVar(){
-	Drawsome* c = (Drawsome*)controller;
-	return c->getPenContact() ? servoMax:servoZero;
-}
-
-void Drawsome::penContact::printMap(Stream& stream){
-	stream.print("Drawsome::penContact -> ");
-	Mapping::printMap(stream);
-}
-
-int Drawsome::getPenContact() {
+int Accessory::getPenContact() {
 	return decodeBit(penContactBytes); 
 }
