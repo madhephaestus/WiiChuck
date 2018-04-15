@@ -101,10 +101,11 @@ void Accessory::switchMultiplexer() {
 void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw) {
 	if (sw >= 8)
 		return;
-
-	if (TWCR == 0) {
+#if defined(TWCR)
+	if (TWCR == 0)
+#endif
 		Wire.begin();
-	} // Start I2C if it's not running
+	 // Start I2C if it's not running
 	sendMultiSwitch(iic, sw);
 }
 
@@ -255,9 +256,11 @@ bool Accessory::decodeBit(uint8_t byte, uint8_t bit, bool activeLow) {
 }
 
 void Accessory::begin() {
-	if (TWCR == 0) {
+#if defined(TWCR)
+	if (TWCR == 0)
+#endif
 		Wire.begin();
-	} // Start I2C if it's not running
+	// Start I2C if it's not running
 
 	switchMultiplexer();
 

@@ -29,14 +29,14 @@ boolean Accessory::getButtonZ() {
 	return decodeBit(buttonZBits);
 }
 void  Accessory::getValuesNunchuck( uint8_t * values){
-	values[0]=map(getJoyX(),0,64,0,256);
-	values[1]=map(getJoyY(),0,64,0,256);
-	values[2]=map(getRollAngle(),0,32,0,256);
-	values[3]=map(getPitchAngle(),0,32,0,256);
-	values[4]=map(getAccelX(),0,32,0,256);
-	values[5]=map(getAccelY(),0,32,0,256);
+	values[0]=map(getJoyX(),0,255,0,255);
+	values[1]=map(getJoyY(),0,255,0,255);
+	values[2]=map(getRollAngle(),0,1024,0,256);
+	values[3]=map(getPitchAngle(),0,1024,0,256);
+	values[4]=map(getAccelX(),0,1024,0,256);
+	values[5]=map(getAccelY(),0,1024,0,256);
 
-	values[6]=map(getAccelZ(),0,32,0,256);
+	values[6]=map(getAccelZ(),0,1024,0,256);
 	values[7]=0;
 	values[8]=0;
 	values[9]=0;
