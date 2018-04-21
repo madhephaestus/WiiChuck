@@ -1,6 +1,9 @@
 #include <WiiChuck.h>
+#if defined(ARDUINO_ARCH_ESP32)
+#include <ESP32Servo.h>
+#else
 #include <Servo.h>
-
+#endif
 Accessory nunchuck1;
 Servo one;
 Servo two;
@@ -11,7 +14,8 @@ void setup() {
 	nunchuck1.begin();
 	if (nunchuck1.type == Unknown) {
 		/** If the device isn't auto-detected, set the type explicatly
-		 * 	NUNCHUCK,
+		 * 	
+		 NUNCHUCK,
 		 WIICLASSIC,
 		 GuitarHeroController,
 		 GuitarHeroWorldTourDrums,
@@ -29,10 +33,10 @@ void setup() {
 void loop() {
 	//Serial.println("-------------------------------------------");
 	nunchuck1.readData();    // Read inputs and update maps
-	int Sewrvo1Val = map(nunchuck1.values[0],0,255,0,180);
-	int Sewrvo2Val = map(nunchuck1.values[1],0,255,0,180);
-	one.write(Sewrvo1Val);
-	two.write(Sewrvo2Val);
-	Serial.println("Set "+String(Sewrvo1Val)+" "+String(Sewrvo2Val));
+	int Servo1Val = map(nunchuck1.values[0],0,255,0,180);
+	int Servo2Val = map(nunchuck1.values[1],0,255,0,180);
+	one.write(Servo1Val);
+	two.write(Servo2Val);
+	Serial.println("Set "+String(Servo1Val)+" "+String(Servo2Val));
 
 }
