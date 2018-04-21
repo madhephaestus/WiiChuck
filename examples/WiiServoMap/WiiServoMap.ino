@@ -1,6 +1,9 @@
 #include <WiiChuck.h>
+#if defined(ARDUINO_ARCH_ESP32)
+#include <ESP32Servo.h>
+#else
 #include <Servo.h>
-
+#endif
 Accessory nunchuck1;
 Servo one;
 Servo two;
