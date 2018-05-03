@@ -37,7 +37,12 @@ void loop() {
 	//Serial.println("-------------------------------------------");
 	nunchuck1.readData();    // Read inputs and update maps
 	int Servo1Val = map(nunchuck1.values[0],0,255,0,180);
-	int Servo2Val = map(nunchuck1.values[10]>0?0:(nunchuck1.values[11]>0?255:128),0,255,0,180);
+	int Servo2Val = map( nunchuck1.values[10]>0?
+						 0:// Upper button pressed
+						 (nunchuck1.values[11]>0?
+							255:// Lower button pressed
+							128)//neither pressed
+						,0,255,0,180);
 	int Servo3Val = map(nunchuck1.values[1],0,255,0,130);// z button
 	one.write(Servo1Val);
 	two.write(Servo2Val);
