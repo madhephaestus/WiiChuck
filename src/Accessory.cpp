@@ -2,7 +2,7 @@
 #include <Wire.h>
 
 Accessory::Accessory() {
-	type=NUNCHUCK;
+	type = NUNCHUCK;
 }
 /**
  * Reads the device type from the controller
@@ -76,9 +76,10 @@ void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw) {
 		Wire.endTransmission();
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println("sendMultiSwitch Resetting because of " + String(err));
+			Serial.println(
+					"sendMultiSwitch Resetting because of " + String(err));
 			reset();
-		}else
+		} else
 			return;
 	}
 
@@ -105,7 +106,7 @@ void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw) {
 	if (TWCR == 0)
 #endif
 		Wire.begin();
-	 // Start I2C if it's not running
+	// Start I2C if it's not running
 	sendMultiSwitch(iic, sw);
 }
 
@@ -154,8 +155,6 @@ void Accessory::setDataArray(uint8_t data[6]) {
 	for (int i = 0; i < 6; i++)
 		_dataarray[i] = data[i];
 }
-
-
 
 int Accessory::decodeInt(uint8_t mmsbbyte, uint8_t mmsbstart, uint8_t mmsbend,
 		uint8_t msbbyte, uint8_t msbstart, uint8_t msbend, uint8_t csbbyte,
@@ -259,14 +258,19 @@ void Accessory::begin() {
 #if defined(TWCR)
 	if (TWCR == 0)
 #endif
-		Wire.begin();
+#if defined(ARDUINO_ARCH_ESP32)
+		Wire.begin(SDA,SCL,10000);
+#else
+	Wire.begin();
+
+#endif
 	// Start I2C if it's not running
 
 	switchMultiplexer();
 
 	initBytes();
 	identifyController();
-	if(getControllerType()==DrawsomeTablet){
+	if (getControllerType() == DrawsomeTablet) {
 		initBytesDrawsome();
 	}
 	delay(100);
@@ -276,7 +280,7 @@ void Accessory::begin() {
 }
 
 boolean Accessory::_burstRead(uint8_t addr) {
-	//int readAmnt = sizeof(_dataarray);
+	//int readAmnt = dataArraySize;
 	uint8_t err = 0;
 	int i = 0;
 	for (; i < 10; i++) {
@@ -289,18 +293,20 @@ boolean Accessory::_burstRead(uint8_t addr) {
 			// read data
 			uint8_t readBytes = Wire.readBytes(_dataarray,
 
-					Wire.requestFrom(WII_I2C_ADDR, sizeof(_dataarray)));
+			Wire.requestFrom(WII_I2C_ADDR, dataArraySize));
 
 			if (_encrypted) {
-				for (int i = 0; i < sizeof(_dataarray); i++)
+				for (int i = 0; i < dataArraySize; i++)
 					_dataarray[i] = decryptByte(_dataarray[i], addr + i);
 
 			}
-			getValues();//parse the data into readable data
-			return readBytes == sizeof(_dataarray);
+			getValues();			//parse the data into readable data
+			return readBytes == dataArraySize;
 		}
-		if(i>5)
-			Serial.println("_burstRead Resetting because of " + String(err)+" repeted: "+String(i));
+		if (i > 5)
+			Serial.println(
+					"_burstRead Resetting because of " + String(err)
+							+ " repeted: " + String(i));
 		reset();
 	}
 
@@ -320,9 +326,11 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 		Wire.write(value);
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println("_writeRegister Resetting because of " + String(err)+" repeted: "+String(i));
+			Serial.println(
+					"_writeRegister Resetting because of " + String(err)
+							+ " repeted: " + String(i));
 			reset();
-		}else
+		} else
 			return;
 	}
 
@@ -345,15 +353,17 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 			Wire.write(arr[i]);
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println("_burstWriteWithAddress Resetting because of " + String(err)+" repeted: "+String(i));
+			Serial.println(
+					"_burstWriteWithAddress Resetting because of " + String(err)
+							+ " repeted: " + String(i));
 			reset();
-		}else
+		} else
 			return;
 	}
 
 }
 
-void Accessory::reset(){
+void Accessory::reset() {
 #if defined(ARDUINO_ARCH_ESP32)
 	Wire.reset();
 #endif
@@ -362,8 +372,6 @@ void Accessory::reset(){
 void Accessory::enableEncryption(bool enc) {
 	_encrypted = enc;
 }
-
-
 
 int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
 		int16_t sMax, int16_t sZero, int16_t sMin) {
@@ -378,15 +386,13 @@ int Accessory::smap(int16_t val, int16_t aMax, int16_t aMid, int16_t aMin,
 	return mapv;
 }
 
-
-
 uint8_t Accessory::decryptByte(uint8_t byte, uint8_t address) {
 //return (byte ^ _key_table_1[address % 8]) + _key_table_1[(address % 8)+0x08];
 	return (byte ^ 0x97) + 0x97;
 }
 
 void Accessory::printInputs(Stream& stream) {
-	switch(getControllerType()){
+	switch (getControllerType()) {
 	case WIICLASSIC:
 		printInputsClassic(stream);
 		break;
@@ -415,8 +421,8 @@ void Accessory::printInputs(Stream& stream) {
 	}
 }
 
-uint8_t * Accessory::getValues(){
-	switch(getControllerType()){
+uint8_t * Accessory::getValues() {
+	switch (getControllerType()) {
 	case WIICLASSIC:
 		getValuesClassic(values);
 		break;
@@ -442,5 +448,6 @@ uint8_t * Accessory::getValues(){
 
 	}
 	return values;
-};
+}
+;
 
