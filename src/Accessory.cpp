@@ -282,25 +282,26 @@ void Accessory::begin() {
 boolean Accessory::_burstRead(uint8_t addr) {
 	//int readAmnt = dataArraySize;
 	uint8_t err = 0;
+	bool dataBad = true;
 	int i = 0;
-	for (; i < 3; i++) {
+	bool consecCheck = true;
+	for (; i < 5; i++) {
 		Wire.beginTransmission(WII_I2C_ADDR);
 		Wire.write(addr);
 		err = Wire.endTransmission();
 		if (err == 0) {			// wait for data to be converted
-			delayMicroseconds(175);
-
+			delayMicroseconds(275);
+			int requested = Wire.requestFrom(WII_I2C_ADDR, dataArraySize);
+			delayMicroseconds(100);
 			// read data
-			uint8_t readBytes = Wire.readBytes(_dataarrayTMP,
-
-			Wire.requestFrom(WII_I2C_ADDR, dataArraySize));
-			bool dataBad = true;
+			uint8_t readBytes = Wire.readBytes(_dataarrayTMP,requested);
+			dataBad = true;
+			consecCheck=true;
 			for (int i = 0; i < dataArraySize && dataBad; i++){
-				if(_dataarray[i]!=(uint8_t)255){
+				if(_dataarrayTMP[i]!=(uint8_t)255){
 					dataBad=false;
 				}
 			}
-					_dataarray[i] = decryptByte(_dataarrayTMP[i], addr + i);
 			if(readBytes == dataArraySize && dataBad==false){
 				if (_encrypted) {
 					for (int i = 0; i < dataArraySize; i++)
@@ -313,17 +314,36 @@ boolean Accessory::_burstRead(uint8_t addr) {
 						//Serial.print(" , "+String( (uint8_t)_dataarray[i]));
 					}
 				}
+				// Check the read in data aganst the last read date,
+				// a valid burst read is 2 reads that produce the same data
+				for (int i = 0; i < dataArraySize && dataBad==false; i++){
+					if(_dataarray[i]!=_dataarrayReadConsec[i]){
+						dataBad=true;
+						consecCheck=false;
+					}
+				}
+				// after 2 identical reads, process the data
+				if(!dataBad){
+					getValues();			//parse the data into readable data
+					return true;
+				}
 
-				getValues();			//parse the data into readable data
-				return true;
+
 			}
 		}
-		//if (i > 5)
-			Serial.println(
-					"_burstRead Resetting because of I2C error code= " + String(err)
-							+ " repeted: " + String(i));
-		reset();
-
+		if(consecCheck){
+			if(dataBad){
+				Serial.println("_burstRead Resetting because of Bad Data Packet repeted: " + String(i+1));
+			}else
+				Serial.println(
+						"_burstRead Resetting because of I2C error code= " + String(err)
+								+ " repeted: " + String(i+1));
+			reset();
+		}
+		// copy current frame to compare to next frame
+		for (int i = 0; i < dataArraySize && dataBad==false; i++){
+			_dataarrayReadConsec[i]=_dataarray[i];
+		}
 	}
 
 	return false;
