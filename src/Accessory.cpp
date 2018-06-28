@@ -283,7 +283,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 	//int readAmnt = dataArraySize;
 	uint8_t err = 0;
 	int i = 0;
-	for (; i < 10; i++) {
+	for (; i < 3; i++) {
 		Wire.beginTransmission(WII_I2C_ADDR);
 		Wire.write(addr);
 		err = Wire.endTransmission();
@@ -291,23 +291,39 @@ boolean Accessory::_burstRead(uint8_t addr) {
 			delayMicroseconds(175);
 
 			// read data
-			uint8_t readBytes = Wire.readBytes(_dataarray,
+			uint8_t readBytes = Wire.readBytes(_dataarrayTMP,
 
 			Wire.requestFrom(WII_I2C_ADDR, dataArraySize));
-
-			if (_encrypted) {
-				for (int i = 0; i < dataArraySize; i++)
-					_dataarray[i] = decryptByte(_dataarray[i], addr + i);
-
+			bool dataBad = true;
+			for (int i = 0; i < dataArraySize && dataBad; i++){
+				if(_dataarray[i]!=(uint8_t)255){
+					dataBad=false;
+				}
 			}
-			getValues();			//parse the data into readable data
-			return readBytes == dataArraySize;
+					_dataarray[i] = decryptByte(_dataarrayTMP[i], addr + i);
+			if(readBytes == dataArraySize && dataBad==false){
+				if (_encrypted) {
+					for (int i = 0; i < dataArraySize; i++)
+						_dataarray[i] = decryptByte(_dataarrayTMP[i], addr + i);
+
+				}else{
+					//Serial.print(" DATA= ");
+					for (int i = 0; i < dataArraySize; i++){
+						_dataarray[i] = _dataarrayTMP[i];
+						//Serial.print(" , "+String( (uint8_t)_dataarray[i]));
+					}
+				}
+
+				getValues();			//parse the data into readable data
+				return true;
+			}
 		}
-		if (i > 5)
+		//if (i > 5)
 			Serial.println(
-					"_burstRead Resetting because of " + String(err)
+					"_burstRead Resetting because of I2C error code= " + String(err)
 							+ " repeted: " + String(i));
 		reset();
+
 	}
 
 	return false;
