@@ -290,6 +290,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 		Wire.write(addr);
 		err = Wire.endTransmission();
 		if (err == 0) {			// wait for data to be converted
+
 			delayMicroseconds(275);
 			int requested = Wire.requestFrom(WII_I2C_ADDR, dataArraySize);
 			delayMicroseconds(100);
@@ -325,13 +326,12 @@ boolean Accessory::_burstRead(uint8_t addr) {
 				// after 2 identical reads, process the data
 				if(!dataBad){
 					getValues();			//parse the data into readable data
-					return true;
+					//return true;
 				}
-
 
 			}
 		}
-		if(consecCheck){
+		if(consecCheck==false || (err != 0) ){
 			if(dataBad){
 				Serial.println("_burstRead Resetting because of Bad Data Packet repeted: " + String(i+1));
 			}else
@@ -341,7 +341,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 			reset();
 		}
 		// copy current frame to compare to next frame
-		for (int i = 0; i < dataArraySize && dataBad==false; i++){
+		for (int i = 0; i < dataArraySize; i++){
 			_dataarrayReadConsec[i]=_dataarray[i];
 		}
 	}
