@@ -284,7 +284,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 	uint8_t err = 0;
 	bool dataBad = true;
 	int i = 0;
-	bool consecCheck = true;
+	//bool consecCheck = true;
 	uint8_t readBytes=0;
 	for (; i < 5; i++) {
 		Wire.beginTransmission(WII_I2C_ADDR);
@@ -298,7 +298,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 			// read data
 			 readBytes = Wire.readBytes(_dataarrayTMP,requested);
 			dataBad = true;
-			consecCheck=true;
+			//consecCheck=true;
 			// If all bytes are 255, this is likely an error packet, reject
 			for (int i = 0; i < dataArraySize && dataBad; i++){
 				if(_dataarrayTMP[i]!=(uint8_t)255){
@@ -325,7 +325,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 				for (int i = 0; i < dataArraySize && dataBad==false; i++){
 					if(_dataarray[i]!=_dataarrayReadConsec[i]){
 						dataBad=true;
-						consecCheck=false;
+						//consecCheck=false;
 					}
 				}
 				// copy current frame to compare to next frame
@@ -341,7 +341,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 				}
 
 			}else
-				dataBad=false;
+				dataBad=true;
 		}
 		if(dataBad || (err != 0) ){
 			if((err != 0)){
