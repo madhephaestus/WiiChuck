@@ -425,7 +425,7 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 
 void Accessory::reset() {
 #if defined(ARDUINO_ARCH_ESP32)
-	Wire.reset();
+	//Wire.reset();
 #endif
 }
 
