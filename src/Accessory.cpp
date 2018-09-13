@@ -283,10 +283,10 @@ boolean Accessory::_burstRead(uint8_t addr) {
 	//int readAmnt = dataArraySize;
 	uint8_t err = 0;
 	bool dataBad = true;
-	int i = 0;
+	int b = 0;
 	//bool consecCheck = true;
 	uint8_t readBytes=0;
-	for (; i < 5; i++) {
+	for (; b < 5; b++) {
 		Wire.beginTransmission(WII_I2C_ADDR);
 		Wire.write(addr);
 		err = Wire.endTransmission();
@@ -322,9 +322,21 @@ boolean Accessory::_burstRead(uint8_t addr) {
 				// Check the read in data aganst the last read date,
 				// a valid burst read is 2 reads that produce the same data
 				dataBad=false;
-				for (int i = 0; i < dataArraySize && dataBad==false; i++){
-					if(_dataarray[i]!=_dataarrayReadConsec[i]){
+				for (int x = 0; x< dataArraySize && dataBad==false; x++){
+					if(_dataarray[x]!=_dataarrayReadConsec[x]){
 						dataBad=true;
+						if(b>2){
+							Serial.print("\nBad Data Packet repeted: _burstRead Resetting " + String(b+1)+"\n\tExpected: ");
+							for (int i = 0; i < dataArraySize; i++){
+
+								Serial.print(" "+String( (uint8_t)_dataarrayReadConsec[i]));
+							}
+							Serial.print("\n\tgot:      ");
+							for (int i = 0; i < dataArraySize; i++){
+
+								Serial.print(" "+String( (uint8_t)_dataarray[i]));
+							}
+						}
 						//consecCheck=false;
 					}
 				}
@@ -337,34 +349,31 @@ boolean Accessory::_burstRead(uint8_t addr) {
 					getValues();			//parse the data into readable data
 					return true; // fast return once the success case is reached
 				}else{
-					delay(30);
+					delay(3);
 				}
 
-			}else
+			}else{
+
 				dataBad=true;
+			}
 		}
 		if(dataBad || (err != 0) ){
 			if((err != 0)){
 				Serial.println(	"\nI2C error code _burstRead error: " + String(err)
-												+ " repeted: " + String(i+1));
+												+ " repeted: " + String(b+1));
+				if(err==5){
+					begin();
+				}
+
 			}else if(readBytes != dataArraySize){
 				Serial.println("\nI2C Read length failure _burstRead Resetting " + String(readBytes)
 												+ " repeted: " + String(dataArraySize));
 			}else if(dataBad){
-				Serial.print("\nBad Data Packet repeted: _burstRead Resetting " + String(i+1)+"\n\tExpected: ");
-				for (int i = 0; i < dataArraySize; i++){
 
-					Serial.print(" "+String( (uint8_t)_dataarrayReadConsec[i]));
-				}
-				Serial.print("\n\tgot:      ");
-				for (int i = 0; i < dataArraySize; i++){
-
-					Serial.print(" "+String( (uint8_t)_dataarray[i]));
-				}
 			}else
 				Serial.println(
 						"\nOther I2C error, packet all 255 _burstRead Resetting " + String(err)
-								+ " repeted: " + String(i+1));
+								+ " repeted: " + String(b+1));
 			reset();
 		}
 
