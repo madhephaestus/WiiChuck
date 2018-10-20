@@ -76,9 +76,9 @@ void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw) {
 		Wire.endTransmission();
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println(
-					"sendMultiSwitch Resetting because of " + String(err));
-			reset();
+//			Serial.println(
+//					"sendMultiSwitch Resetting because of " + String(err));
+//			reset();
 		} else
 			return;
 	}
@@ -395,9 +395,9 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 		Wire.write(value);
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println(
-					"_writeRegister Resetting because of " + String(err)
-							+ " repeted: " + String(i));
+//			Serial.println(
+//					"_writeRegister Resetting because of " + String(err)
+//							+ " repeted: " + String(i));
 			reset();
 		} else
 			return;
@@ -422,9 +422,9 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 			Wire.write(arr[i]);
 		err = Wire.endTransmission();
 		if (err != 0) {
-			Serial.println(
-					"_burstWriteWithAddress Resetting because of " + String(err)
-							+ " repeted: " + String(i));
+//			Serial.println(
+//					"_burstWriteWithAddress Resetting because of " + String(err)
+//							+ " repeted: " + String(i));
 			reset();
 		} else
 			return;
@@ -434,7 +434,10 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 
 void Accessory::reset() {
 #if defined(ARDUINO_ARCH_ESP32)
-	//Wire.reset();
+		Wire.begin(SDA,SCL,10000);
+#else
+	Wire.begin();
+
 #endif
 }
 

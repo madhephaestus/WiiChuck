@@ -61,7 +61,7 @@ class Accessory: public Classic,
 		public Guitar {
 public:
 	Accessory();
-	static void reset();
+	void reset();
 	ControllerType type;
 
 	uint8_t* getDataArray();
