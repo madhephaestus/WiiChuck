@@ -322,24 +322,24 @@ boolean Accessory::_burstRead(uint8_t addr) {
 				// Check the read in data aganst the last read date,
 				// a valid burst read is 2 reads that produce the same data
 				dataBad=false;
-				for (int x = 0; x< dataArraySize && dataBad==false; x++){
-					if(_dataarray[x]!=_dataarrayReadConsec[x]){
-						dataBad=true;
-						if(b>2){
-							Serial.print("\nBad Data Packet repeted: _burstRead Resetting " + String(b+1)+"\n\tExpected: ");
-							for (int i = 0; i < dataArraySize; i++){
-
-								Serial.print(" "+String( (uint8_t)_dataarrayReadConsec[i]));
-							}
-							Serial.print("\n\tgot:      ");
-							for (int i = 0; i < dataArraySize; i++){
-
-								Serial.print(" "+String( (uint8_t)_dataarray[i]));
-							}
-						}
-						//consecCheck=false;
-					}
-				}
+//				for (int x = 0; x< dataArraySize && dataBad==false; x++){
+//					if(_dataarray[x]!=_dataarrayReadConsec[x]){
+//						dataBad=true;
+////						if(b>2){
+////							Serial.print("\nBad Data Packet repeted: _burstRead Resetting " + String(b+1)+"\n\tExpected: ");
+////							for (int i = 0; i < dataArraySize; i++){
+////
+////								Serial.print(" "+String( (uint8_t)_dataarrayReadConsec[i]));
+////							}
+////							Serial.print("\n\tgot:      ");
+////							for (int i = 0; i < dataArraySize; i++){
+////
+////								Serial.print(" "+String( (uint8_t)_dataarray[i]));
+////							}
+////						}
+//						//consecCheck=false;
+//					}
+//				}
 				// copy current frame to compare to next frame
 				for (int i = 0; i < dataArraySize; i++){
 					_dataarrayReadConsec[i]=_dataarray[i];
@@ -349,7 +349,7 @@ boolean Accessory::_burstRead(uint8_t addr) {
 					getValues();			//parse the data into readable data
 					return true; // fast return once the success case is reached
 				}else{
-					delay(3);
+					//delay(3);
 				}
 
 			}else{
