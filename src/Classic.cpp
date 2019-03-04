@@ -82,15 +82,15 @@ void  Accessory::getValuesClassic( uint8_t * values){
 	values[1]=map(getJoyYLeft(),0,64,0,256);
 	values[2]=map(getJoyXRight(),0,32,0,256);
 	values[3]=map(getJoyYRight(),0,32,0,256);
-	values[4]=map(getTriggerLeft(),0,32,0,256);
-	values[5]=map(getTriggerRight(),0,32,0,256);
+	values[4]=0;
+	values[5]=0;
 
 	values[6]=getPadRight()?255:(getPadLeft()?0:128);
 	values[7]=getPadDown()?0:(getPadUp()?255:128);
-	values[8]=0;
-	values[9]=0;
-	values[10]=getButtonX()?255:0;
-	values[11]=getButtonY()?255:0;
+	values[8]=getButtonX()?255:0;
+	values[9]=getButtonY()?255:0;
+	values[10]=getButtonZLeft()?255:0;
+	values[11]=map(getTriggerLeft(),0,32,0,256);
 	values[12]=getButtonA()?255:0;
 	values[13]=getButtonB()?255:0;
 
@@ -98,7 +98,7 @@ void  Accessory::getValuesClassic( uint8_t * values){
 	values[15]=getButtonHome()?255:0;
 	values[16]=0;
 
-	values[17]=getButtonZLeft()?255:0;
+	values[17]=map(getTriggerRight(),0,32,0,256);
 	values[18]=getButtonZRight()?255:0;
 	for(int i=0;i<WII_VALUES_ARRAY_SIZE;i++){
 		if(values[i]>247){
