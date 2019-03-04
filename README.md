@@ -124,28 +124,28 @@ uint8_t lastValue = nunchuck1.values[18];
 ## Drawesome Mapping
 
 ```
-		values[0]=map(getPenXPosition(),0,64,0,256);
-		values[1]=map(getPenYPosition(),0,64,0,256);
-		values[2]=map(getPenPressure(),0,32,0,256);
-		values[3]=0;
-		values[4]=0;
-		values[5]=0;
+	values[0] = map(getPenXPosition(), 0, 64, 0, 256);
+	values[1] = map(getPenYPosition(), 0, 64, 0, 256);
+	values[2] = map(getPenPressure(), 0, 32, 0, 256);
+	values[3] = 0;
+	values[4] = 0;
+	values[5] = 0;
 
-		values[6]=0;
-		values[7]=0;
-		values[8]=0;
-		values[9]=0;
-		values[10]=getPenContact()?255:0;
-		values[11]=0;
-		values[12]=0;
-		values[13]=0;
+	values[6] = 0;
+	values[7] = 0;
+	values[8] = 0;
+	values[9] = 0;
+	values[10] = getPenContact() ? 255 : 0;
+	values[11] = 0;
+	values[12] = 0;
+	values[13] = 0;
 
-		values[14]=0;
-		values[15]=0;
-		values[16]=0;
+	values[14] = 0;
+	values[15] = 0;
+	values[16] = 0;
 
-		values[17]=0;
-		values[18]=0;
+	values[17] = 0;
+	values[18] = 0;
 ```
 
 ## Drums Mapping
