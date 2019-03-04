@@ -1,7 +1,20 @@
 # WiiChuck
 An Arduino library for talking to every extension controller made for the Wii including the Nunchuk and Classic Controller over I²C.
 
+## Supported Controllers:
+
+* Nunchuk
+* Classic Controller
+* Guitar Hero Guitar
+* Guitar Hero Drums
+* DJ Hero
+* Drawesome Tablet
+* Taiko Drums
+
+
 # Mapping
+
+All controllers have been mapped across a single readable array so that code written for one Wii accessort can be made generic for all of Wii accessory devices. The values that come from the controller are scaled to a 0-255 range for all analog and for all digital values. Each value is stored in a single byte in the 'values[]' array, a public member of the accessory class. 
 
 Initialize the controller first:
 
@@ -9,17 +22,22 @@ Initialize the controller first:
 nunchuck1.begin();
 ```
 
-When reading the controller values, first call:
+In loop, when reading the controller values, first call:
 
 ```
 nunchuck1.readData();    // Read inputs and update maps
 ```
 
-Then read the controller values out of the values array:
+Then read the controller values out of the 'values[]' array:
 
 ```
-int joystickValueX = nunchuck1.values[0];
-int joystickValueY = nunchuck1.values[1];
+uint8_t joystickValueX = nunchuck1.values[0];
+uint8_t joystickValueY = nunchuck1.values[1];
+
+...
+
+uint8_t lastValue = nunchuck1.values[18];
+
 ```
 
 ## Nunchuck mapping
@@ -185,16 +203,6 @@ int joystickValueY = nunchuck1.values[1];
 ```
 
 
-
-## Supported Controllers:
-
-* Nunchuk
-* Classic Controller
-* Guitar Hero Guitar
-* Guitar Hero Drums
-* DJ Hero
-* Drawesome Tablet
-* Taiko Drums
 
 # Repository Structure 
 This repository is forked from a curated set of old Arduino Libraries. I kept the old commits and the fork linking to keep attribution to the work done before I picked up the torch. In my mind we all see farther by standing on the shoulders of giants, so it is only proper to give credit where credit is due.
