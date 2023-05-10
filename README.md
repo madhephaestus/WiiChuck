@@ -179,8 +179,8 @@ uint8_t lastValue = nunchuck1.values[19];
 
 ```
 	values[1]=map(getWhammyBar(),0,31,0,255);
-	values[2]=0;
-	values[3]=0;
+	values[2]=map(getStickXGuitar(),0,63,0,255);
+	values[3]=map(getStickYGuitar(),0,63,0,255);
 	values[4]=map(getSlider(),0,31,0,255);
 	values[5]=0;
 	values[6]=0;
