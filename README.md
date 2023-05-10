@@ -14,7 +14,7 @@ An Arduino library for talking to every extension controller made for the Wii in
 
 # Mapping
 
-All controllers have been mapped across a single readable array so that code written for one Wii accessort can be made generic for all of Wii accessory devices. The values that come from the controller are scaled to a 0-255 range for all analog and for all digital values. Each value is stored in a single byte in the 'values[]' array, a public member of the accessory class. 
+All controllers have been mapped across a single readable array so that code written for one Wii accessort can be made generic for all of Wii accessory devices. The values that come from the controller are scaled to a 0-255 range for all analog and for all digital values. Each value is stored in a single byte in the 'values[]' array, a public member of the accessory class.
 
 Initialize the controller first:
 
@@ -181,7 +181,7 @@ uint8_t lastValue = nunchuck1.values[19];
 	values[1]=map(getWhammyBar(),0,255,0,256);
 	values[2]=0;
 	values[3]=0;
-	values[4]=0;
+	values[4]=map(getSlider(),0,31,0,255);
 	values[5]=0;
 	values[6]=0;
 
@@ -204,7 +204,5 @@ uint8_t lastValue = nunchuck1.values[19];
 
 
 
-# Repository Structure 
+# Repository Structure
 This repository is forked from a curated set of old Arduino Libraries. I kept the old commits and the fork linking to keep attribution to the work done before I picked up the torch. In my mind we all see farther by standing on the shoulders of giants, so it is only proper to give credit where credit is due.
-
-

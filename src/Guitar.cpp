@@ -12,6 +12,10 @@ int  Accessory::getWhammyBar() {
 	return decodeInt(whammyBarBytes);
 }
 
+int  Accessory::getSlider() {
+	return decodeInt(sliderBytes);
+}
+
 int  Accessory::getPlusButtonGuitar() {
 	return decodeBit(plusButtonBytes);
 }
@@ -57,7 +61,7 @@ void Accessory::getValuesGuitar(uint8_t * values){
 	values[1]=0;
 	values[2]=0;
 	values[3]=0;
-	values[4]=0;
+	values[4]=map(getSlider(),0,32,0,256);
 	values[5]=0;
 
 	values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
@@ -84,7 +88,7 @@ void Accessory::getValuesGuitar(uint8_t * values){
 
 void  Accessory::printInputsGuitar(Stream& stream) {
 	char st[100];
-	sprintf(st," stick x: %4d | stick y: %4d | whammy bar: %4d | Buttons: ",getStickXGuitar(),getStickYGuitar(),getWhammyBar());
+	sprintf(st," stick x: %4d | stick y: %4d | whammy bar: %4d | slider: %4d | Buttons: ",getStickXGuitar(),getStickYGuitar(),getWhammyBar(),getSlider());
 	stream.print(st);
 
 	if (getPlusButtonGuitar())
