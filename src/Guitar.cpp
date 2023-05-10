@@ -1,71 +1,57 @@
 #include "Accessory.h"
 
-
-
 int  Accessory::getStickXGuitar() {
-	return decodeInt(stickXBytes); 
+	return decodeInt(stickXBytes);
 }
-
-
 
 int  Accessory::getStickYGuitar() {
-	return decodeInt(stickYBytes); 
+	return decodeInt(stickYBytes);
 }
-
-
 
 int  Accessory::getWhammyBar() {
-	return decodeInt(whammyBarBytes); 
+	return decodeInt(whammyBarBytes);
 }
-
-
-
 
 int  Accessory::getPlusButtonGuitar() {
-	return decodeBit(plusButtonBytes); 
+	return decodeBit(plusButtonBytes);
 }
-
-
 
 int  Accessory::getMinusButtonGuitar() {
-	return decodeBit(minusButtonBytes); 
+	return decodeBit(minusButtonBytes);
 }
 
-
+int  Accessory::getPedalButton() {
+	return decodeBit(pedalButtonBytes);
+}
 
 int  Accessory::getGreenButton() {
-	return decodeBit(greenButtonBytes); 
+	return decodeBit(greenButtonBytes);
 }
-
-
 
 int  Accessory::getRedButton() {
-	return decodeBit(redButtonBytes); 
+	return decodeBit(redButtonBytes);
 }
-
 
 int  Accessory::getYellowButton() {
-	return decodeBit(yellowButtonBytes); 
+	return decodeBit(yellowButtonBytes);
 }
-
 
 int  Accessory::getBlueButton() {
-	return decodeBit(blueButtonBytes); 
+	return decodeBit(blueButtonBytes);
 }
-
 
 int  Accessory::getOrangeButton() {
-	return decodeBit(orangeButtonBytes); 
+	return decodeBit(orangeButtonBytes);
 }
 
-
 int  Accessory::getStrumUp() {
-	return decodeBit(strumUpBytes); 
+	return decodeBit(strumUpBytes);
 }
 
 int  Accessory::getStrumDown() {
-	return decodeBit(strumDownBytes); 
+	return decodeBit(strumDownBytes);
 }
+
 void Accessory::getValuesGuitar(uint8_t * values){
 	values[0]=map(getWhammyBar(),0,255,0,256);
 	values[1]=0;
@@ -77,7 +63,7 @@ void Accessory::getValuesGuitar(uint8_t * values){
 	values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
 	values[7]=getStrumUp()?255:(getStrumDown()?0:128);
 	values[8]=0;
-	values[9]=0;
+	values[9]=getPedalButton()?255:0;
 	values[10]=getGreenButton()?255:0;
 	values[11]=getRedButton()?255:0;
 	values[12]=getYellowButton()?255:0;
@@ -100,12 +86,15 @@ void  Accessory::printInputsGuitar(Stream& stream) {
 	char st[100];
 	sprintf(st," stick x: %4d | stick y: %4d | whammy bar: %4d | Buttons: ",getStickXGuitar(),getStickYGuitar(),getWhammyBar());
 	stream.print(st);
-	
+
 	if (getPlusButtonGuitar())
 		stream.print("plus button");
 
 	if (getMinusButtonGuitar())
 		stream.print("minus button");
+
+	if (getPedalButton())
+		stream.print("pedal button");
 
 	if (getGreenButton())
 		stream.print("green button");

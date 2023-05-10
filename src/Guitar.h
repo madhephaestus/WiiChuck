@@ -10,6 +10,8 @@
 #define plusButtonBytes	 WII_BYTE4,WII_BIT2,true
 #define minusButtonBytes	 WII_BYTE4,WII_BIT4,true
 
+#define pedalButtonBytes	WII_BYTE5,WII_BIT2,true
+
 #define greenButtonBytes	 WII_BYTE5,WII_BIT4,true
 #define redButtonBytes	 WII_BYTE5,WII_BIT6,true
 #define yellowButtonBytes	 WII_BYTE5,WII_BIT3,true
@@ -43,4 +45,4 @@ class Guitar
 
 };
 
-#endif  
+#endif
