@@ -183,12 +183,11 @@ uint8_t lastValue = nunchuck1.values[19];
 	values[3]=map(getStickYGuitar(),0,63,0,255);
 	values[4]=map(getSlider(),0,31,0,255);
 	values[5]=0;
-	values[6]=0;
-
-	values[7]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
+	values[6]=getMinusButtonGuitar()?255:0;
+	values[7]=getPlusButtonGuitar()?255:0;
 	values[8]=getStrumUp()?255:(getStrumDown()?0:128);
-	values[9]=getPedalButton()?255:0;
-	values[10]=0;
+	values[9]=0;
+	values[10]=getPedalButton()?255:0;
 	values[11]=getGreenButton()?255:0;
 	values[12]=getRedButton()?255:0;
 	values[13]=getYellowButton()?255:0;
