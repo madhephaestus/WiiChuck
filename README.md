@@ -187,7 +187,7 @@ uint8_t lastValue = nunchuck1.values[19];
 
 	values[7]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
 	values[8]=getStrumUp()?255:(getStrumDown()?0:128);
-	values[9]=0;
+	values[9]=getPedalButton()?255:0;
 	values[10]=0;
 	values[11]=getGreenButton()?255:0;
 	values[12]=getRedButton()?255:0;
