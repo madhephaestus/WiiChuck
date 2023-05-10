@@ -178,7 +178,7 @@ uint8_t lastValue = nunchuck1.values[19];
 ## Guitar Mapping
 
 ```
-	values[1]=map(getWhammyBar(),0,255,0,256);
+	values[1]=map(getWhammyBar(),0,31,0,255);
 	values[2]=0;
 	values[3]=0;
 	values[4]=map(getSlider(),0,31,0,255);

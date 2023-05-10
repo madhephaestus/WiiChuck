@@ -57,11 +57,11 @@ int  Accessory::getStrumDown() {
 }
 
 void Accessory::getValuesGuitar(uint8_t * values){
-	values[0]=map(getWhammyBar(),0,255,0,256);
+	values[0]=map(getWhammyBar(),0,31,0,255);
 	values[1]=0;
 	values[2]=0;
 	values[3]=0;
-	values[4]=map(getSlider(),0,32,0,256);
+	values[4]=map(getSlider(),0,31,0,255);
 	values[5]=0;
 
 	values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
