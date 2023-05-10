@@ -174,6 +174,8 @@ public:
 	int getPlusButtonGuitar();
 	int getMinusButtonGuitar();
 
+	int getPedalButton();
+
 	int getGreenButton();
 	int getRedButton();
 	int getYellowButton();

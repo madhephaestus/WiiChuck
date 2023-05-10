@@ -522,4 +522,3 @@ uint8_t * Accessory::getValues() {
 	return values;
 }
 ;
-
