@@ -13,7 +13,9 @@ int  Accessory::getWhammyBar() {
 }
 
 int  Accessory::getSlider() {
-	return decodeInt(sliderBytes);
+	// sliderPresentBytes = 0 -> slider is present
+	// sliderPresentBytes = 7 -> guitar has no slider
+	return (decodeInt(sliderPresentBytes) == 0) ? decodeInt(sliderBytes) : 0;
 }
 
 int  Accessory::getPlusButtonGuitar() {
