@@ -14,7 +14,7 @@ An Arduino library for talking to every extension controller made for the Wii in
 
 # Mapping
 
-All controllers have been mapped across a single readable array so that code written for one Wii accessort can be made generic for all of Wii accessory devices. The values that come from the controller are scaled to a 0-255 range for all analog and for all digital values. Each value is stored in a single byte in the 'values[]' array, a public member of the accessory class. 
+All controllers have been mapped across a single readable array so that code written for one Wii accessort can be made generic for all of Wii accessory devices. The values that come from the controller are scaled to a 0-255 range for all analog and for all digital values. Each value is stored in a single byte in the 'values[]' array, a public member of the accessory class.
 
 Initialize the controller first:
 
@@ -43,168 +43,165 @@ uint8_t lastValue = nunchuck1.values[19];
 ## Nunchuck mapping
 
 ```
-	values[1]=map(getJoyX(),0,255,0,255);
-	values[2]=map(getJoyY(),0,255,0,255);
-	values[3]=map(getRollAngle(),0,1024,0,256);
-	values[4]=map(getPitchAngle(),0,1024,0,256);
-	values[5]=map(getAccelX(),0,1024,0,256);
-	values[6]=map(getAccelY(),0,1024,0,256);
+values[0]=map(getJoyX(),0,255,0,255);
+values[1]=map(getJoyY(),0,255,0,255);
+values[2]=map(getRollAngle(),0,1024,0,256);
+values[3]=map(getPitchAngle(),0,1024,0,256);
+values[4]=map(getAccelX(),0,1024,0,256);
+values[5]=map(getAccelY(),0,1024,0,256);
 
-	values[7]=map(getAccelZ(),0,1024,0,256);
-	values[8]=0;
-	values[9]=0;
-	values[10]=0;
-	values[11]=getButtonZ()?255:0;
-	values[12]=getButtonC()?255:0;
-	values[13]=0;
-	values[14]=0;
+values[6]=map(getAccelZ(),0,1024,0,256);
+values[7]=0;
+values[8]=0;
+values[9]=0;
+values[10]=getButtonZ()?255:0;
+values[11]=getButtonC()?255:0;
+values[12]=0;
+values[13]=0;
 
-	values[15]=0;
-	values[16]=0;
-	values[17]=0;
+values[14]=0;
+values[15]=0;
+values[16]=0;
 
-	values[18]=0;
-	values[19]=0;
+values[17]=0;
+values[18]=0;
 ```
 
 ## Classic Controller Mapping
 
 ```
-	values[1]=map(getJoyXLeft(),0,64,0,256);
-	values[2]=map(getJoyYLeft(),0,64,0,256);
-	values[3]=map(getJoyXRight(),0,32,0,256);
-	values[4]=map(getJoyYRight(),0,32,0,256);
-	values[5]=0;
-	values[6]=0;
+values[0]=map(getJoyXLeft(),0,64,0,256);
+values[1]=map(getJoyYLeft(),0,64,0,256);
+values[2]=map(getJoyXRight(),0,32,0,256);
+values[3]=map(getJoyYRight(),0,32,0,256);
+values[4]=0;
+values[5]=0;
 
-	values[7]=getPadRight()?255:(getPadLeft()?0:128);
-	values[8]=getPadDown()?0:(getPadUp()?255:128);
-	values[9]=getButtonX()?255:0;
-	values[10]=getButtonY()?255:0;
-	values[11]=getButtonZLeft()?255:0;
-	values[12]=map(getTriggerLeft(),0,32,0,256);
-	values[13]=getButtonA()?255:0;
-	values[14]=getButtonB()?255:0;
+values[6]=getPadRight()?255:(getPadLeft()?0:128);
+values[7]=getPadDown()?0:(getPadUp()?255:128);
+values[8]=getButtonX()?255:0;
+values[9]=getButtonY()?255:0;
+values[10]=getButtonZLeft()?255:0;
+values[11]=map(getTriggerLeft(),0,32,0,256);
+values[12]=getButtonA()?255:0;
+values[13]=getButtonB()?255:0;
 
-	values[15]=getButtonMinus()?0:(getButtonPlus()?255:128);
-	values[16]=getButtonHome()?255:0;
-	values[17]=0;
+values[14]=getButtonMinus()?0:(getButtonPlus()?255:128);
+values[15]=getButtonHome()?255:0;
+values[16]=0;
 
-	values[18]=map(getTriggerRight(),0,32,0,256);
-	values[19]=getButtonZRight()?255:0;
+values[17]=map(getTriggerRight(),0,32,0,256);
+values[18]=getButtonZRight()?255:0;
 ```
 
 ## DJ Table mapping
 
 ```
-	values[1]=map(getCrossfadeSlider(),0,255,0,256);
-	values[2]=map(getEffectDial(),0,255,0,256);
-	values[3]=map(getStickX(),0,255,0,256);
-	values[4]=map(getStickY(),0,255,0,256);
-	values[5]=map(getRightDJTable(),0,255,0,256);
-	values[6]=map(getLeftDJTable(),0,255,0,256);
+values[0]=map(getCrossfadeSlider(),0,255,0,256);
+values[1]=map(getEffectDial(),0,255,0,256);
+values[2]=map(getStickX(),0,255,0,256);
+values[3]=map(getStickY(),0,255,0,256);
+values[4]=map(getRightDJTable(),0,255,0,256);
+values[5]=map(getLeftDJTable(),0,255,0,256);
 
-	values[7]=getPlusButton()?255:(getMinusButton()?0:128);
-	values[8]=getEuphoriaButton()?255:0;
-	values[9]=0;
-	values[10]=0;
-	values[11]=getRightBlueButton()?255:0;
-	values[12]=getRightRedButton()?255:0;
-	values[13]=getRightGreenButton()?255:0;
-	values[14]=getLeftBlueButton()?255:0;
+values[6]=getPlusButton()?255:(getMinusButton()?0:128);
+values[7]=getEuphoriaButton()?255:0;
+values[8]=0;
+values[9]=0;
+values[10]=getRightBlueButton()?255:0;
+values[11]=getRightRedButton()?255:0;
+values[12]=getRightGreenButton()?255:0;
+values[13]=getLeftBlueButton()?255:0;
 
-	values[15]=getLeftRedButton()?255:0;
-	values[16]=getLeftGreenButton()?255:0;
-	values[17]=getButtonPlus()?255:0;
+values[14]=getLeftRedButton()?255:0;
+values[15]=getLeftGreenButton()?255:0;
+values[16]=getButtonPlus()?255:0;
 
-	values[18]=getButtonZLeft()?255:0;
-	values[19]=getButtonZRight()?255:0;
+values[17]=getButtonZLeft()?255:0;
+values[18]=getButtonZRight()?255:0;
 ```
 
 ## Drawesome Mapping
 
 ```
-	values[1] = map(getPenXPosition(), 0, 64, 0, 256);
-	values[2] = map(getPenYPosition(), 0, 64, 0, 256);
-	values[3] = map(getPenPressure(), 0, 32, 0, 256);
-	values[4] = 0;
-	values[5] = 0;
-	values[6] = 0;
+values[0] = map(getPenXPosition(), 0, 64, 0, 256);
+values[1] = map(getPenYPosition(), 0, 64, 0, 256);
+values[2] = map(getPenPressure(), 0, 32, 0, 256);
+values[3] = 0;
+values[4] = 0;
+values[5] = 0;
 
-	values[7] = 0;
-	values[8] = 0;
-	values[9] = 0;
-	values[10] = 0;
-	values[11] = getPenContact() ? 255 : 0;
-	values[12] = 0;
-	values[13] = 0;
-	values[14] = 0;
+values[6] = 0;
+values[7] = 0;
+values[8] = 0;
+values[9] = 0;
+values[10] = getPenContact() ? 255 : 0;
+values[11] = 0;
+values[12] = 0;
+values[13] = 0;
 
-	values[15] = 0;
-	values[16] = 0;
-	values[17] = 0;
+values[14] = 0;
+values[15] = 0;
+values[16] = 0;
 
-	values[18] = 0;
-	values[19] = 0;
+values[17] = 0;
+values[18] = 0;
 ```
 
 ## Drums Mapping
 
 ```
-	values[1]=map(getCrossfadeSlider(),0,255,0,256);
-	values[2]=map(getEffectDial(),0,255,0,256);
-	values[3]=map(getStickXGuitar(),0,255,0,256);
-	values[4]=map(getStickYGuitar(),0,255,0,256);
-	values[5]=map(getRightDJTable(),0,255,0,256);
-	values[6]=map(getLeftDJTable(),0,255,0,256);
+values[0]=map(getCrossfadeSlider(),0,255,0,256);
+values[1]=map(getEffectDial(),0,255,0,256);
+values[2]=map(getStickXGuitar(),0,255,0,256);
+values[3]=map(getStickYGuitar(),0,255,0,256);
+values[4]=map(getRightDJTable(),0,255,0,256);
+values[5]=map(getLeftDJTable(),0,255,0,256);
 
-	values[7]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
-	values[8]=getEuphoriaButton()?255:0;
-	values[9]=0;
-	values[10]=0;
-	values[11]=getRightBlueButton()?255:0;
-	values[12]=getRightRedButton()?255:0;
-	values[13]=getRightGreenButton()?255:0;
-	values[14]=getLeftBlueButton()?255:0;
+values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
+values[7]=getEuphoriaButton()?255:0;
+values[8]=0;
+values[9]=0;
+values[10]=getRightBlueButton()?255:0;
+values[11]=getRightRedButton()?255:0;
+values[12]=getRightGreenButton()?255:0;
+values[13]=getLeftBlueButton()?255:0;
 
-	values[15]=getLeftRedButton()?255:0;
-	values[16]=getLeftGreenButton()?255:0;
-	values[17]=getButtonPlus()?255:0;
+values[14]=getLeftRedButton()?255:0;
+values[15]=getLeftGreenButton()?255:0;
+values[16]=getButtonPlus()?255:0;
 
-	values[18]=getButtonZLeft()?255:0;
-	values[19]=getButtonZRight()?255:0;
+values[17]=getButtonZLeft()?255:0;
+values[18]=getButtonZRight()?255:0;
 ```
 
 ## Guitar Mapping
 
 ```
-	values[1]=map(getWhammyBar(),0,255,0,256);
-	values[2]=0;
-	values[3]=0;
-	values[4]=0;
-	values[5]=0;
-	values[6]=0;
+values[0]=map(getWhammyBar(),0,31,0,255);
+values[1]=map(getStickXGuitar(),0,63,0,255);
+values[2]=map(getStickYGuitar(),0,63,0,255);
+values[3]=map(getSlider(),0,31,0,255); // a value of zero means the guitar does not have a slider
+values[4]=0;
+values[5]=getMinusButtonGuitar()?255:0;
+values[6]=getPlusButtonGuitar()?255:0;
+values[7]=getStrumUp()?255:(getStrumDown()?0:127);
+values[8]=0;
+values[9]=getPedalButton()?255:0;
+values[10]=getGreenButton()?255:0;
+values[11]=getRedButton()?255:0;
+values[12]=getYellowButton()?255:0;
+values[13]=getBlueButton()?255:0;
 
-	values[7]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
-	values[8]=getStrumUp()?255:(getStrumDown()?0:128);
-	values[9]=getPedalButton()?255:0;
-	values[10]=0;
-	values[11]=getGreenButton()?255:0;
-	values[12]=getRedButton()?255:0;
-	values[13]=getYellowButton()?255:0;
-	values[14]=getBlueButton()?255:0;
+values[14]=getOrangeButton()?255:0;
+values[15]=0;
+values[16]=0;
 
-	values[15]=getOrangeButton()?255:0;
-	values[16]=getLeftGreenButton()?255:0;
-	values[17]=getButtonPlus()?255:0;
-
-	values[18]=0;
-	values[19]=0;
+values[17]=0;
+values[18]=0;
 ```
 
 
 
-# Repository Structure 
+# Repository Structure
 This repository is forked from a curated set of old Arduino Libraries. I kept the old commits and the fork linking to keep attribution to the work done before I picked up the torch. In my mind we all see farther by standing on the shoulders of giants, so it is only proper to give credit where credit is due.
-
-

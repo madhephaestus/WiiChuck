@@ -6,6 +6,8 @@
 #define stickXBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE0,  WII_BIT0, WII_BIT5
 #define stickYBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE1,  WII_BIT0, WII_BIT5
 #define whammyBarBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE3,  WII_BIT0, WII_BIT4
+#define sliderBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE2,  WII_BIT0, WII_BIT4
+#define sliderPresentBytes	WII_UNUSED,     0,     0,   WII_UNUSED,        0,     0, WII_BYTE2,  WII_BIT5, WII_BIT7
 
 #define plusButtonBytes	 WII_BYTE4,WII_BIT2,true
 #define minusButtonBytes	 WII_BYTE4,WII_BIT4,true
@@ -30,6 +32,7 @@ class Guitar
  	virtual int getStickXGuitar();
 	virtual int getStickYGuitar();
 	virtual int getWhammyBar();
+	virtual int getSlider();
 
 	virtual int getPlusButtonGuitar();
 	virtual int getMinusButtonGuitar();

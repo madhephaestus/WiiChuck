@@ -163,13 +163,14 @@ public:
 
 	boolean getButtonC();
 	boolean getButtonZ();
-	//Gutar functions
+	//Guitar functions
 	void printInputsGuitar(Stream& stream = Serial);
 	void getValuesGuitar(uint8_t * values);
 
 	int getStickXGuitar();
 	int getStickYGuitar();
 	int getWhammyBar();
+	int getSlider();
 
 	int getPlusButtonGuitar();
 	int getMinusButtonGuitar();

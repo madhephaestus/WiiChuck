@@ -12,6 +12,12 @@ int  Accessory::getWhammyBar() {
 	return decodeInt(whammyBarBytes);
 }
 
+int  Accessory::getSlider() {
+	// sliderPresentBytes = 0 -> slider is present
+	// sliderPresentBytes = 7 -> guitar has no slider
+	return (decodeInt(sliderPresentBytes) == 0) ? decodeInt(sliderBytes) : 0;
+}
+
 int  Accessory::getPlusButtonGuitar() {
 	return decodeBit(plusButtonBytes);
 }
@@ -53,15 +59,14 @@ int  Accessory::getStrumDown() {
 }
 
 void Accessory::getValuesGuitar(uint8_t * values){
-	values[0]=map(getWhammyBar(),0,255,0,256);
-	values[1]=0;
-	values[2]=0;
-	values[3]=0;
+	values[0]=map(getWhammyBar(),0,31,0,255);
+	values[1]=map(getStickXGuitar(),0,63,0,255);
+	values[2]=map(getStickYGuitar(),0,63,0,255);
+	values[3]=map(getSlider(),0,31,0,255);
 	values[4]=0;
-	values[5]=0;
-
-	values[6]=getPlusButtonGuitar()?255:(getMinusButtonGuitar()?0:128);
-	values[7]=getStrumUp()?255:(getStrumDown()?0:128);
+	values[5]=getMinusButtonGuitar()?255:0;
+	values[6]=getPlusButtonGuitar()?255:0;
+	values[7]=getStrumUp()?255:(getStrumDown()?0:127);
 	values[8]=0;
 	values[9]=getPedalButton()?255:0;
 	values[10]=getGreenButton()?255:0;
@@ -70,8 +75,8 @@ void Accessory::getValuesGuitar(uint8_t * values){
 	values[13]=getBlueButton()?255:0;
 
 	values[14]=getOrangeButton()?255:0;
-	values[15]=getLeftGreenButton()?255:0;
-	values[16]=getButtonPlus()?255:0;
+	values[15]=0;
+	values[16]=0;
 
 	values[17]=0;
 	values[18]=0;
@@ -84,7 +89,7 @@ void Accessory::getValuesGuitar(uint8_t * values){
 
 void  Accessory::printInputsGuitar(Stream& stream) {
 	char st[100];
-	sprintf(st," stick x: %4d | stick y: %4d | whammy bar: %4d | Buttons: ",getStickXGuitar(),getStickYGuitar(),getWhammyBar());
+	sprintf(st," stick x: %4d | stick y: %4d | whammy bar: %4d | slider: %4d | Buttons: ",getStickXGuitar(),getStickYGuitar(),getWhammyBar(),getSlider());
 	stream.print(st);
 
 	if (getPlusButtonGuitar())
