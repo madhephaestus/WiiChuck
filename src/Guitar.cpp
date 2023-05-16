@@ -66,7 +66,7 @@ void Accessory::getValuesGuitar(uint8_t * values){
 	values[4]=0;
 	values[5]=getMinusButtonGuitar()?255:0;
 	values[6]=getPlusButtonGuitar()?255:0;
-	values[7]=getStrumUp()?255:(getStrumDown()?0:128);
+	values[7]=getStrumUp()?255:(getStrumDown()?0:127);
 	values[8]=0;
 	values[9]=getPedalButton()?255:0;
 	values[10]=getGreenButton()?255:0;
