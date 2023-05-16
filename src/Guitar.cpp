@@ -75,8 +75,8 @@ void Accessory::getValuesGuitar(uint8_t * values){
 	values[13]=getBlueButton()?255:0;
 
 	values[14]=getOrangeButton()?255:0;
-	values[15]=getLeftGreenButton()?255:0;
-	values[16]=getButtonPlus()?255:0;
+	values[15]=0;
+	values[16]=0;
 
 	values[17]=0;
 	values[18]=0;
