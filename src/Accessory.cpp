@@ -1,9 +1,16 @@
 #include "Accessory.h"
 #include <Wire.h>
 
-Accessory::Accessory() {
+Accessory::Accessory(TwoWire& wire) : myWire(wire) {
 	type = NUNCHUCK;
 }
+
+bool Accessory::isConnected() {
+	switchMultiplexer();
+	myWire.beginTransmission(WII_I2C_ADDR);
+	return (myWire.endTransmission() == 0);
+}
+
 /**
  * Reads the device type from the controller
  */
@@ -67,14 +74,14 @@ ControllerType Accessory::identifyController() {
 	return UnknownChuck;
 }
 
-void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw) {
+void Accessory::sendMultiSwitch(uint8_t iic, uint8_t sw, TwoWire& wire) {
 	uint8_t err = 0;
 	int i = 0;
 	for (; i < 10; i++) {
-		Wire.beginTransmission(iic);
-		Wire.write(1 << sw);
-		Wire.endTransmission();
-		err = Wire.endTransmission();
+		wire.beginTransmission(iic);
+		wire.write(1 << sw);
+		wire.endTransmission();
+		err = wire.endTransmission();
 		if (err != 0) {
 //			Serial.println(
 //					"sendMultiSwitch Resetting because of " + String(err));
@@ -96,18 +103,18 @@ void Accessory::addMultiplexer(uint8_t iic, uint8_t sw) {
 void Accessory::switchMultiplexer() {
 	if (_multiplexI2C == 0)
 		return; // No multiplexer set
-	sendMultiSwitch(_multiplexI2C, _multiplexSwitch);
+	sendMultiSwitch(_multiplexI2C, _multiplexSwitch, myWire);
 }
 
-void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw) {
+void Accessory::switchMultiplexer(uint8_t iic, uint8_t sw, TwoWire& wire) {
 	if (sw >= 8)
 		return;
 #if defined(TWCR)
 	if (TWCR == 0)
 #endif
-		Wire.begin();
+		wire.begin();
 	// Start I2C if it's not running
-	sendMultiSwitch(iic, sw);
+	sendMultiSwitch(iic, sw, wire);
 }
 
 /*
@@ -259,9 +266,9 @@ void Accessory::begin() {
 	if (TWCR == 0)
 #endif
 #if defined(ARDUINO_ARCH_ESP32)
-		Wire.begin(SDA,SCL,10000);
+		myWire.begin(SDA,SCL,10000);
 #else
-	Wire.begin();
+	myWire.begin();
 
 #endif
 	// Start I2C if it's not running
@@ -287,16 +294,16 @@ boolean Accessory::_burstRead(uint8_t addr) {
 	//bool consecCheck = true;
 	uint8_t readBytes=0;
 	for (; b < 5; b++) {
-		Wire.beginTransmission(WII_I2C_ADDR);
-		Wire.write(addr);
-		err = Wire.endTransmission();
+		myWire.beginTransmission(WII_I2C_ADDR);
+		myWire.write(addr);
+		err = myWire.endTransmission();
 		if (err == 0) {			// wait for data to be converted
 
 			delayMicroseconds(275);
-			int requested = Wire.requestFrom(WII_I2C_ADDR, dataArraySize);
+			int requested = myWire.requestFrom(WII_I2C_ADDR, dataArraySize);
 			delayMicroseconds(100);
 			// read data
-			 readBytes = Wire.readBytes(_dataarrayTMP,requested);
+			 readBytes = myWire.readBytes(_dataarrayTMP,requested);
 			dataBad = true;
 			//consecCheck=true;
 			// If all bytes are 255, this is likely an error packet, reject
@@ -390,10 +397,10 @@ void Accessory::_writeRegister(uint8_t reg, uint8_t value) {
 	uint8_t err = 0;
 	int i = 0;
 	for (; i < 10; i++) {
-		Wire.beginTransmission(WII_I2C_ADDR);
-		Wire.write(reg);
-		Wire.write(value);
-		err = Wire.endTransmission();
+		myWire.beginTransmission(WII_I2C_ADDR);
+		myWire.write(reg);
+		myWire.write(value);
+		err = myWire.endTransmission();
 		if (err != 0) {
 //			Serial.println(
 //					"_writeRegister Resetting because of " + String(err)
@@ -416,11 +423,11 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 	uint8_t err = 0;
 	int i = 0;
 	for (; i < 3; i++) {
-		Wire.beginTransmission(WII_I2C_ADDR);
-		Wire.write(addr);
+		myWire.beginTransmission(WII_I2C_ADDR);
+		myWire.write(addr);
 		for (int i = 0; i < size; i++)
-			Wire.write(arr[i]);
-		err = Wire.endTransmission();
+			myWire.write(arr[i]);
+		err = myWire.endTransmission();
 		if (err != 0) {
 //			Serial.println(
 //					"_burstWriteWithAddress Resetting because of " + String(err)
@@ -434,9 +441,9 @@ void Accessory::_burstWriteWithAddress(uint8_t addr, uint8_t* arr,
 
 void Accessory::reset() {
 #if defined(ARDUINO_ARCH_ESP32)
-		Wire.begin(SDA,SCL,10000);
+		myWire.begin(SDA,SCL,10000);
 #else
-	Wire.begin();
+	myWire.begin();
 
 #endif
 }

@@ -2,7 +2,7 @@
 #define Accessory_h
 
 #include "Arduino.h"
-
+#include <Wire.h>
 //
 
 #include <Classic.h>
@@ -18,6 +18,10 @@
 #define TWCR 0			//needs to be fixed
 #else
 //#include <Servo.h>
+#endif
+
+#if not defined(DELAY)
+#define DELAY(time) delay(time)
 #endif
 
 #define WII_I2C_ADDR		0x52
@@ -60,7 +64,8 @@ class Accessory: public Classic,
 		public Drums,
 		public Guitar {
 public:
-	Accessory();
+	Accessory(TwoWire& wire=Wire);
+	bool isConnected();
 	void reset();
 	ControllerType type;
 
@@ -76,7 +81,7 @@ public:
 
 	void addMultiplexer(uint8_t iic, uint8_t sw);
 	void switchMultiplexer();
-	static void switchMultiplexer(uint8_t iic, uint8_t sw);
+	static void switchMultiplexer(uint8_t iic, uint8_t sw, TwoWire& wire=Wire);
 
 	int decodeInt(uint8_t msbbyte, uint8_t msbstart, uint8_t msbend,
 			uint8_t csbbyte, uint8_t csbstart, uint8_t csbend, uint8_t lsbbyte,
@@ -237,7 +242,9 @@ protected:
 	void _burstWriteWithAddress(uint8_t addr, uint8_t* arr, uint8_t size);
 
 private:
-	static void sendMultiSwitch(uint8_t iic, uint8_t sw);
+	TwoWire& myWire;
+
+	static void sendMultiSwitch(uint8_t iic, uint8_t sw, TwoWire& wire=Wire);
 
 	uint8_t mapCount;
 };
